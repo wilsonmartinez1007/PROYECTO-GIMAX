@@ -1,0 +1,17 @@
+# Ignorar node_modules (React)
+node_modules/
+
+# Archivos de configuración de entorno
+.env
+
+# Dependencias de Python y virtualenv
+venv/
+__pycache__/
+
+# Archivos de base de datos (si usas SQLite en Django)
+db.sqlite3
+db.sqlite3-journal
+
+# Archivos de caché
+*.log
+*.pyc
