@@ -3,8 +3,16 @@ import Login from "../auth/CarpLogin/Login";
 import "./Home.css"; // Estilos específicos para esta página
 import fondo from "../../assets/ImagenGymInicio.jpg";
 import logo from "../../assets/LogoGym.png";
-
+import { useNavigate } from "react-router-dom"; // IMPORTANTE
 const Home = ({setToken}) => {
+  const navigate = useNavigate();
+
+  const handleExit = () => {
+    localStorage.removeItem("token"); // Elimina el token
+    setToken(null);
+    navigate("/"); // Redirige a la página principal
+  };
+
   return (
     <div className="home-container">
       {/* Imagen en el 70% de la izquierda */}
@@ -17,9 +25,12 @@ const Home = ({setToken}) => {
         {/* Barra roja ajustada */}
         <div className="top-bar"></div>
         <div className="logo-salir">
-        <button type="submit" style={{ padding: "6px", background: "red", color: "white", borderRadius: 5 }}>
-          X
-        </button>
+        <button 
+            onClick={handleExit} 
+            style={{ padding: "6px", background: "red", color: "white", borderRadius: 5, cursor: "pointer" }}
+          >
+            X
+          </button>
         
         </div>
         <div className="logo-container">

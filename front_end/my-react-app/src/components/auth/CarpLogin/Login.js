@@ -1,8 +1,10 @@
 import React from "react";
 import LoginBox from "./LoginBox";
 import { useNavigate } from "react-router-dom";
+
 function Login({ setToken }) {
   const navigate = useNavigate();
+
   const handleLogin = async (username, password) => {
     const response = await fetch("http://127.0.0.1:8000/api/login/", {
       method: "POST",
@@ -12,6 +14,7 @@ function Login({ setToken }) {
 
     const data = await response.json();
     console.log("Respuesta del servidor:", data);
+
     if (response.ok) {
       localStorage.setItem("token", data.token);
       setToken(data.token);
@@ -22,16 +25,7 @@ function Login({ setToken }) {
     }
   };
 
-  return (
-    /*
-    <LoginContainer>
-    <LoginBox onLogin={handleLogin} />   --->Siquiero usar Login Container 
-    </LoginContainer>
-    */
-    
-      <LoginBox onLogin={handleLogin} />
-    
-  );
+  return <LoginBox onLogin={handleLogin} />;
 }
 
 export default Login;

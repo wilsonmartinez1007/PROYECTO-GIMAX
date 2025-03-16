@@ -16,7 +16,9 @@ function Register(){
           console.log("Respuesta del servidor:", data);
           if (response.ok) {
             alert("Registro exitoso. Ahora puedes iniciar sesión.");
-            navigate("/login"); // Redirige al login después de registrarse---> por el momento no se redirigio solo pero si guardo
+            setTimeout(() => { // Redirige después de un pequeño delay
+                navigate("/");
+              }, 500);
         } else {
             alert("Error al registrarse: " + JSON.stringify(data));
         }
