@@ -1,33 +1,38 @@
-import logo from './logo.svg';
-import './App.css';
-
-import React, { useState } from "react";
-import Login from "./components/Login";
+/*import React from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/layoud/Navbar";
+import Home from "./components/pages/Home";
+import Dashboard from "./components/pages/Dashboard";
 
 function App() {
-  const [token, setToken]= useState(localStorage.getItem("token"));
-  /*return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );*/
   return (
-    <div>
-      {token ? <h2>Bienvenido</h2> : <Login setToken={setToken} />}
-    </div>
+    <Router>
+      <Navbar /> 
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Routes>
+    </Router>
+  );
+}
+
+export default App;
+*/
+import React, {useState} from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Home from "./components/pages/Home";
+import Dashboard from "./components/pages/Dashboard";
+
+function App() {
+  const [token, setToken] = useState(null);//estado  para  el token
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Home setToken={setToken} />} />
+        <Route path="/dashboard" element={token ? <Dashboard /> : <Home setToken={setToken} />} />
+     
+      </Routes>
+    </Router>
   );
 }
 
