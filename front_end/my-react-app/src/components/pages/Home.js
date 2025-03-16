@@ -1,5 +1,5 @@
 import React from "react";
-import Login from "../auth/Login";
+import Login from "../auth/CarpLogin/Login";
 import "./Home.css"; // Estilos específicos para esta página
 import fondo from "../../assets/ImagenGymInicio.jpg";
 import logo from "../../assets/LogoGym.png";
@@ -16,7 +16,12 @@ const Home = ({setToken}) => {
       <div className="right-container">
         {/* Barra roja ajustada */}
         <div className="top-bar"></div>
+        <div className="logo-salir">
+        <button type="submit" style={{ padding: "6px", background: "red", color: "white", borderRadius: 5 }}>
+          X
+        </button>
         
+        </div>
         <div className="logo-container">
         <img src={logo} alt="Logo" />
         </div>

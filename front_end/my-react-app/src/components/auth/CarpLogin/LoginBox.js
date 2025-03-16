@@ -36,8 +36,11 @@ function LoginBox({ onLogin }) {
           required
           style={{ marginBottom: "10px", padding: "8px" }}
         />
-        <button type="submit" style={{ padding: "10px", background: "grey", color: "white", borderRadius: 20 }}>
+        <button type="submit" style={{ padding: "2px", background: "grey", color: "white", borderRadius: 20 }}>
           Iniciar Sesión
+        </button>
+        <button type="submit" style={{ padding: "2px", background: "grey", color: "white", borderRadius: 20 }}>
+          No tienes cuenta? Registrate
         </button>
       </form>
     </div>

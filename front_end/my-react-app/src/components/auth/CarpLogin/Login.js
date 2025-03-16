@@ -23,6 +23,11 @@ function Login({ setToken }) {
   };
 
   return (
+    /*
+    <LoginContainer>
+    <LoginBox onLogin={handleLogin} />   --->Siquiero usar Login Container 
+    </LoginContainer>
+    */
     
       <LoginBox onLogin={handleLogin} />
     

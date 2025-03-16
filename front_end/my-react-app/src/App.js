@@ -22,6 +22,7 @@ import React, {useState} from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
 import Dashboard from "./components/pages/Dashboard";
+import Register from "./components/auth/CarpRegister/Register";
 
 function App() {
   const [token, setToken] = useState(null);//estado  para  el token
@@ -30,7 +31,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setToken={setToken} />} />
         <Route path="/dashboard" element={token ? <Dashboard /> : <Home setToken={setToken} />} />
-     
+        <Route path="/register" element={<Register />} />
       </Routes>
     </Router>
   );
