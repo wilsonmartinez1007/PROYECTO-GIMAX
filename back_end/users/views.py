@@ -28,3 +28,11 @@ def login(request):
         return Response({"token": token.key}, status=status.HTTP_200_OK)
     
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['POST'])
+def logout(request):
+    try:
+        request.user.auth_token.delete()
+        return Response({"menssage" : "Cierre de cuenta exitoso"}, status = 200)
+    except:
+        return Response({"menssage" : "Algo salio mal"}, status = 500)
