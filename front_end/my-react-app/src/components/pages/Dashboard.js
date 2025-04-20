@@ -22,7 +22,7 @@ function Home() {
       <nav className="navbar">
         <h1 className="logo">GYMAX</h1>
         <ul className="nav-links">
-          <li><a href="#"></a></li>
+          <li><Logout /></li> 
           <li><a href="#">Entrenadores</a></li>
           <li><a href="#">Membresías</a></li>
           <li><a href="#">Gimnasios</a></li>

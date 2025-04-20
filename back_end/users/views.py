@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework import status
 from .serializers import UserSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import permission_classes
+
 
 @api_view(['POST'])
 def register(request):
@@ -30,9 +33,10 @@ def login(request):
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
+@permission_classes([IsAuthenticated])  # 👈 Asegura que solo usuarios logueados puedan hacer logout
 def logout(request):
     try:
         request.user.auth_token.delete()
-        return Response({"menssage" : "Cierre de cuenta exitoso"}, status = 200)
+        return Response({"message": "Cierre de cuenta exitoso"}, status=status.HTTP_200_OK)
     except:
-        return Response({"menssage" : "Algo salio mal"}, status = 500)
+        return Response({"message": "Algo salió mal"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

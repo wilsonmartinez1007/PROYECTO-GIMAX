@@ -1,16 +1,25 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom"; // IMPORTANTE
+import { useNavigate } from "react-router-dom";
 
 function RegisterBox({ onRegister }) {
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onRegister(username, password);
+
+    // Validación rápida del lado del cliente
+    if (password !== passwordConfirm) {
+      alert("Las contraseñas no coinciden.");
+      return;
+    }
+
+    onRegister(username, email, password, passwordConfirm);
   };
-//cambie aquie todo
+
   return (
     <div style={{
       width: "300px",
@@ -31,6 +40,14 @@ function RegisterBox({ onRegister }) {
           style={{ marginBottom: "10px", padding: "8px" }}
         />
         <input
+          type="email"
+          placeholder="Correo electrónico"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          style={{ marginBottom: "10px", padding: "8px" }}
+        />
+        <input
           type="password"
           placeholder="Contraseña"
           value={password}
@@ -38,15 +55,20 @@ function RegisterBox({ onRegister }) {
           required
           style={{ marginBottom: "10px", padding: "8px" }}
         />
-        
+        <input
+          type="password"
+          placeholder="Confirmar contraseña"
+          value={passwordConfirm}
+          onChange={(e) => setPasswordConfirm(e.target.value)}
+          required
+          style={{ marginBottom: "10px", padding: "8px" }}
+        />
         <button type="submit" style={{ padding: "6px", background: "grey", color: "white", borderRadius: 20 }}>
           Registrarme
         </button>
-        
-        {/* Botón corregido */}
-        <button 
+        <button
           type="button"
-          onClick={() => navigate("/login")} 
+          onClick={() => navigate("/login")}
           style={{ padding: "6px", background: "grey", color: "white", borderRadius: 20, marginTop: "10px" }}>
           Volver a iniciar sesión
         </button>

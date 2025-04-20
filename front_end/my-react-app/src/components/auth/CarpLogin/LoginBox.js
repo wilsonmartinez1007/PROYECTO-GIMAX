@@ -1,12 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function LoginBox({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     onLogin(username, password);
+  };
+
+  const goToRegister = () => {
+    navigate("/register");
   };
 
   return (
@@ -39,10 +45,13 @@ function LoginBox({ onLogin }) {
         <button type="submit" style={{ padding: "2px", background: "grey", color: "white", borderRadius: 20 }}>
           Iniciar Sesión
         </button>
-        <button type="submit" style={{ padding: "2px", background: "grey", color: "white", borderRadius: 20 }}>
-          No tienes cuenta? Registrate
-        </button>
       </form>
+      <button
+        onClick={goToRegister}
+        style={{ marginTop: "10px", padding: "2px", background: "blue", color: "white", borderRadius: 20 }}
+      >
+        ¿No tienes cuenta? Regístrate
+      </button>
     </div>
   );
 }
