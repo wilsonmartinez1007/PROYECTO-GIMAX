@@ -21,23 +21,42 @@ function RegisterBox({ onRegister }) {
   };
 
   return (
-    <div style={{
+    <div
+    /*
+    Lo siguiente es para que se vea como un panel blanco y dentro esten los datos
+    style={{
       width: "300px",
       padding: "20px",
       backgroundColor: "white",
       borderRadius: "10px",
       boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
       textAlign: "center"
-    }}>
-      <h2>Registrarse</h2>
+    }}*/
+      >
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
         <input
           type="text"
-          placeholder="Usuario"
+          placeholder="Nombre"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          style={{ marginBottom: "10px", padding: "8px" }}
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
+        />
+        <input
+          type="text"
+          placeholder="Apellido"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
+        />
+        <input
+          type="text"
+          placeholder="Cedula"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         <input
           type="email"
@@ -45,7 +64,7 @@ function RegisterBox({ onRegister }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          style={{ marginBottom: "10px", padding: "8px" }}
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         <input
           type="password"
@@ -53,7 +72,7 @@ function RegisterBox({ onRegister }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ marginBottom: "10px", padding: "8px" }}
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         <input
           type="password"
@@ -61,15 +80,15 @@ function RegisterBox({ onRegister }) {
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
           required
-          style={{ marginBottom: "10px", padding: "8px" }}
+          style={{ marginBottom: "30px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
-        <button type="submit" style={{ padding: "6px", background: "grey", color: "white", borderRadius: 20 }}>
+        <button type="submit" style={{ marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "2px solid black",outline: "none", width: "125px"  }}>
           Registrarme
         </button>
         <button
           type="button"
           onClick={() => navigate("/login")}
-          style={{ padding: "6px", background: "grey", color: "white", borderRadius: 20, marginTop: "10px" }}>
+          style={{marginBottom: "10px", padding: "2px", color: "#03a9f4", borderRadius: 20,border: "none",outline: "none",background: "transparent", textAlign: "left" }}>
           Volver a iniciar sesión
         </button>
       </form>

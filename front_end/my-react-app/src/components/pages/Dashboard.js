@@ -26,7 +26,7 @@ function Home() {
           <li><a href="#">Entrenadores</a></li>
           <li><a href="#">Membresías</a></li>
           <li><a href="#">Gimnasios</a></li>
-          <li><a href="#">Registrarse</a></li>
+          <li><a href="/login">Registrarse</a></li>
         </ul>
       </nav>
 

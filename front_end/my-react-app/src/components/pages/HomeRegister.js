@@ -1,8 +1,9 @@
 import React from "react";
 import Register from "../auth/CarpRegister/Register";
 import "./Home.css"; // Estilos específicos para esta página
-import fondo from "../../assets/FotoRegister.jpg";
-import logo from "../../assets/LogoGym.png";
+import fondo from "../../assets/registroImage.jpg";
+import salir from "../../assets/salir.svg";
+import logo from "../../assets/LogoFinal.png";
 import { useNavigate } from "react-router-dom"; // IMPORTANTE
 const Home = ({setToken}) => {
   const navigate = useNavigate();
@@ -12,6 +13,10 @@ const Home = ({setToken}) => {
     setToken(null);
     navigate("/"); // Redirige a la página principal
   };
+  const goToInicio = () => {
+    navigate("/dashboard");
+  };
+
 
   return (
     <div className="home-container">
@@ -26,27 +31,35 @@ const Home = ({setToken}) => {
         <div className="top-bar"></div>
         <div className="logo-salir">
         <button 
-            onClick={handleExit} 
-            style={{ padding: "6px", background: "red", color: "white", borderRadius: 5, cursor: "pointer" }}
-          >
-            X
-          </button>
+                    onClick={goToInicio} 
+                    style={{outline: "none",border: "none",background: "transparent"}}
+                  >
+                   <img src={salir}/>
+                  </button>
+                
         
         </div>
         <div className="logo-container">
-        <img src={logo} alt="Logo" />
-        </div>
+                <img src={logo} alt="Logo"
+                      style={{ width: 200,
+                        height: 200,
+                        borderRadius: 100,
+                         // Centra horizontalmente dentro del contenedor
+                        marginTop: 200, 
+                        marginLeft: -400
+                         }}/>
+                </div>
 
         
 
         {/* Login centrado antes */}
-        <div className="login-container">
+        <div style={{marginLeft: -250,
+                    marginTop: "125px",
+                 }} >
           <Register setToken={setToken} />
           
         </div>
         <div className="top-bar2"></div>
-        /
-        
       </div>
       
       

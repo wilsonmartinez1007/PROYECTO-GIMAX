@@ -13,6 +13,10 @@ const Home = ({setToken}) => {
     setToken(null);
     navigate("/"); // Redirige a la página principal
   };
+  const goToInicio = () => {
+    navigate("/dashboard");
+  };
+
 
   return (
     <div className="home-container">
@@ -27,7 +31,7 @@ const Home = ({setToken}) => {
         <div className="top-bar"></div>
         <div className="logo-salir">
         <button 
-            onClick={handleExit} 
+            onClick={goToInicio} 
             style={{outline: "none",border: "none",background: "transparent"}}
           >
            <img src={salir}/>
@@ -55,8 +59,6 @@ const Home = ({setToken}) => {
           
         </div>
         <div className="top-bar2"></div>
-        /
-        
       </div>
       
       
