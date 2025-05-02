@@ -1,8 +1,9 @@
 import React from "react";
 import Login from "../auth/CarpLogin/Login";
 import "./Home.css"; // Estilos específicos para esta página
-import fondo from "../../assets/ImagenGymInicio.jpg";
-import logo from "../../assets/LogoGym.png";
+import fondo from "../../assets/LoginImage.jpg";
+import salir from "../../assets/salir.svg";
+import logo from "../../assets/LogoFinal.png";
 import { useNavigate } from "react-router-dom"; // IMPORTANTE
 const Home = ({setToken}) => {
   const navigate = useNavigate();
@@ -27,20 +28,29 @@ const Home = ({setToken}) => {
         <div className="logo-salir">
         <button 
             onClick={handleExit} 
-            style={{ padding: "6px", background: "red", color: "white", borderRadius: 5, cursor: "pointer" }}
+            style={{outline: "none",border: "none",background: "transparent"}}
           >
-            X
+           <img src={salir}/>
           </button>
         
         </div>
         <div className="logo-container">
-        <img src={logo} alt="Logo" />
+        <img src={logo} alt="Logo"
+              style={{ width: 200,
+                height: 200,
+                borderRadius: 100,
+                 // Centra horizontalmente dentro del contenedor
+                marginTop: -50, 
+                marginLeft: -200
+                 }}/>
         </div>
 
         
 
         {/* Login centrado antes */}
-        <div className="login-container">
+        <div style={{marginLeft: -350,
+                    marginTop: "125px",
+                 }} >
           <Login setToken={setToken} />
           
         </div>

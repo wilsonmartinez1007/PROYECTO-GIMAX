@@ -11,11 +11,12 @@
 .logo-salir {
   
   position: absolute;
-  top: 160px; /* Mueve la imagen hacia arriba */
-  left: 97%;
+  top: 50px; /* Mueve la imagen hacia arriba */
+  left: 90%;
   transform: translateX(-35%);
   width: 50px; /* Ajusta el tamaño según necesites */
   height: 50px;
+  
   
 }
 .logo-container img {

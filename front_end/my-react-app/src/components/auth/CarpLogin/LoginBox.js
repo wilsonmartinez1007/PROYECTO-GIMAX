@@ -16,15 +16,8 @@ function LoginBox({ onLogin }) {
   };
 
   return (
-    <div style={{
-      width: "300px",
-      padding: "20px",
-      backgroundColor: "white",
-      borderRadius: "10px",
-      boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-      textAlign: "center"
-    }}>
-      <h2>Iniciar Sesión</h2>
+    <div>
+      
       <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column" }}>
         <input
           type="text"
@@ -32,7 +25,7 @@ function LoginBox({ onLogin }) {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
-          style={{ marginBottom: "10px", padding: "8px" }}
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         <input
           type="password"
@@ -40,18 +33,20 @@ function LoginBox({ onLogin }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
-          style={{ marginBottom: "10px", padding: "8px" }}
+          style={{ marginBottom: "30px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
         />
-        <button type="submit" style={{ padding: "2px", background: "grey", color: "white", borderRadius: 20 }}>
+        <button type="submit" style={{ marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "2px solid black",outline: "none", width: "125px" }}>
           Iniciar Sesión
         </button>
+        <button
+         onClick={goToRegister}
+         type="submit" style={{marginBottom: "10px", padding: "2px", color: "blue", borderRadius: 20,border: "none",outline: "none",background: "transparent", textAlign: "left" }}>
+          No tienes cuenta? Registrate
+        </button>
+        <button type="submit" style={{ marginBottom: "10px", padding: "2px", color: "blue", borderRadius: 20,border: "none",outline: "none",background: "transparent",textAlign: "left"  }}>
+          Olvide mi contraseña
+        </button>
       </form>
-      <button
-        onClick={goToRegister}
-        style={{ marginTop: "10px", padding: "2px", background: "blue", color: "white", borderRadius: 20 }}
-      >
-        ¿No tienes cuenta? Regístrate
-      </button>
     </div>
   );
 }
