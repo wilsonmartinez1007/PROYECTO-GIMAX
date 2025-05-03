@@ -1,0 +1,91 @@
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f8f8f8;
+  }
+  
+  
+  .rutinas-header {
+    background-color: #FF2222; 
+    color: white;
+    padding: 20px 40px;
+    text-align: left;
+    font-size: 1.5rem;
+  }
+  
+  
+  .rutinas-wrapper {
+    width: 100vw;
+    min-height: 100vh;
+    padding: 30px 60px;
+    box-sizing: border-box;
+    overflow-y: auto;
+  }
+  
+ 
+  .rutinas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+ 
+  .rutina-card {
+    background-color: white;
+    border-radius: 16px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+    padding: 25px;
+    transition: transform 0.3s ease;
+  }
+  
+  .rutina-card:hover {
+    transform: translateY(-5px);
+  }
+  
+  .rutina-card h2 {
+    margin: 0 0 10px;
+    color: #222;
+  }
+  
+  .descripcion {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+  }
+  
+  /* Lista de ejercicios */
+  .ejercicios {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .ejercicio {
+    background-color: #f1f1f1;
+    padding: 15px;
+    border-radius: 10px;
+  }
+  
+  .ejercicio h3 {
+    margin: 0 0 10px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .ejercicio p {
+    margin: 4px 0;
+    font-size: 14px;
+    color: #444;
+  }
+  
+ 
+  .mensaje-no-rutinas {
+    font-size: 18px;
+    color: #999;
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+  
