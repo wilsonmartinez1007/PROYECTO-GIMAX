@@ -46,3 +46,20 @@ class WorkoutExercise(models.Model):
     sets = models.PositiveIntegerField()
     reps = models.PositiveIntegerField()
     rest_time = models.PositiveIntegerField(help_text='Tiempo de descanso en segundos')
+    
+    DAY_CHOICES = [
+        ('lunes', 'Lunes'),
+        ('martes', 'Martes'),
+        ('miercoles', 'Miércoles'),
+        ('jueves', 'Jueves'),
+        ('viernes', 'Viernes'),
+        ('sabado', 'Sábado'),
+        ('domingo', 'Domingo'),
+    ]
+    day = models.CharField(
+    max_length=10,
+    choices=DAY_CHOICES,
+    default='lunes'  
+)
+
+
