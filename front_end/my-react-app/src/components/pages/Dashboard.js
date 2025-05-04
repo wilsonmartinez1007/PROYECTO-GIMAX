@@ -1,24 +1,22 @@
-//import React from "react";
-
-//function Dashboard() {
-  //return (
-    //<div>
-      //<h1>Bienvenido al Dashboard</h1>
-    //</div>
-  //);
-//}
-
-//export default Dashboard;
-
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import fondo from "../../assets/FotoRegister.jpg";
 import "./Home1.css";
-import Logout from "../auth/CarpLogout/Logout"; // Asegúrate de que la ruta sea correcta
+import Logout from "../auth/CarpLogout/Logout";
 
-function Home() {
+function Home({ setToken, token }) {
+  const navigate = useNavigate();
+
+  const irACrearRutina = () => {
+    navigate("/crear-rutina");
+  };
+
+  const irAMisRutinas = () => {
+    navigate("/mis-rutinas");
+  };
+
   return (
     <div className="outer-container">
-      {/* Navbar dentro del panel rojo */}
       <nav className="navbar">
         <h1 className="logo">GYMAX</h1>
         <ul className="nav-links">
@@ -30,22 +28,18 @@ function Home() {
         </ul>
       </nav>
 
-      {/* Panel blanco interno */}
       <div className="inner-container">
-        {/* Imagen */}
         <img src={fondo} alt="Fondo" className="main-image" />
         
-        {/* Texto */}
         <div className="text-container">
           <h2>"EL CAMBIO EMPIEZA POR EL PRIMER PASO"</h2>
           <p>Si quieres tener un entrenador personal, únete en el siguiente link.</p>
           <a href="#">Entra aquí y cambia tu físico</a>
 
-          {/* Botones */}
           <div className="button-container">
-            <button className="button">Rutina</button>
+            <button className="button" onClick={irACrearRutina}>Rutina</button>
             <button className="button">Alimentación</button>
-            <button className="button">Ejercicios</button>
+            <button className="button" onClick={irAMisRutinas}>Ejercicios</button>
           </div>
         </div>
       </div>
@@ -54,5 +48,3 @@ function Home() {
 }
 
 export default Home;
-
-
