@@ -22,6 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         return user
 
+# aqui empieza para crear rutina
+
 from rest_framework import serializers
 from .models import Workout, WorkoutExercise, Exercise
 
@@ -49,6 +51,8 @@ class ExerciseSerializer(serializers.ModelSerializer):
         model = Exercise
         fields = '__all__'
 
+#aqui termina
+
 # ver rutinas cliente
 class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):
     exercise = ExerciseSerializer()
@@ -68,3 +72,5 @@ class WorkoutDetailSerializer(serializers.ModelSerializer):
     def get_exercises(self, obj):
         we = WorkoutExercise.objects.filter(workout=obj)
         return WorkoutExerciseDetailSerializer(we, many=True).data
+
+# aqui termina

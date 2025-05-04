@@ -15,6 +15,10 @@ function Home({ setToken, token }) {
     navigate("/mis-rutinas");
   };
 
+  const irAClientes = () => {
+    navigate("/clientes");
+  };
+
   return (
     <div className="outer-container">
       <nav className="navbar">
@@ -38,8 +42,8 @@ function Home({ setToken, token }) {
 
           <div className="button-container">
             <button className="button" onClick={irACrearRutina}>Rutina</button>
-            <button className="button">Alimentación</button>
-            <button className="button" onClick={irAMisRutinas}>Ejercicios</button>
+            <button className="button" onClick={irAClientes}>Clientes</button>
+            <button className="button" onClick={irAMisRutinas}>MisRutinas</button>
           </div>
         </div>
       </div>

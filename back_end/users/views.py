@@ -42,6 +42,19 @@ def logout(request):
         return Response({"message": "Algo salió mal"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
+#funcion correos
+from django.core.mail import send_mail
+
+def enviar_correo_rutina_creada(usuario_email, nombre_usuario):
+    send_mail(
+        subject='¡Tu nueva rutina ha sido creada!',
+        message=f'Hola {nombre_usuario}, ya puedes revisar tu nueva rutina de entrenamiento en la app.',
+        from_email='tunuevocorreo@gmail.com',
+        recipient_list=[usuario_email],
+        fail_silently=False,
+    )
+
+
 # Todo de aqui para abajao es de crear rutina y verlas
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -80,6 +93,7 @@ from rest_framework.response import Response
 from .models import Workout, WorkoutExercise, Exercise, User, Gym
 from .serializers import WorkoutSerializer
 from rest_framework.permissions import IsAuthenticated
+from django.core.mail import send_mail  # 👈 Importamos el envío de correo
 
 class CreateWorkoutView(APIView):
     permission_classes = [IsAuthenticated]
@@ -92,6 +106,7 @@ class CreateWorkoutView(APIView):
         except User.DoesNotExist:
             return Response({'error': 'Cliente no válido'}, status=400)
 
+        # ✅ Crear la rutina
         workout = Workout.objects.create(
             user=cliente,
             trainer=request.user,
@@ -100,6 +115,7 @@ class CreateWorkoutView(APIView):
             description=data.get('description', '')
         )
 
+        # ✅ Agregar ejercicios
         for ex in data['exercises']:
             exercise = Exercise.objects.get(id=ex['exercise_id'])  # Ya debe existir
             WorkoutExercise.objects.create(
@@ -111,7 +127,20 @@ class CreateWorkoutView(APIView):
                 day=ex['day']
             )
 
+        # ✅ Enviar correo al cliente
+        self.enviar_correo_rutina_creada(cliente.email, cliente.username)
+
         return Response({'success': 'Rutina creada correctamente'}, status=201)
+
+    # 📧 Función para enviar correo
+    def enviar_correo_rutina_creada(self, usuario_email, nombre_usuario):
+        send_mail(
+            subject='¡Tu nueva rutina ha sido creada!',
+            message=f'Hola {nombre_usuario}, ya puedes revisar tu nueva rutina de entrenamiento en la app.',
+            from_email='tunuevocorreo@gmail.com',  # Cambia por tu Gmail
+            recipient_list=[usuario_email],
+            fail_silently=False,
+        )
 
 
 
@@ -168,3 +197,36 @@ class MisRutinasView(APIView):
         return Response(serializer.data)
         
 #hasta aqui es el codigo de crear rutina y ver rutina
+
+
+#aqui viene la opcion para que los entrenadores vean a sus clientes
+from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Workout
+
+class VerClientesDeEntrenadorView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != 'entrenador':
+            return Response({"message": "No tienes permisos para acceder a esta información."}, status=status.HTTP_403_FORBIDDEN)
+        
+        # Obtener las rutinas asignadas a los clientes del entrenador
+        rutinas = Workout.objects.filter(trainer=request.user)
+
+        # Preparar la información para los clientes
+        clientes = []
+        for rutina in rutinas:
+            clientes.append({
+                'cliente_id': rutina.user.id,
+                'cliente_nombre': f"{rutina.user.first_name} {rutina.user.last_name}",
+                'rutina_id': rutina.id,
+                'nombre_rutina': rutina.name,
+                'descripcion_rutina': rutina.description,
+            })
+        
+        return Response(clientes, status=status.HTTP_200_OK)
+
+

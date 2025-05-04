@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import ExerciseModal from "./ExerciseModal"; // importa el modal
 import "./MisRutinas.css";
 
 const MisRutinas = ({ token }) => {
   const [rutinas, setRutinas] = useState([]);
+  const [selectedExercise, setSelectedExercise] = useState(null); // para el modal
 
   useEffect(() => {
     axios.get("http://localhost:8000/api/rutinas/mias/", {
@@ -19,6 +21,14 @@ const MisRutinas = ({ token }) => {
     });
   }, [token]);
 
+  const handleExerciseClick = (exercise) => {
+    setSelectedExercise(exercise);
+  };
+
+  const closeModal = () => {
+    setSelectedExercise(null);
+  };
+
   return (
     <div className="rutinas-wrapper">
       <header className="rutinas-header">
@@ -33,7 +43,13 @@ const MisRutinas = ({ token }) => {
               <div className="ejercicios">
                 {rutina.exercises.map((exercise, index) => (
                   <div className="ejercicio" key={index}>
-                    <h3>{exercise.exercise.name}</h3>
+                    <h3
+                      className="exercise-clickable"
+                      onClick={() => handleExerciseClick(exercise.exercise)}
+                      style={{ cursor: "pointer", color: "#007bff" }}
+                    >
+                      {exercise.exercise.name}
+                    </h3>
                     <p><strong>Series:</strong> {exercise.sets}</p>
                     <p><strong>Repeticiones:</strong> {exercise.reps}</p>
                     <p><strong>Descanso:</strong> {exercise.rest_time}s</p>
@@ -47,6 +63,9 @@ const MisRutinas = ({ token }) => {
           <p className="mensaje-no-rutinas">No tienes rutinas asignadas.</p>
         )}
       </div>
+
+      {/* Modal */}
+      <ExerciseModal exercise={selectedExercise} onClose={closeModal} />
     </div>
   );
 };
