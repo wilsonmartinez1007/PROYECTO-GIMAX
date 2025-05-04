@@ -136,7 +136,17 @@ class CreateWorkoutView(APIView):
     def enviar_correo_rutina_creada(self, usuario_email, nombre_usuario):
         send_mail(
             subject='¡Tu nueva rutina ha sido creada!',
-            message=f'Hola {nombre_usuario}, ya puedes revisar tu nueva rutina de entrenamiento en la app.',
+            message = f'''
+Hola {nombre_usuario},
+
+¡Tu nueva rutina de entrenamiento ha sido creada con éxito!
+
+Ya puedes ingresar a la app y consultar todos los detalles de tu nueva rutina.
+¿Qué esperas para comenzar? Cada entrenamiento te acerca más a la mejor versión de ti. 
+
+
+— El equipo de Gymax
+''',
             from_email='tunuevocorreo@gmail.com',  # Cambia por tu Gmail
             recipient_list=[usuario_email],
             fail_silently=False,
