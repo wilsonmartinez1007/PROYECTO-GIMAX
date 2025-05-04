@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./components/pages/Home";
 import HomeRegister from "./components/pages/HomeRegister";
 import Dashboard from "./components/pages/Dashboard";
+
 import CreateWorkoutForm from "./components/pages/CreateWorkoutForm";
 import MisRutinas from "./components/pages/MisRutinas";
 import ClientesDeEntrenador from "./components/pages/ClientesDeEntrenador";
+
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token")||null);//estado  para  el token
@@ -21,9 +23,14 @@ function App() {
         <Route path="/login" element={<Home setToken={setToken} />} />
         <Route path="/dashboard" element={token ? <Dashboard /> : <Home setToken={setToken} />} />
         <Route path="/register" element={<HomeRegister />} />
+
         <Route path="/crear-rutina" element={token ? <CreateWorkoutForm token={token} /> : <Home setToken={setToken} />} />
         <Route path="/mis-rutinas" element={token ? <MisRutinas token={token} /> : <Home setToken={setToken} />} />
+<<<<<<< HEAD
         <Route path="/clientes" element={token ? <ClientesDeEntrenador token={token} /> : <Home setToken={setToken} />} />
+=======
+
+>>>>>>> 96ed25b7cb64345bc90391626047802d50769c98
       </Routes>
     </Router>
   );
