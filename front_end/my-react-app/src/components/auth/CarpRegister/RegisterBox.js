@@ -10,6 +10,7 @@ function RegisterBox({ onRegister }) {
   const [apellido, setApellido] = useState("");
   const [role, setRole] = useState("");
   
+  
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -20,6 +21,11 @@ function RegisterBox({ onRegister }) {
       alert("Las contraseñas no coinciden.");
       return;
     }
+    if (role === "") {
+    alert("Por favor selecciona un tipo de usuario válido.");
+    return;
+  }
+
 
     onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
   };
@@ -91,6 +97,7 @@ function RegisterBox({ onRegister }) {
         name="role"
         value={role}
         onChange={(e) => setRole(e.target.value)}>
+          <option>Tipo de Usuario</option>
           <option value="cliente">Cliente</option>
           <option value="entrenador">Entrenador</option>
           <option value="admin">Administrador</option>
