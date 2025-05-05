@@ -8,7 +8,9 @@ class User(AbstractUser):
         ('admin', 'Administrador')
     ]
     role = models.CharField(max_length=20, choices=ROLE_CHOICES)
-
+    cedula = models.CharField(max_length=20, blank=True)
+    apellido = models.CharField(max_length=150, blank=True)
+#CUANDO HAGO CAMBIOS AQUI HAY QUE HACER MIGRACIONES
 class Gym(models.Model):
     name = models.CharField(max_length=100)
     location = models.TextField()

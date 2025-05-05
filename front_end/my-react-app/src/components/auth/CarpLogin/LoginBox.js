@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 function LoginBox({ onLogin }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {

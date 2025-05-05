@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 function Register() {
   const navigate = useNavigate();
 
-  const handleRegister = async (username, email, password, passwordConfirm) => {
+  const handleRegister = async (username, email, password, passwordConfirm, cedula, apellido, role) => {
     const response = await fetch("http://127.0.0.1:8000/api/register/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -14,6 +14,9 @@ function Register() {
         email,
         password,
         password_confirm: passwordConfirm, // 👈 este nombre exacto debe coincidir con el serializer
+        cedula,
+        apellido,
+        role
       }),
     });
 

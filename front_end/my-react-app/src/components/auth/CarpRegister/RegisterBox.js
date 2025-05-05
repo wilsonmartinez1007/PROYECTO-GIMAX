@@ -6,6 +6,10 @@ function RegisterBox({ onRegister }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [cedula, setCedula] = useState("");
+  const [apellido, setApellido] = useState("");
+  const [role, setRole] = useState("");
+  
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -17,7 +21,7 @@ function RegisterBox({ onRegister }) {
       return;
     }
 
-    onRegister(username, email, password, passwordConfirm);
+    onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
   };
 
   return (
@@ -45,16 +49,16 @@ function RegisterBox({ onRegister }) {
         <input
           type="text"
           placeholder="Apellido"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={apellido}
+          onChange={(e) => setApellido(e.target.value)}
           required
           style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         <input
           type="text"
           placeholder="Cedula"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={cedula}
+          onChange={(e) => setCedula(e.target.value)}
           required
           style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
@@ -80,8 +84,17 @@ function RegisterBox({ onRegister }) {
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
           required
-          style={{ marginBottom: "30px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
+          style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
+        
+        <select style={{marginBottom: "30px", padding: "8px",border: "none", borderRadius: 20,outline: "none"   }}  
+        name="role"
+        value={role}
+        onChange={(e) => setRole(e.target.value)}>
+          <option value="cliente">Cliente</option>
+          <option value="entrenador">Entrenador</option>
+          <option value="admin">Administrador</option>
+        </select>
         <button type="submit" style={{ marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "2px solid black",outline: "none", width: "125px"  }}>
           Registrarme
         </button>

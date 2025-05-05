@@ -7,12 +7,6 @@ import logo from "../../assets/LogoFinal.png";
 import { useNavigate } from "react-router-dom"; // IMPORTANTE
 const Home = ({setToken}) => {
   const navigate = useNavigate();
-
-  const handleExit = () => {
-    localStorage.removeItem("token"); // Elimina el token
-    setToken(null);
-    navigate("/"); // Redirige a la página principal
-  };
   const goToInicio = () => {
     navigate("/dashboard");
   };
