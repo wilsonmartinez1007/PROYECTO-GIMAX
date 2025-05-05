@@ -45,6 +45,14 @@ function DiagnosticoBox({}) {
              style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
              placeholder="Actividad fisica" />
           </div>
+          <div style={{
+                position: "absolute", 
+                height: "450px",
+                width: "2px",
+                backgroundColor: "black",
+                marginTop: -320,
+                marginLeft: -130
+                }}></div>
         <div style={{ 
                 // Centra horizontalmente dentro del contenedor
                 display: "flex", flexDirection: "column",
@@ -74,7 +82,14 @@ function DiagnosticoBox({}) {
              style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
              placeholder="Descansos" />
           </div>
-        
+          <div style={{
+                position: "absolute", 
+                height: "450px",
+                width: "2px",
+                backgroundColor: "black",
+                marginTop: -320,
+                marginLeft: 290
+                }}></div>
     <div style={{ 
                 // Centra horizontalmente dentro del contenedor
                 display: "flex", flexDirection: "column",
