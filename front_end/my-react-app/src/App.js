@@ -8,6 +8,7 @@ import HomePerEntrenador from "./components/pages/HomePerEntrenador";
 import CreateWorkoutForm from "./components/pages/CreateWorkoutForm";
 import MisRutinas from "./components/pages/MisRutinas";
 import ClientesDeEntrenador from "./components/pages/ClientesDeEntrenador";
+import HomeDiagnostico from "./components/pages/HomeDiagnostico";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
         <Route path="/crear-rutina" element={token ? <CreateWorkoutForm token={token} /> : <Home setToken={setToken} />} />
         <Route path="/mis-rutinas" element={token ? <MisRutinas token={token} /> : <Home setToken={setToken} />} />
         <Route path="/clientes" element={token ? <ClientesDeEntrenador token={token} /> : <Home setToken={setToken} />} />
+        <Route path="/Diagnostico" element={<HomeDiagnostico/>}/>
       </Routes>
     </Router>
   );
