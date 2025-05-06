@@ -15,6 +15,9 @@ function LoginBox({ onLogin }) {
   const goToRegister = () => {
     navigate("/register");
   };
+  const goToRecuperar = () => {
+    navigate("/RecuperarContraseña");
+  };
 
   return (
     <div>
@@ -44,8 +47,10 @@ function LoginBox({ onLogin }) {
          type="submit" style={{marginBottom: "10px", padding: "2px", color: "#03a9f4", borderRadius: 20,border: "none",outline: "none",background: "transparent", textAlign: "left" }}>
           No tienes cuenta? Registrate
         </button>
-        <button type="submit" style={{ marginBottom: "10px", padding: "2px", color: "#03a9f4", borderRadius: 20,border: "none",outline: "none",background: "transparent",textAlign: "left"  }}>
-          Olvide mi contraseña
+        <button 
+         onClick={goToRecuperar}
+         type="submit" style={{ marginBottom: "10px", padding: "2px", color: "#03a9f4", borderRadius: 20,border: "none",outline: "none",background: "transparent",textAlign: "left"  }}>
+         Olvide mi contraseña
         </button>
       </form>
     </div>

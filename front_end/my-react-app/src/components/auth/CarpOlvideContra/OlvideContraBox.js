@@ -1,6 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 
-function OlvideContraBox({}) {
+import { Form, useNavigate } from "react-router-dom"; 
+function OlvideContraBox({onBuscar}) {
+    const [cedula, setCedula] = useState("");
+    const navigate = useNavigate();
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onBuscar(cedula);
+    };
+
+    const goToSalir = () => {
+        navigate("/login");
+    };
+
     return (
         <div style={{height:"0vh"}}>
         <div style={{
@@ -32,21 +45,27 @@ function OlvideContraBox({}) {
                 Ingresa tu cedula para buscar tu cuenta.
             
           </div>
+          <form  onSubmit={handleSubmit}>
           <div>
           <input 
+             type="text"
+             value={cedula}
+             onChange={(e) => setCedula(e.target.value)}
              style ={{marginTop:40, marginLeft: -36,width: "270px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid gray"}}
              placeholder="Cedula" />
           </div>
-          <div>
-          <button type="submit" style={{ marginTop:20, marginLeft: 36,height: "30px",marginBottom: "1px", background: "#D3D3D3", color: "black", borderRadius: 5, borderColor: 'black',border: "none",outline: "none", width: "100px"  }}>
-          Cancelar
-        </button></div>
-        <div style={{marginTop:-30, marginLeft: 260,}}>
+          
+        <div style={{marginTop:20, marginLeft: 260,}}>
         <button type="submit" style={{ height: "30px",marginBottom: "10px", background: "red", color: "black", borderRadius: 5, borderColor: 'black',border: "none",outline: "none", width: "100px"  }}>
           Buscar
         </button>
           </div>
-          
+          </form>
+          <div style={{marginTop:-40, marginLeft: 36}}>
+          <button onClick={goToSalir} 
+           type="submit" style={{ height: "30px",marginBottom: "1px", background: "#D3D3D3", color: "black", borderRadius: 5, borderColor: 'black',border: "none",outline: "none", width: "100px"  }}>
+          Cancelar
+        </button></div>
           </div>
           </div>
     

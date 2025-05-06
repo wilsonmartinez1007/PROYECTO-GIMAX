@@ -238,5 +238,23 @@ class VerClientesDeEntrenadorView(APIView):
             })
         
         return Response(clientes, status=status.HTTP_200_OK)
+    
+
+
+#para reenviar el correo de la persona en Olvide Contraseña:
+from .models import User  # Asegúrate de importar tu modelo personalizado
+
+@api_view(['POST'])
+def buscar_usuario_por_cedula(request):
+    cedula = request.data.get("cedula")
+    if not cedula:
+        return Response({"error": "La cédula es requerida."}, status=status.HTTP_400_BAD_REQUEST)
+
+    try:
+        usuario = User.objects.get(cedula=cedula)
+        return Response({"email": usuario.email}, status=status.HTTP_200_OK)
+    except User.DoesNotExist:
+        return Response({"error": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
 
 
