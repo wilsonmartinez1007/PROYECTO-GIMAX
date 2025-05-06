@@ -1,59 +1,16 @@
-
-import { useNavigate } from "react-router-dom"; // IMPORTANTE
-import salir from "../../assets/salir.svg";
-import "./Home.css"; // Estilos específicos para esta página
-import logo from "../../assets/fotoSinRostro.jpg";
-import PerfilEntrenador from "../auth/CarpPerfilEntrenador/PerfilEntrenador"
+import "../pages/Home.css"; // Estilos específicos para esta página
+import MenuCliente from "../auth/CarpMenuCliente/MenuCliente"
 import React, { useState } from "react";
 
-const HomePerEntrenador = ({}) => {
-  const navigate = useNavigate();
+const HomeMenuCliente = ({}) => {
   const [seccionActiva, setSeccionActiva] = useState("Personal");
-
-  const goToInicio = () => {
-    navigate("/dashboard");
-  };
-
-  const botones = ["Personal", "Profesional", "Experiencia", "Especialidades", "Certificaciones"];
-
-  
     return (
       <div>
   
         {/* Sección derecha (30%) con barra roja arriba */}
         <div>
           {/* Barra roja ajustada */}
-          <div className="top-bar"></div>
-          <div className="logo-salir">
-          <button 
-                      onClick={goToInicio} 
-                      style={{outline: "none",border: "none",background: "transparent"}}
-                    >
-                     <img src={salir}/>
-                    </button>
-                  
-          
-          </div>
-          <div className="logo-container">
-                  <img src={logo} alt="Logo"
-                        style={{ width: 300,
-                          height: 300,
-                          borderRadius: 20,
-                           // Centra horizontalmente dentro del contenedor
-                          marginTop: 200, 
-                          marginLeft: -595
-                           }}/>
-                  </div>
-            <div style={{ position: "absolute",
-                          marginTop: -130, 
-                          marginLeft: 100,
-                          fontSize: "40px",             // Tamaño de letra
-                          fontFamily: "'Fugaz One', cursive", // Tipo de letra
-                          fontWeight: "bold"            // Grosor
-                           }}>
-                Informacion Entrenador
-                
-            </div>
+          <div className="top-bar"></div>  
           <div style={{ 
                            // Centra horizontalmente dentro del contenedor
                         height:"30px" ,  
@@ -98,8 +55,10 @@ const HomePerEntrenador = ({}) => {
                           marginTop: 50, 
                           marginLeft: 600
                            }}>
-            <PerfilEntrenador seccion={seccionActiva}/>
+            <MenuCliente seccion={seccionActiva}/>
           </div>
+  
+          
           <div className="top-bar2"></div>
         </div>
         
@@ -108,4 +67,4 @@ const HomePerEntrenador = ({}) => {
     );
   };
   
-  export default HomePerEntrenador;
+  export default HomeMenuCliente;
