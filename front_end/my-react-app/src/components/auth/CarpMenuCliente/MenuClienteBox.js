@@ -35,12 +35,6 @@ function DiagnosticoBox({seccion}) {
             </div>
           );
           break;
-        case "Certificaciones":
-          contenido = (
-              <div>
-            </div>
-          );
-          break;
         default:
           contenido = null;
     }
@@ -53,7 +47,7 @@ function DiagnosticoBox({seccion}) {
             display: "flex", flexDirection: "column",
             position: "absolute",zIndex: 1,
             padding: "20px",
-            marginTop: -260, 
+            marginTop: -280, 
             marginLeft: 795,
             }}>
             <select style={{

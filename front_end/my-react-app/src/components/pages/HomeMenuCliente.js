@@ -43,11 +43,7 @@ const HomeMenuCliente = ({}) => {
                     style={{marginRight: "150px",color: seccionActiva === "Especialidades" ? "gray" : "black", padding: "5px",border: "none",outline: "none",background: "transparent", textAlign: "center" }}>
             Especialidades
             </button>
-            <button onClick={() => setSeccionActiva("Certificaciones")} 
-                    type="submit" 
-                    style={{marginRight: "100px",color: seccionActiva === "Ceertificados" ? "gray" : "black", padding: "5px", border: "none",outline: "none",background: "transparent", textAlign: "center" }}>
-            Certificaciones
-            </button>
+            
             
           </div>
           <div style={{ 
