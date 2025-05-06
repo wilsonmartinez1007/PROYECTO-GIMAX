@@ -2,6 +2,7 @@ import React from "react";
 
 function OlvideContraBox({}) {
     return (
+        <div style={{height:"0vh"}}>
         <div style={{
             height: "220px",
             width: "400px",
@@ -46,6 +47,7 @@ function OlvideContraBox({}) {
         </button>
           </div>
           
+          </div>
           </div>
     
     );
