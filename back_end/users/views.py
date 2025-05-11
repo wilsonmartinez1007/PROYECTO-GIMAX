@@ -33,13 +33,22 @@ def login(request):
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['POST'])
-@permission_classes([IsAuthenticated])  # 👈 Asegura que solo usuarios logueados puedan hacer logout
+@permission_classes([IsAuthenticated])  #  Asegura que solo usuarios logueados puedan hacer logout
 def logout(request):
     try:
         request.user.auth_token.delete()
         return Response({"message": "Cierre de cuenta exitoso"}, status=status.HTTP_200_OK)
     except:
         return Response({"message": "Algo salió mal"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+from django.core.mail import send_mail
+
+
+
+
+
+
+
 
 
 #funcion correos
@@ -252,9 +261,25 @@ def buscar_usuario_por_cedula(request):
 
     try:
         usuario = User.objects.get(cedula=cedula)
+        enviar_correo_codigo(usuario.email)
         return Response({"email": usuario.email}, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response({"error": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
 
+def enviar_correo_codigo(usuario_email):
+        send_mail(
+            subject='¡Recuperacion de contraseña!',
+            message = f'''
+        Hola Wilson,
+
+        ¡Tu codigo para tu nueva contrseña ha sido generado!
+
+        Codigo: 12345
+        — El equipo de Gymax
+        ''',
+                    from_email='tunuevocorreo@gmail.com',  # Cambia por tu Gmail
+                    recipient_list=[usuario_email],
+                    fail_silently=False,
+                )
 

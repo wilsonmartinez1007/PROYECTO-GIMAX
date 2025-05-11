@@ -25,10 +25,6 @@ function Home({ setToken, token }) {
         <h1 className="logo">GYMAX</h1>
         <ul className="nav-links">
           <li><Logout /></li> 
-          <li><a href="#">Entrenadores</a></li>
-          <li><a href="#">Membresías</a></li>
-          <li><a href="#">Gimnasios</a></li>
-          <li><a href="/login">Registrarse</a></li>
         </ul>
       </nav>
 

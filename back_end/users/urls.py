@@ -11,6 +11,6 @@ urlpatterns = [
     path('exercises/', ListaEjerciciosView.as_view(), name='lista-ejercicios'),
     path('rutinas/mias/', MisRutinasView.as_view(), name='mis-rutinas'),
     path('entrenador/clientes/', VerClientesDeEntrenadorView.as_view(), name='ver-clientes-entrenador'),
-    path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),
+    path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),#esto
 
 ]
