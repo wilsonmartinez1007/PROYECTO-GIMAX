@@ -1,9 +1,10 @@
-import React from "react";
+import {React, useState} from "react";
 import OlvideContraBox from "./OlvideContraBox";
+import { data } from "react-router-dom";
 
 function OlvideContraseña() {
-
-
+  const [email, setEmail] = useState("");
+  
   const handleBuscar = async (cedula) => {
     const response = await fetch("http://127.0.0.1:8000/api/buscar-usuario/", {
       method: "POST",
@@ -13,15 +14,16 @@ function OlvideContraseña() {
 
     const data = await response.json();
     console.log("Respuesta del servidor:", data);
-
+ 
     if (response.ok) {
+      setEmail(data.email)
       alert(`Correo encontrado: ${data.email}`); 
     } else {
       alert(data.error || "Cédula no encontrada");
     }
   };
 
-  return <OlvideContraBox onBuscar={handleBuscar} />;
+  return <OlvideContraBox onBuscar={handleBuscar} email={email}/>;
 }
 
 export default OlvideContraseña;

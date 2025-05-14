@@ -93,7 +93,7 @@ function RegisterBox({ onRegister }) {
           style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         
-        <select style={{marginBottom: "30px", padding: "8px",border: "none", borderRadius: 20,outline: "none"   }}  
+        <select style={{marginBottom: "30px", padding: "8px",border: "none", borderRadius: 20,outline: "none"   }} //esto devo quitarlo 
         name="role"
         value={role}
         onChange={(e) => setRole(e.target.value)}>

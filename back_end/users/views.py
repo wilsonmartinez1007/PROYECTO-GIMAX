@@ -266,6 +266,17 @@ def buscar_usuario_por_cedula(request):
     except User.DoesNotExist:
         return Response({"error": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
 
+import random
+import string
+
+def generar_contraseña(longitud):
+    caracteres = string.ascii_letters + string.digits + "!@#$%^&*()_+"
+    contraseña = ''.join(random.choice(caracteres) for _ in range(longitud))
+    return contraseña
+
+# Ejemplo de uso:
+longitud_contraseña = 5
+nueva_contraseña = generar_contraseña(longitud_contraseña)
 
 def enviar_correo_codigo(usuario_email):
         send_mail(
@@ -275,7 +286,7 @@ def enviar_correo_codigo(usuario_email):
 
         ¡Tu codigo para tu nueva contrseña ha sido generado!
 
-        Codigo: 12345
+        Codigo: {nueva_contraseña}
         — El equipo de Gymax
         ''',
                     from_email='tunuevocorreo@gmail.com',  # Cambia por tu Gmail
