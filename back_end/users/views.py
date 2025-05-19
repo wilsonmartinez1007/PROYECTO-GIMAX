@@ -269,14 +269,17 @@ def buscar_usuario_por_cedula(request):
 import random
 import string
 
-def generar_contraseña(longitud):
+def generar_codigo(longitud):
     caracteres = string.ascii_letters + string.digits + "!@#$%^&*()_+"
-    contraseña = ''.join(random.choice(caracteres) for _ in range(longitud))
-    return contraseña
+    codigo = ''.join(random.choice(caracteres) for _ in range(longitud))
+    return codigo
 
 # Ejemplo de uso:
-longitud_contraseña = 5
-nueva_contraseña = generar_contraseña(longitud_contraseña)
+longitud_condigo = 5
+nueva_codigo = generar_codigo(longitud_condigo)
+@api_view(['POST'])
+def codigo_generado(request):
+    return Response({"codigo": nueva_codigo}, status=status.HTTP_200_OK)
 
 def enviar_correo_codigo(usuario_email):
         send_mail(
@@ -286,7 +289,7 @@ def enviar_correo_codigo(usuario_email):
 
         ¡Tu codigo para tu nueva contrseña ha sido generado!
 
-        Codigo: {nueva_contraseña}
+        Codigo: {nueva_codigo}
         — El equipo de Gymax
         ''',
                     from_email='tunuevocorreo@gmail.com',  # Cambia por tu Gmail

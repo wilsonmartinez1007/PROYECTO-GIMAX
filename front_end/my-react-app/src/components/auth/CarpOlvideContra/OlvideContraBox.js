@@ -1,20 +1,36 @@
 import React, { useState } from "react";
 
 import { Form, useNavigate } from "react-router-dom"; 
-function OlvideContraBox({onBuscar, email}) {
+function OlvideContraBox({onBuscar, email, onCodigo, codigo2}) {
     const [cedula, setCedula] = useState("");
     const [panel, setPanel] = useState('codigo'); 
     const navigate = useNavigate();
     const sleep = (ms)=> {
       return new Promise(resolve => setTimeout(resolve, ms));
       }
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onBuscar(cedula);
-        sleep(3000).then(() => {
-          setPanel('buscar');
-        });
-    };
+    const handleBuscar = (e) => {
+      e.preventDefault();
+      onBuscar(cedula);
+      sleep(1000).then(() => {
+        setPanel('buscar');
+      });
+  };
+    const handleValidar = (e) => {
+      e.preventDefault();
+      // Aquí puedes validar el código si lo necesitas (en el backend, por ejemplo)
+      onCodigo();
+      sleep(1000).then(() => {
+        setPanel('valido');
+      });
+      
+  };
+    const handleCambiar = (e) => {
+      e.preventDefault();
+      // Aquí iría la lógica para cambiar la contraseña
+      alert("Contraseña cambiada con éxito");
+      navigate("/login"); // redirige al login
+  };
+
 
     const goToSalir = () => {
         navigate("/login");
@@ -59,7 +75,7 @@ function OlvideContraBox({onBuscar, email}) {
                 Ingresa tu cedula para buscar tu cuenta.
             
           </div>
-          <form  onSubmit={handleSubmit}>
+          <form  onSubmit={handleBuscar}>
           <div>
           <input 
              type="text"
@@ -115,17 +131,19 @@ function OlvideContraBox({onBuscar, email}) {
                 Ingresa el codigo que fue dirijido a tu correo    {email}
             
           </div>
-          <form  onSubmit={handleSubmit}>
+          <form  onSubmit={handleValidar}>
           <div>
           <input 
              type="text"
+             //onChange={(e) => setCodigo(e.target.value)} tengo que crear una funcion que compare con un if si el codigo2 que es el que traigo de backend es el mismo la que dijita
              style ={{marginTop:40, marginLeft: -36,width: "270px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid gray"}}
              placeholder="Codigo" />
+             
           </div>
           
         <div style={{marginTop:20, marginLeft: 260,}}>
         <button 
-        onClick= {setPanel('valido')}
+
         type="submit" style={{ height: "30px",marginBottom: "10px", background: "red", color: "black", borderRadius: 5, borderColor: 'black',border: "none",outline: "none", width: "100px"  }}>
           Validar
         </button>
@@ -139,7 +157,6 @@ function OlvideContraBox({onBuscar, email}) {
           </div>
 
       )}
-      panel esta mal 
         {panel === 'valido' && (
         <div style={{
             height: "220px",
@@ -170,7 +187,7 @@ function OlvideContraBox({onBuscar, email}) {
                 Ingresa su nueva contraseña
             
           </div>
-          <form  onSubmit={handleSubmit}>
+          <form  onSubmit={handleCambiar}>
           <div>
           <input 
              type="text"
