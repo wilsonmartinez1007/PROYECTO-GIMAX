@@ -17,7 +17,6 @@ body {
   border-bottom: 4px solid #b71c1c;
 }
 
-
 .rutinas-wrapper {
   width: 100vw;
   min-height: 100vh;
@@ -167,13 +166,34 @@ progress::-moz-progress-bar {
   text-align: center;
 }
 
+.fatigue-container {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  gap: 8px;
+}
+
+.fatigue-container label {
+  font-size: 0.9rem;
+  color: #333;
+}
+
+.fatigue-container input[type="range"] {
+  flex-grow: 1;
+}
+
+.fatigue-level {
+  font-weight: bold;
+  width: 24px;
+  text-align: center;
+}
+
 .mensaje-no-rutinas {
   font-size: 1.1rem;
   color: #777;
   grid-column: 1 / -1;
   text-align: center;
 }
-
 
 
 /*

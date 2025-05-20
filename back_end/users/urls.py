@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView, WorkoutDetailView, CreateExerciseView, WorkoutProgressView
+from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView, WorkoutDetailView, CreateExerciseView, WorkoutProgressView, ClienteStatsView, EntrenadorStatsView
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
 from .views import buscar_usuario_por_cedula
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
@@ -24,6 +24,10 @@ urlpatterns = [
     path('rutinas/<int:pk>/progress/',
      WorkoutProgressView.as_view(),
      name='workout-progress'),
+    path('estadisticas/cliente/<int:client_id>/', ClienteStatsView.as_view(), name='cliente-stats'),
+    path('estadisticas/entrenador/', EntrenadorStatsView.as_view(), name='entrenador-stats'),
+
+
 
 
 ]

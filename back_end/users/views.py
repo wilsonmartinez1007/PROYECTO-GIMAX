@@ -435,18 +435,18 @@ class WorkoutProgressView(APIView):
         return Response(data)
 
     def post(self, request, pk):
-        serializer = WorkoutProgressInputSerializer(data=request.data)
+        data = request.data
+        serializer = WorkoutProgressInputSerializer(data=data)
         serializer.is_valid(raise_exception=True)
 
         we_id = serializer.validated_data['workout_exercise']
         completed = serializer.validated_data['completed']
         satisfaction = serializer.validated_data.get('satisfaction')
+        fatigue = serializer.validated_data.get('fatigue')
 
-        try:
-            we = WorkoutExercise.objects.get(id=we_id, workout__pk=pk)
-        except WorkoutExercise.DoesNotExist:
+        we = WorkoutExercise.objects.filter(id=we_id, workout__pk=pk).first()
+        if not we:
             return Response({"detail": "Ejercicio no encontrado"}, status=404)
-
         if request.user != we.workout.user:
             return Response({"detail": "No tienes permisos"}, status=403)
 
@@ -456,7 +456,82 @@ class WorkoutProgressView(APIView):
             workout=we.workout,
             workout_exercise=we,
             date=today,
-            defaults={'completed': completed, 'satisfaction': satisfaction}
+            defaults={
+                'completed': completed,
+                'satisfaction': satisfaction,
+                'fatigue': fatigue
+            }
         )
         out = WorkoutProgressSerializer(progress)
         return Response(out.data, status=200)
+
+# para ver las stats de los clientes
+
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.db.models import Avg, Count, Q
+from .models import WorkoutProgress, Workout
+
+class ClienteStatsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, client_id):
+        # Verifica que el entrenador sólo vea sus propios clientes
+        if request.user.role == 'entrenador':
+            workouts = Workout.objects.filter(user__id=client_id, trainer=request.user)
+        elif request.user.role == 'cliente' and request.user.id == client_id:
+            workouts = Workout.objects.filter(user=request.user)
+        else:
+            return Response({"detail": "No tienes permisos"}, status=403)
+
+        # Progreso total
+        total_exercises = WorkoutProgress.objects.filter(
+            workout__in=workouts
+        ).values('date').distinct().count()
+
+        completed_exercises = WorkoutProgress.objects.filter(
+            workout__in=workouts,
+            completed=True
+        ).count()
+
+        asistencia = (completed_exercises / total_exercises * 100) if total_exercises else 0
+
+        # Promedios
+        agg = WorkoutProgress.objects.filter(workout__in=workouts).aggregate(
+            avg_satisfaction=Avg('satisfaction'),
+            avg_fatigue=Avg('fatigue')
+        )
+
+        return Response({
+            "asistencia_percent": round(asistencia, 2),
+            "avg_satisfaction": agg['avg_satisfaction'] or 0,
+            "avg_fatigue": agg['avg_fatigue'] or 0,
+        })
+
+# stats globales entrenador
+
+class EntrenadorStatsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        if request.user.role != 'entrenador':
+            return Response({"detail": "No tienes permisos"}, status=403)
+
+        workouts = Workout.objects.filter(trainer=request.user)
+        # Mismos cálculos que antes pero para todos sus clientes
+        total_exercises = WorkoutProgress.objects.filter(workout__in=workouts).values('date','workout').distinct().count()
+        completed_exercises = WorkoutProgress.objects.filter(workout__in=workouts, completed=True).count()
+        asistencia = (completed_exercises / total_exercises * 100) if total_exercises else 0
+
+        agg = WorkoutProgress.objects.filter(workout__in=workouts).aggregate(
+            avg_satisfaction=Avg('satisfaction'),
+            avg_fatigue=Avg('fatigue')
+        )
+
+        return Response({
+            "clientes_activos": workouts.values('user').distinct().count(),
+            "asistencia_percent": round(asistencia, 2),
+            "avg_satisfaction": agg['avg_satisfaction'] or 0,
+            "avg_fatigue": agg['avg_fatigue'] or 0,
+        })

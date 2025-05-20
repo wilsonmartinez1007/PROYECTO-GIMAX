@@ -160,7 +160,7 @@ class WorkoutProgressSerializer(serializers.ModelSerializer):
     )
     class Meta:
         model = WorkoutProgress
-        fields = ['id', 'workout_exercise', 'date', 'completed', 'satisfaction']
+        fields = ['id', 'workout_exercise', 'date', 'completed', 'satisfaction', 'fatigue']
         read_only_fields = ['id', 'date']
 
 class WorkoutProgressInputSerializer(serializers.Serializer):
@@ -170,4 +170,10 @@ class WorkoutProgressInputSerializer(serializers.Serializer):
         min_value=1, max_value=10,
         required=False, allow_null=True
     )
+
+    fatigue = serializers.IntegerField(
+        min_value=1, max_value=5,
+        required=False, allow_null=True
+    )
+
 

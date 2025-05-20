@@ -96,6 +96,12 @@ class WorkoutProgress(models.Model):
         help_text='Calificación de 1 a 10 de cómo se sintió la rutina'
     )
 
+    fatigue = models.PositiveSmallIntegerField(
+        null=True, blank=True,
+        help_text='Nivel de fatiga/dolor percibido de 1 (muy bajo) a 5 (muy alto)'
+    )
+
+
     class Meta:
         unique_together = ('user', 'workout_exercise', 'date')
         ordering = ['-date']
