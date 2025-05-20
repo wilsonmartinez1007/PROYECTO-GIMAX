@@ -59,7 +59,7 @@ class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutExercise
-        fields = ['exercise', 'sets', 'reps', 'rest_time', 'day']
+        fields = ['id', 'exercise', 'sets', 'reps', 'rest_time', 'day']
 
 class WorkoutDetailSerializer(serializers.ModelSerializer):
     exercises = serializers.SerializerMethodField()
@@ -88,7 +88,7 @@ class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WorkoutExercise
-        fields = ['exercise', 'sets', 'reps', 'rest_time', 'day']
+        fields = ['id','exercise', 'sets', 'reps', 'rest_time', 'day']
 
     def get_exercise(self, obj):
         # Devuelve nombre, descripción, muscle_group, video_url…
@@ -148,4 +148,26 @@ class WorkoutDetailWriteSerializer(serializers.ModelSerializer):
                 day=ex['day']
             )
         return instance
+
+#para progreso de usuario
+
+from rest_framework import serializers
+from .models import WorkoutProgress, WorkoutExercise
+
+class WorkoutProgressSerializer(serializers.ModelSerializer):
+    workout_exercise = serializers.PrimaryKeyRelatedField(
+        queryset=WorkoutExercise.objects.all()
+    )
+    class Meta:
+        model = WorkoutProgress
+        fields = ['id', 'workout_exercise', 'date', 'completed', 'satisfaction']
+        read_only_fields = ['id', 'date']
+
+class WorkoutProgressInputSerializer(serializers.Serializer):
+    workout_exercise = serializers.IntegerField()
+    completed = serializers.BooleanField()
+    satisfaction = serializers.IntegerField(
+        min_value=1, max_value=10,
+        required=False, allow_null=True
+    )
 

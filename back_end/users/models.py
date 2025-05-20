@@ -65,3 +65,43 @@ class WorkoutExercise(models.Model):
 )
 
 
+#para el progreso usuario
+
+from django.utils import timezone
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth import get_user_model
+
+User = get_user_model()
+
+class WorkoutProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='progress_entries')
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE, related_name='progress_entries')
+    workout_exercise = models.ForeignKey(
+        'WorkoutExercise',
+        on_delete=models.CASCADE,
+        related_name='progress_entries'
+    )
+    date = models.DateField(
+        default=timezone.now,
+        help_text='Fecha en que se registró el progreso'
+    )
+    completed = models.BooleanField(
+        default=False,
+        help_text='Si el ejercicio fue completado o no'
+    )
+    satisfaction = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text='Calificación de 1 a 10 de cómo se sintió la rutina'
+    )
+
+    class Meta:
+        unique_together = ('user', 'workout_exercise', 'date')
+        ordering = ['-date']
+
+    def __str__(self):
+        status = '✔️' if self.completed else '❌'
+        sat = f', sat={self.satisfaction}' if self.satisfaction is not None else ''
+        return f'{self.user.username} – {self.workout_exercise.id} – {status}{sat} on {self.date}'
+

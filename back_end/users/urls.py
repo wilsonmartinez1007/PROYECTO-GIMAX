@@ -1,9 +1,10 @@
 from django.urls import path
-from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView, WorkoutDetailView, CreateExerciseView
+from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView, WorkoutDetailView, CreateExerciseView, WorkoutProgressView
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
 from .views import buscar_usuario_por_cedula
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
 from .views import buscar_usuario_por_cedula, codigo_generado
+
 
 urlpatterns = [
     path('register/', register, name='register'),
@@ -19,7 +20,10 @@ urlpatterns = [
     path('codigo/', codigo_generado, name = 'codigo'),
     path('rutinas/<int:pk>/', WorkoutDetailView.as_view(), name='detalle-rutina'),
     path('exercises/create/', CreateExerciseView.as_view(), name='create-exercise'),
-    path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),
+    #path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),
+    path('rutinas/<int:pk>/progress/',
+     WorkoutProgressView.as_view(),
+     name='workout-progress'),
 
 
 ]

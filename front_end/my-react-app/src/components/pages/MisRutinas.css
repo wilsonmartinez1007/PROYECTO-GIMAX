@@ -1,3 +1,182 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", sans-serif;
+  background-color: #f4f6f8;
+}
+
+.rutinas-header {
+  position: relative;
+  left: calc(-50vw + 50%);
+  width: 100vw;
+  background-color: #d32f2f;
+  color: #fff;
+  padding: 20px 40px;
+  text-align: left;
+  font-size: 1.75rem;
+  border-bottom: 4px solid #b71c1c;
+}
+
+
+.rutinas-wrapper {
+  width: 100vw;
+  min-height: 100vh;
+  padding: 40px 60px;
+  box-sizing: border-box;
+  overflow-y: auto;
+}
+
+.rutinas-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+  gap: 30px;
+  margin-top: 20px;
+}
+
+.rutina-card {
+  background-color: #fff;
+  border-radius: 16px;
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.rutina-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.15);
+}
+
+.rutina-title {
+  margin: 0 0 10px;
+  color: #333;
+  font-size: 1.5rem;
+}
+
+.descripcion {
+  font-size: 0.95rem;
+  color: #555;
+  margin-bottom: 20px;
+  flex-shrink: 0;
+}
+
+.ejercicios {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex-grow: 1;
+}
+
+.ejercicio {
+  background-color: #fafafa;
+  padding: 18px;
+  border-radius: 12px;
+  border-left: 4px solid #d32f2f;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+}
+
+.exercise-header h3 {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #d32f2f;
+}
+
+.exercise-header input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+}
+
+.ejercicio p {
+  margin: 4px 0;
+  font-size: 0.875rem;
+  color: #444;
+}
+
+.rutina-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.rutina-actions button {
+  background-color: #d32f2f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 0.95rem;
+  transition: background-color 0.2s ease;
+}
+
+.rutina-actions button:hover {
+  background-color: #b71c1c;
+}
+
+.progress-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+progress {
+  width: 100%;
+  height: 12px;
+  appearance: none;
+  border-radius: 6px;
+  background-color: #eceff1;
+  overflow: hidden;
+  margin-right: 12px;
+}
+
+progress::-webkit-progress-bar {
+  background-color: #eceff1;
+}
+
+progress::-webkit-progress-value {
+  background-color: #d32f2f;
+}
+
+progress::-moz-progress-bar {
+  background-color: #d32f2f;
+}
+
+.satisfaction-container {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+  gap: 12px;
+}
+
+.satisfaction-container label {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.satisfaction-container input[type="range"] {
+  flex-grow: 1;
+  cursor: pointer;
+}
+
+.emoji {
+  font-size: 1.5rem;
+  width: 32px;
+  text-align: center;
+}
+
+.mensaje-no-rutinas {
+  font-size: 1.1rem;
+  color: #777;
+  grid-column: 1 / -1;
+  text-align: center;
+}
+
+
+
+/*
 
 body {
     margin: 0;
@@ -56,7 +235,7 @@ body {
     margin-bottom: 15px;
   }
   
-  /* Lista de ejercicios */
+ 
   .ejercicios {
     display: flex;
     flex-direction: column;
@@ -87,5 +266,5 @@ body {
     color: #999;
     grid-column: 1 / -1;
     text-align: center;
-  }
-  
+  } 
+ */

@@ -399,3 +399,64 @@ class CreateExerciseView(CreateAPIView):
     serializer_class = ExerciseSerializer
     permission_classes = [IsAuthenticated]
 
+
+#para progreso usuario
+
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from django.utils import timezone
+from .models import Workout, WorkoutExercise, WorkoutProgress
+from .serializers import WorkoutProgressSerializer, WorkoutProgressInputSerializer
+
+class WorkoutProgressView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        workout = Workout.objects.get(pk=pk)
+        if not (request.user == workout.user or request.user == workout.trainer):
+            return Response({"detail": "No tienes permisos"}, status=403)
+
+        today = timezone.now().date()
+        exercises = WorkoutExercise.objects.filter(workout=workout)
+        progress_qs = WorkoutProgress.objects.filter(
+            user=request.user,
+            workout=workout,
+            date=today
+        )
+        data = []
+        for we in exercises:
+            entry = progress_qs.filter(workout_exercise=we).first()
+            data.append({
+                'workout_exercise': we.id,
+                'completed': entry.completed if entry else False,
+                'satisfaction': entry.satisfaction if entry else None
+            })
+        return Response(data)
+
+    def post(self, request, pk):
+        serializer = WorkoutProgressInputSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        we_id = serializer.validated_data['workout_exercise']
+        completed = serializer.validated_data['completed']
+        satisfaction = serializer.validated_data.get('satisfaction')
+
+        try:
+            we = WorkoutExercise.objects.get(id=we_id, workout__pk=pk)
+        except WorkoutExercise.DoesNotExist:
+            return Response({"detail": "Ejercicio no encontrado"}, status=404)
+
+        if request.user != we.workout.user:
+            return Response({"detail": "No tienes permisos"}, status=403)
+
+        today = timezone.now().date()
+        progress, _ = WorkoutProgress.objects.update_or_create(
+            user=request.user,
+            workout=we.workout,
+            workout_exercise=we,
+            date=today,
+            defaults={'completed': completed, 'satisfaction': satisfaction}
+        )
+        out = WorkoutProgressSerializer(progress)
+        return Response(out.data, status=200)
