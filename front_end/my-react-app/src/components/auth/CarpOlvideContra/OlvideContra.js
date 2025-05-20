@@ -4,7 +4,6 @@ import { data } from "react-router-dom";
 
 function OlvideContraseña() {
   const [email, setEmail] = useState("");
-  const [codigo, setCodigo] = useState("");
   
   const handleBuscar = async (cedula) => {
     const response = await fetch("http://127.0.0.1:8000/api/buscar-usuario/", {
@@ -25,18 +24,17 @@ function OlvideContraseña() {
     }
   };
   const handleCodigo = async () => {
-    const response = await fetch("http://127.0.0.1:8000/api/codigo/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({}), // cuerpo vacío
-    });
+  const response = await fetch("http://127.0.0.1:8000/api/codigo/", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({}),
+  });
 
-    const data = await response.json();
-    console.log("Código generado:", data.codigo);
-    alert(`Cdodigo: ${data.codigo}`)
-    setCodigo(data.codigo)
+  const data = await response.json();
+  console.log("Código generado:", data.codigo);
+  return data.codigo;      // importante: retornar el código
   };
-  return <OlvideContraBox onBuscar={handleBuscar} email={email} onCodigo = {handleCodigo} codigo ={codigo}/>;
+  return <OlvideContraBox onBuscar={handleBuscar} email={email} onCodigo = {handleCodigo}/>;
 }
 
 export default OlvideContraseña;

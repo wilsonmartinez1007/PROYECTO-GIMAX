@@ -270,13 +270,13 @@ import random
 import string
 
 def generar_codigo(longitud):
-    caracteres = string.ascii_letters + string.digits + "!@#$%^&*()_+"
+    caracteres = string.ascii_letters + string.digits
     codigo = ''.join(random.choice(caracteres) for _ in range(longitud))
     return codigo
 
 # Ejemplo de uso:
-longitud_condigo = 5
-nueva_codigo = generar_codigo(longitud_condigo)
+longitud_codigo = 5
+nueva_codigo = generar_codigo(longitud_codigo)
 @api_view(['POST'])
 def codigo_generado(request):
     return Response({"codigo": nueva_codigo}, status=status.HTTP_200_OK)
