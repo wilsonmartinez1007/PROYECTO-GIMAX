@@ -1,3 +1,5 @@
+/* ClientesDeEntrenador.css */
+
 .clientes-container {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f9f9f9;
@@ -51,5 +53,48 @@
     text-align: center;
     font-size: 1.2rem;
     color: #666;
+  }
+  
+  /* ===== Modificaciones para el menú de tres puntos ===== */
+  
+  .menu-button {
+    background: transparent;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+  }
+  
+  .cliente-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 24px;
+    right: 0;
+    background: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border-radius: 4px;
+    list-style: none;
+    padding: 0.5rem 0;
+    z-index: 10;
+  }
+  
+  .dropdown-menu li {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  
+  .dropdown-menu li:hover {
+    background: #f0f0f0;
+  }
+  
+  .dropdown-menu li.disabled {
+    color: #aaa;
+    cursor: default;
   }
   

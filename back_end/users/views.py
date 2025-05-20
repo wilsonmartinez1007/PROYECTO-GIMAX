@@ -281,6 +281,7 @@ nueva_codigo = generar_codigo(longitud_condigo)
 def codigo_generado(request):
     return Response({"codigo": nueva_codigo}, status=status.HTTP_200_OK)
 
+
 def enviar_correo_codigo(usuario_email):
         send_mail(
             subject='¡Recuperacion de contraseña!',
@@ -296,4 +297,105 @@ def enviar_correo_codigo(usuario_email):
                     recipient_list=[usuario_email],
                     fail_silently=False,
                 )
+
+
+
+#editar y guardar 
+# views.py
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.generics import RetrieveUpdateAPIView
+
+class WorkoutDetailView(RetrieveUpdateAPIView):
+    # ... tu configuración actual
+    queryset = Workout.objects.all()
+    serializer_class = WorkoutDetailSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        obj = super().get_object()
+        user = self.request.user
+        if not (obj.trainer == user or obj.user == user):
+            self.permission_denied(self.request, message="No tienes permisos")
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        # uso del serializer para validar y guardar
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        # en vez de return Response(serializer.data):
+        return Response({"detail": "Rutina actualizada correctamente"}, status=status.HTTP_200_OK)
+
+
+from rest_framework.generics import RetrieveUpdateAPIView
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Workout
+from .serializers import (
+    WorkoutDetailReadSerializer,
+    WorkoutDetailWriteSerializer,
+    # … otros serializers que ya tengas
+)
+
+# Vista de MisRutinas (GET)
+class MisRutinasView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user = request.user
+        if user.role == 'cliente':
+            rutinas = Workout.objects.filter(user=user)
+        elif user.role == 'entrenador':
+            rutinas = Workout.objects.filter(trainer=user)
+        else:
+            rutinas = Workout.objects.none()
+
+        serializer = WorkoutDetailReadSerializer(rutinas, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+# Vista de detalle/actualización (GET+PUT)
+class WorkoutDetailView(RetrieveUpdateAPIView):
+    permission_classes = [IsAuthenticated]
+    queryset = Workout.objects.all()
+
+    def get_serializer_class(self):
+        # GET usa lectura, PUT usa escritura
+        if self.request.method in ('PUT', 'PATCH'):
+            return WorkoutDetailWriteSerializer
+        return WorkoutDetailReadSerializer
+
+    def get_object(self):
+        obj = super().get_object()
+        user = self.request.user
+        if not (obj.trainer == user or obj.user == user):
+            self.permission_denied(self.request, message="No tienes permisos")
+        return obj
+
+    def update(self, request, *args, **kwargs):
+        # Llamamos a la lógica normal de validación/guardado
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response({"detail": "Rutina actualizada correctamente"}, status=status.HTTP_200_OK)
+
+
+#crear video 
+# views.py
+from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import IsAuthenticated
+from .models import Exercise
+from .serializers import ExerciseSerializer
+
+class CreateExerciseView(CreateAPIView):
+    queryset = Exercise.objects.all()
+    serializer_class = ExerciseSerializer
+    permission_classes = [IsAuthenticated]
 

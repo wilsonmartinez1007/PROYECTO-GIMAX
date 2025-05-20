@@ -10,7 +10,8 @@ import MisRutinas from "./components/pages/MisRutinas";
 import ClientesDeEntrenador from "./components/pages/ClientesDeEntrenador";
 import HomeDiagnostico from "./components/pages/HomeDiagnostico";
 import HomeOlvidecontra from "./components/pages/HomeOlvideContra";
-import HomeMenuCliente from "./components/pages/HomeMenuCliente"
+import HomeMenuCliente from "./components/pages/HomeMenuCliente";
+import CreateExercise from "./components/pages/CreateExercise";
 
 
 
@@ -34,6 +35,12 @@ function App() {
         <Route path="/Diagnostico" element={<HomeDiagnostico/>}/>
         <Route path="/RecuperarContraseña" element={<HomeOlvidecontra/>}/>
         <Route path="/MenuCliente" element={<HomeMenuCliente/>}/>
+        <Route path="/ejercicios/crear" element={<CreateExercise token={token} />} />
+        <Route path="/PerEntrenador" element={<HomePerEntrenador token={token} />} />
+import HomeDiagnostico from "./components/pages/HomeDiagnostico";
+import HomeOlvidecontra from "./components/pages/HomeOlvideContra";
+import HomeMenuCliente from "./components/pages/HomeMenuCliente"
+
       </Routes>
     </Router>
   );

@@ -1,24 +1,42 @@
-import React, { useState, useEffect } from "react";
+// ClientesDeEntrenador.jsx
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ClientesDeEntrenador.css";
+import RutinasModal from "./RutinasModal";
 
 const ClientesDeEntrenador = ({ token }) => {
   const [clientes, setClientes] = useState([]);
+  const [openMenuId, setOpenMenuId] = useState(null);
+  const [selectedClient, setSelectedClient] = useState(null);
+  const menuRef = useRef();
 
   useEffect(() => {
     axios
       .get("http://localhost:8000/api/entrenador/clientes/", {
-        headers: {
-          Authorization: `Token ${token}`,
-        },
+        headers: { Authorization: `Token ${token}` },
       })
-      .then((response) => {
-        setClientes(response.data);
-      })
-      .catch((error) => {
-        console.error("Error al obtener los clientes", error);
-      });
+      .then((response) => setClientes(response.data))
+      .catch((error) => console.error("Error al obtener los clientes", error));
   }, [token]);
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpenMenuId(null);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleMenuToggle = (id) => {
+    setOpenMenuId(openMenuId === id ? null : id);
+  };
+
+  const handleRutinas = (cliente) => {
+    setSelectedClient(cliente);
+    setOpenMenuId(null);
+  };
 
   return (
     <div className="clientes-container">
@@ -29,7 +47,22 @@ const ClientesDeEntrenador = ({ token }) => {
         {clientes.length > 0 ? (
           clientes.map((cliente) => (
             <div className="cliente-card" key={cliente.cliente_id}>
-              <h2>{cliente.cliente_nombre}</h2>
+              <div className="cliente-header">
+                <h2>{cliente.cliente_nombre}</h2>
+                <button
+                  className="menu-button"
+                  onClick={() => handleMenuToggle(cliente.cliente_id)}
+                >
+                  &#x22EE;
+                </button>
+                {openMenuId === cliente.cliente_id && (
+                  <ul className="dropdown-menu" ref={menuRef}>
+                    <li className="disabled">Diagnóstico</li>
+                    <li className="disabled">Información personal</li>
+                    <li onClick={() => handleRutinas(cliente)}>Rutinas</li>
+                  </ul>
+                )}
+              </div>
               <p><strong>Rutina:</strong> {cliente.nombre_rutina}</p>
               <p><strong>Descripción:</strong> {cliente.descripcion_rutina}</p>
             </div>
@@ -38,6 +71,14 @@ const ClientesDeEntrenador = ({ token }) => {
           <p className="no-clientes">No tienes clientes asignados.</p>
         )}
       </div>
+
+      {selectedClient && (
+        <RutinasModal
+          token={token}
+          cliente={selectedClient}
+          onClose={() => setSelectedClient(null)}
+        />
+      )}
     </div>
   );
 };

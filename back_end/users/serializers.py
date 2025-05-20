@@ -74,3 +74,78 @@ class WorkoutDetailSerializer(serializers.ModelSerializer):
         return WorkoutExerciseDetailSerializer(we, many=True).data
 
 # aqui termina
+
+
+#editar y act rutinas
+from rest_framework import serializers
+from .models import Workout, WorkoutExercise
+from django.contrib.auth import get_user_model
+User = get_user_model()
+
+# --- Serializer viejo, solo para lectura ---
+class WorkoutExerciseDetailSerializer(serializers.ModelSerializer):
+    exercise = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WorkoutExercise
+        fields = ['exercise', 'sets', 'reps', 'rest_time', 'day']
+
+    def get_exercise(self, obj):
+        # Devuelve nombre, descripción, muscle_group, video_url…
+        return {
+            'id': obj.exercise.id,
+            'name': obj.exercise.name,
+            'description': obj.exercise.description,
+            'muscle_group': obj.exercise.muscle_group,
+            'video_url': obj.exercise.video_url,
+        }
+
+class WorkoutDetailReadSerializer(serializers.ModelSerializer):
+    exercises = WorkoutExerciseDetailSerializer(many=True, source='workoutexercise_set')
+    trainer = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Workout
+        fields = ['id', 'name', 'description', 'created_at', 'trainer', 'exercises']
+
+    def get_trainer(self, obj):
+        return {
+            'id': obj.trainer.id,
+            'first_name': obj.trainer.first_name,
+            'last_name': obj.trainer.last_name,
+        }
+
+
+# --- Nuevo serializer solo para actualización (PUT) ---
+class WorkoutExerciseInputSerializer(serializers.Serializer):
+    id = serializers.IntegerField()
+    sets = serializers.IntegerField()
+    reps = serializers.IntegerField()
+    rest_time = serializers.IntegerField()
+    day = serializers.CharField()
+
+class WorkoutDetailWriteSerializer(serializers.ModelSerializer):
+    exercises = WorkoutExerciseInputSerializer(many=True)
+
+    class Meta:
+        model = Workout
+        fields = ['name', 'description', 'exercises']
+
+    def update(self, instance, validated_data):
+        instance.name = validated_data.get('name', instance.name)
+        instance.description = validated_data.get('description', instance.description)
+        instance.save()
+
+        # reemplazamos ejercicios
+        WorkoutExercise.objects.filter(workout=instance).delete()
+        for ex in validated_data['exercises']:
+            WorkoutExercise.objects.create(
+                workout=instance,
+                exercise_id=ex['id'],
+                sets=ex['sets'],
+                reps=ex['reps'],
+                rest_time=ex['rest_time'],
+                day=ex['day']
+            )
+        return instance
+
