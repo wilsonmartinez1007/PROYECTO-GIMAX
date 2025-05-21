@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
-from .views import buscar_usuario_por_cedula, codigo_generado
+from .views import buscar_usuario_por_cedula, codigo_generado, cambiar_contraseña
 urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login, name='login'),
@@ -13,5 +13,6 @@ urlpatterns = [
     path('entrenador/clientes/', VerClientesDeEntrenadorView.as_view(), name='ver-clientes-entrenador'),
     path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),#esto
     path('codigo/', codigo_generado, name = 'codigo'),
+    path('cambiar-contraseña/', cambiar_contraseña, name='cambiar-contraseña'),
 
 ]

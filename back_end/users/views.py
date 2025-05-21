@@ -297,3 +297,20 @@ def enviar_correo_codigo(usuario_email):
                     fail_silently=False,
                 )
 
+#cambiar contra
+
+@api_view(['POST'])
+def cambiar_contraseña(request):
+    cedula = request.data.get('cedula')
+    nueva_contraseña = request.data.get('nueva_contraseña')
+
+    if not cedula or not nueva_contraseña:
+        return Response({"error": "Faltan datos"}, status=400)
+
+    try:
+        usuario = User.objects.get(cedula=cedula)  # o User si estás usando el modelo estándar
+        usuario.set_password(nueva_contraseña)
+        usuario.save()
+        return Response({"mensaje": "Contraseña actualizada correctamente"})
+    except User.DoesNotExist:
+        return Response({"error": "Usuario no encontrado"}, status=404)
