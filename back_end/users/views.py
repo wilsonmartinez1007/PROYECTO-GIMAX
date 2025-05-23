@@ -314,3 +314,16 @@ def cambiar_contraseña(request):
         return Response({"mensaje": "Contraseña actualizada correctamente"})
     except User.DoesNotExist:
         return Response({"error": "Usuario no encontrado"}, status=404)
+
+
+
+from .serializers import DiagnosticoSerializer
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def registrar_diagnostico(request):
+    serializer = DiagnosticoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response({"mensaje": "Diagnóstico guardado correctamente"}, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

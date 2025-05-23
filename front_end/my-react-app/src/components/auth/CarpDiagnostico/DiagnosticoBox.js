@@ -17,27 +17,30 @@ function DiagnosticoBox({}) {
             className="mi-input"
              style ={{marginBottom: "10px", color: "black", padding: "8px",border: "none",outline: "none",background: "transparent",fontSize: "20px",fontFamily: 'Lilita One',fontWeight: "bold"    }}
              placeholder="Datos Personales" />
-            <input
-             style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
-             placeholder="Nombres" />
-            <input
-             style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
-             placeholder="Apellidos" />
-            <input 
-             style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
-             placeholder="Edad" />
-             <input 
-             style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
-             placeholder="Peso" />
-             <input 
-             style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
-             placeholder="Altura" />
+            <select style={inputStyle}>
+                <option value="">Edad</option>
+                {[...Array(61)].map((_, i) => (
+                    <option key={i + 10} value={i + 10}>{i + 10}</option>
+                ))}
+            </select>
+            <select style={inputStyle}>
+                <option value="">Peso</option>
+                {[...Array(91)].map((_, i) => (
+                    <option key={i + 30} value={i + 30}>{i + 30}</option>
+                ))}
+            </select>
+            <select style={inputStyle}>
+                <option value="">Altura</option>
+                {Array.from({ length: 71 }, (_, i) => (1.40 + i * 0.01).toFixed(2)).map((altura) => (
+                    <option key={altura} value={altura}>{altura} m</option>
+                ))}
+            </select>
              <input 
              style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
              placeholder="Sexo" />
              <input 
              style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
-             placeholder="IMC" />
+             placeholder="Índice de Masa Corporal(IMC)" />
              <input 
              style ={{width: "250px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
              placeholder="Porcentaje grasa corporal" />
@@ -126,5 +129,14 @@ function DiagnosticoBox({}) {
     
     );
   }
+const inputStyle = {
+    width: "270px",
+    marginBottom: "10px",
+    padding: "8px",
+    borderRadius: 20,
+    background: "white",
+    border: "none",
+    outline: "none"
 
+};
 export default DiagnosticoBox;
