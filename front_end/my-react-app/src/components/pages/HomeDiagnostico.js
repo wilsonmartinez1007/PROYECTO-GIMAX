@@ -50,7 +50,7 @@ const HomeDiagnostico = ({}) => {
                            }}>
             <Diagnostico/>
           </div>
-          <button style={{position: "absolute",zIndex: 1,marginTop: 255,border: "none",background: "none",
+          <button style={{position: "absolute",zIndex: 1,marginTop: 243,border: "none",background: "none",
                                marginLeft: 349, }} 
           onClick ={infoIMC}
           >
