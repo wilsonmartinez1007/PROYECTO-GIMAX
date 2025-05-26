@@ -50,7 +50,7 @@ const HomeDiagnostico = ({}) => {
                            }}>
             <Diagnostico/>
           </div>
-          <button style={{position: "absolute",zIndex: 1,marginTop: 243,border: "none",background: "none",
+          <button style={{position: "absolute",zIndex: 1,marginTop: 443,border: "none",background: "none",
                                marginLeft: 349, }} 
           onClick ={infoIMC}
           >
@@ -59,7 +59,7 @@ const HomeDiagnostico = ({}) => {
        </button>
   
           <button
-          type="submit" style={{position: "absolute",zIndex: 1,marginTop: 490, marginLeft: 550,marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "2px solid black",outline: "none", width: "125px" }}>
+          type="submit" style={{position: "absolute",zIndex: 1,marginTop: 640, marginLeft: 550,marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "none",outline: "none", width: "125px" }}>
          guardar
        </button>
           

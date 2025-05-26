@@ -25,10 +25,8 @@ function RegisterBox({ onRegister }) {
     alert("Por favor selecciona un tipo de usuario válido.");
     return;
   }
-
-
-    onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
-  };
+  onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
+    };
 
   return (
     <div
