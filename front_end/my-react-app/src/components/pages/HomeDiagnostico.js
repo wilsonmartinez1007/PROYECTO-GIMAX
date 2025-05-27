@@ -57,12 +57,6 @@ const HomeDiagnostico = ({}) => {
           <img style={{width: 20,height: 20, }} 
                                src={info}/>
        </button>
-  
-          <button
-          type="submit" style={{position: "absolute",zIndex: 1,marginTop: 640, marginLeft: 550,marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "none",outline: "none", width: "125px" }}>
-         guardar
-       </button>
-          
           <div className="top-bar2"></div>
         </div>
         

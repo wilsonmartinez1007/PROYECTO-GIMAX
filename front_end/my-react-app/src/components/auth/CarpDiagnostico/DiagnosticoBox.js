@@ -211,6 +211,10 @@ function DiagnosticoBox({onDiagnostico}) {
                         <option value="endomorfo">Endomorfo</option>
                     </select>
             </div>
+            <button
+          type="submit" style={{position: "absolute",zIndex: 1,marginTop: 640, marginLeft: -50,marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "none",outline: "none", width: "125px" }}>
+         guardar
+       </button>
             </form>
           </div>
     

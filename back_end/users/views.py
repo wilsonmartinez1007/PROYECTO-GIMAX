@@ -324,6 +324,6 @@ from .serializers import DiagnosticoSerializer
 def registrar_diagnostico(request):
     serializer = DiagnosticoSerializer(data=request.data)
     if serializer.is_valid():
-        serializer.save()
-        return Response({"mensaje": "Diagnóstico guardado correctamente"}, status=status.HTTP_201_CREATED)
+        serializer.save(user=request.user)  # <--- Aquí estás asignando el usuario
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
