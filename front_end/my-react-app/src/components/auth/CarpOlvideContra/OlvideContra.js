@@ -1,6 +1,5 @@
 import {React, useState} from "react";
 import OlvideContraBox from "./OlvideContraBox";
-import { data } from "react-router-dom";
 
 function OlvideContraseña() {
   const [email, setEmail] = useState("");

@@ -19,9 +19,13 @@ function Login({ setToken }) {
       localStorage.setItem("token", data.token);
       setToken(data.token);
       console.log("Token guardado:", data.token);
-      navigate("/Diagnostico"); 
+      navigate("/dashboard"); 
     } else {
-      alert("Error en las credenciales");
+        if (data.mensaje === "nop") {
+          navigate("/Diagnostico"); 
+        } else {
+          alert("Error en las credenciales");
+      }
     }
   };
 
