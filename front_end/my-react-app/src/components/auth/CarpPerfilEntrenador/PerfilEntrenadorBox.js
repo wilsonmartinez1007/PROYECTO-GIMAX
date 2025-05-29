@@ -1,7 +1,11 @@
 
-import React from "react";
+import React, { useState } from "react";
 
 function PerfilEntrenadorBox({ seccion }) {
+
+
+    const [redSocial, setRedSocial] = useState("");
+    const [tipoServicio, setServicio] = useState("");
     let contenido;
   
     switch (seccion) {
@@ -32,8 +36,11 @@ function PerfilEntrenadorBox({ seccion }) {
              placeholder="Correo Electronico" />
              <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Red Social" />
-          </div>
+             value = {redSocial}
+             onChange={(e) => setRedSocial(e.target.value)}
+             placeholder="Red Social"/>
+             
+          </div>//deberia en red social preguntar que red social tiene y hay si cual es el user
         );
         break;
       case "Profesional":
@@ -63,6 +70,8 @@ function PerfilEntrenadorBox({ seccion }) {
              placeholder="Gimnasios en los que ha trabajado" />
              <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
+             value = {tipoServicio}
+             onChange={(e) => setServicio(e.target.value)}             
              placeholder="Tipo de servicios ofrecidos" />
           </div>
         );

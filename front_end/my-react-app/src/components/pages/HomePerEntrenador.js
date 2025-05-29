@@ -4,22 +4,36 @@ import salir from "../../assets/salir.svg";
 import "./Home.css"; // Estilos específicos para esta página
 import logo from "../../assets/fotoSinRostro.jpg";
 import PerfilEntrenador from "../auth/CarpPerfilEntrenador/PerfilEntrenador"
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const HomePerEntrenador = ({}) => {
   const navigate = useNavigate();
   const [seccionActiva, setSeccionActiva] = useState("Personal");
-
+  const inputRef = useRef(null);
+  const [subirImagen, setSubirImagen] = useState(logo);
+  
   const goToInicio = () => {
     navigate("/dashboard");
+  };
+  const manejarClick= ()=>{
+    inputRef.current.click();
+  }
+  const elimineImagen = ()=>{
+    setSubirImagen(logo);
+  }
+  const manejarArchivo = (event)=>{
+    const archivo = event.target.files[0];
+    if(archivo){
+      const urlImagen = URL.createObjectURL(archivo);
+      setSubirImagen(urlImagen);
+    }
   };
 
   const botones = ["Personal", "Profesional", "Experiencia", "Especialidades", "Certificaciones"];
 
   
     return (
-      <div>
-  
+      <div style={{ height:"0vh"}}>
         {/* Sección derecha (30%) con barra roja arriba */}
         <div>
           {/* Barra roja ajustada */}
@@ -35,15 +49,35 @@ const HomePerEntrenador = ({}) => {
           
           </div>
           <div className="logo-container">
-                  <img src={logo} alt="Logo"
+                  <img src={subirImagen} alt="Logo"
                         style={{ width: 300,
                           height: 300,
-                          borderRadius: 20,
+                          borderRadius: 200,
                            // Centra horizontalmente dentro del contenedor
                           marginTop: 200, 
                           marginLeft: -595
                            }}/>
                   </div>
+          <button
+          onClick = {manejarClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 100, marginLeft: 310,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px" }}>
+         Agregar
+       </button>
+       <button
+          onClick = {elimineImagen}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 400, marginLeft: 310,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px"}}>
+         Eliminar 
+       </button>
+       <input
+        type="file"
+        accept="image/*"
+        ref={inputRef}
+        style={{ display: 'none' }}
+        onChange={manejarArchivo}
+      />
+
             <div style={{ position: "absolute",
                           marginTop: -130, 
                           marginLeft: 100,
