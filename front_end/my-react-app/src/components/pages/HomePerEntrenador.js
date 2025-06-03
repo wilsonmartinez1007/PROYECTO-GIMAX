@@ -33,7 +33,7 @@ const HomePerEntrenador = ({}) => {
 
   
     return (
-      <div style={{ height:"0vh"}}>
+      <div style={{ height:"0vh",}}>
         {/* Sección derecha (30%) con barra roja arriba */}
         <div>
           {/* Barra roja ajustada */}
@@ -48,26 +48,39 @@ const HomePerEntrenador = ({}) => {
                   
           
           </div>
-          <div className="logo-container">
-                  <img src={subirImagen} alt="Logo"
-                        style={{ width: 300,
-                          height: 300,
-                          borderRadius: 200,
-                           // Centra horizontalmente dentro del contenedor
-                          marginTop: 200, 
-                          marginLeft: -595
-                           }}/>
-                  </div>
+          <div  
+              style={{ 
+                
+                height:"260px" ,  
+                width: "400px",
+                padding: "20px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                marginTop: 200, 
+                marginLeft: -445,
+                zIndex:-1
+                }}  
+              className="logo-container">
+              <img src={subirImagen} alt="Logo"
+                    style={{  width: 350,
+                              height: 300,
+                              borderRadius: 200,
+                                // Centra horizontalmente dentro del contenedor
+                              marginTop:-20, 
+                              marginLeft: -15,
+                              zIndex : 0,
+                        }}/>
+              </div>
           <button
           onClick = {manejarClick}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 100, marginLeft: 310,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px" }}>
+          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 110, marginLeft: 410,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px" }}>
          Agregar
        </button>
        <button
           onClick = {elimineImagen}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 400, marginLeft: 310,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px"}}>
+          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 370, marginLeft: 410,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px"}}>
          Eliminar 
        </button>
        <input
@@ -122,7 +135,7 @@ const HomePerEntrenador = ({}) => {
             </button>
             <button onClick={() => setSeccionActiva("Certificaciones")} 
                     type="submit" 
-                    style={{marginRight: "100px",color: seccionActiva === "Ceertificados" ? "gray" : "black", padding: "5px", border: "none",outline: "none",background: "transparent", textAlign: "center" }}>
+                    style={{marginRight: "100px",color: seccionActiva === "Certificaciones" ? "gray" : "black", padding: "5px", border: "none",outline: "none",background: "transparent", textAlign: "center" }}>
             Certificaciones
             </button>
             

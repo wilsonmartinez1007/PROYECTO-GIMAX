@@ -296,7 +296,7 @@ def enviar_correo_codigo(usuario_email):
         send_mail(
             subject='¡Recuperacion de contraseña!',
             message = f'''
-        Hola Wilson,
+        Hola,
 
         ¡Tu codigo para tu nueva contrseña ha sido generado!
 

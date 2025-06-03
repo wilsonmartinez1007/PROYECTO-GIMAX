@@ -8,31 +8,17 @@ function PerfilEntrenadorBox({ seccion }) {
 
     const [titulosProfesional, setTitulosProfesionales] = useState("");
     const [universidad, setUniversidad] = useState("");
-    const [añosExperiencia, setAñosExpe] = useState("");
     const [gymTrabajado, setGymTrabajado] = useState("");
-    const [tipoServicio, setServicio] = useState("");
 
     const [añoInicio, setAñoInicio]= useState("");
     const [cargosAnteriores, setCargosAnteriores]= useState("");
     const [ambitosExpe, setAmbitosExpe]= useState("");
     const [clientesDesta, setClientesDesta]= useState("");
-    const [especialidades, setEspecialidades] = useState([]);/*<input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Entrenamiento funcional" />
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Musculacion/ Hipertrofia" />
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Perdida de grasa" />
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Preparacion fisica para deportes" />
-    const [entrenamientoFuncional, setEntreFunci]= useState("");
-    const [Mus, setCargosAnteriores]= useState("");
-    const [ambitosExpe, setAmbitosExpe]= useState("");
-    const [clientesDesta, setClientesDesta]= useState("");*/
-
+    const [especialidades, setEspecialidades] = useState([]);
+    
+    
+    
+    const [certificaciones, setCertificaciones] = useState([]);
 
     let contenido;
   
@@ -84,11 +70,14 @@ function PerfilEntrenadorBox({ seccion }) {
                 boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
                 marginTop: -20, 
                 }}>
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value = {titulosProfesional}
-             onChange ={(e) => setTitulosProfesionales(e.target.value)}
-             placeholder="Titulos Profesionales" />
+            <select
+              style={{ marginBottom: "10px", padding: "8px", border: "2px solid white",background: "transparent", outline: "none", width: "290px"}}
+              value={titulosProfesional}
+              onChange={(e) => setTitulosProfesionales(e.target.value)}>
+              <option value="">Titulos Porfesionales</option>
+                    {[...Array(21)].map((_, i) => (
+                        <option key={i + 0} value={i + 0}>{i + 0}</option>
+                    ))}</select> 
             <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
              value = {universidad}
@@ -96,19 +85,10 @@ function PerfilEntrenadorBox({ seccion }) {
              placeholder="Universidad o Institucion" />
              <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value = {añosExperiencia}
-             onChange = {(e)=>setAñosExpe(e.target.value)}
-             placeholder="Años Experiencia Laboral" />
-             <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
              value ={gymTrabajado}
              onChange ={(e)=>setGymTrabajado(e.target.value)}
              placeholder="Gimnasios en los que ha trabajado" />
-             <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value = {tipoServicio}
-             onChange={(e) => setServicio(e.target.value)}             
-             placeholder="Tipo de servicios ofrecidos" />
+             
           </div>
         );
         break;
@@ -175,6 +155,7 @@ function PerfilEntrenadorBox({ seccion }) {
             gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
             gap: "12px",
             marginBottom: "20px",
+            height:"260px" ,  
             width: "700px",
             padding: "20px",
             backgroundColor: "white",
@@ -215,32 +196,90 @@ function PerfilEntrenadorBox({ seccion }) {
         break;
       case "Certificaciones":
         contenido = (
-            <div style={{ 
-                // Centra horizontalmente dentro del contenedor
-                display: "flex", flexDirection: "column",
-                height:"260px" ,  
-                width: "700px",
-                padding: "20px",
-                backgroundColor: "white",
-                borderRadius: "10px",
-                boxShadow: "0 0 10px rgba(0, 0, 0, 0.2)",
-                marginTop: -20, 
-                }}>
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Nombre del curso/Certificacion" />
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Institucion que la otorga" />
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Decha de obtencion" />
-            <input 
-             style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             placeholder="Duracion o nivel(si aplica)" />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              height: "260px",
+              width: "700px",
+              padding: "20px",
+              backgroundColor: "white",
+              borderRadius: "10px",
+              marginTop: -20,
+              overflow: "hidden", // No permitir scroll aquí directamente
+            }}
+          >
+            <h3 style={{ marginBottom: "10px" }}>Certificaciones en PDF</h3>
+
+            <input
+              type="file"
+              accept=".pdf"
+              multiple
+              onChange={(e) => {
+                const nuevosArchivos = Array.from(e.target.files);
+                setCertificaciones((prev) => [...prev, ...nuevosArchivos]);
+              }}
+              style={{ marginBottom: "15px", border: "none" }}
+            />
+
+            <div
+              style={{
+                overflowY: "auto",
+
+              }}
+            >
+              {certificaciones.length > 0 ? (
+                <ul style={{ listStyle: "none", padding: 0 }}>
+                  {certificaciones.map((archivo, index) => (
+                    <li
+                      key={index}
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "8px",
+                        padding: "8px",
+                        borderRadius: "5px",
+                        background: "#F7F2F2",
+                        width: "650px"
+                      }}
+                    >
+              
+                      <span style={{ maxWidth: "80%",overflowWrap: "break-word", }}>
+                        {archivo.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCertificaciones((prev) =>
+                            prev.filter((_, i) => i !== index)
+                          )
+                        }
+                        style={{
+                          backgroundColor: "#dc3545",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "5px",
+                          padding: "5px 10px",
+                          cursor: "pointer",
+                          
+                        }}
+                      >
+                        Eliminar
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p style={{ color: "#666" }}>
+                  No has agregado certificaciones aún.
+                </p>
+              )}
+            </div>
           </div>
         );
         break;
+
       default:
         contenido = null;
     }
