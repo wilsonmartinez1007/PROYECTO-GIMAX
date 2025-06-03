@@ -509,7 +509,7 @@ class ClienteStatsView(APIView):
             "avg_fatigue": agg['avg_fatigue'] or 0,
         })
 
-# stats globales entrenador
+# stats globales entrenadorrr
 
 class EntrenadorStatsView(APIView):
     permission_classes = [IsAuthenticated]
