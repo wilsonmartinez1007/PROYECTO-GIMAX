@@ -4,22 +4,36 @@ import salir from "../../assets/salir.svg";
 import "./Home.css"; // Estilos específicos para esta página
 import logo from "../../assets/fotoSinRostro.jpg";
 import PerfilEntrenador from "../auth/CarpPerfilEntrenador/PerfilEntrenador"
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 
 const HomePerEntrenador = ({}) => {
   const navigate = useNavigate();
   const [seccionActiva, setSeccionActiva] = useState("Personal");
-
+  const inputRef = useRef(null);
+  const [subirImagen, setSubirImagen] = useState(logo);
+  
   const goToInicio = () => {
     navigate("/dashboard");
+  };
+  const manejarClick= ()=>{
+    inputRef.current.click();
+  }
+  const elimineImagen = ()=>{
+    setSubirImagen(logo);
+  }
+  const manejarArchivo = (event)=>{
+    const archivo = event.target.files[0];
+    if(archivo){
+      const urlImagen = URL.createObjectURL(archivo);
+      setSubirImagen(urlImagen);
+    }
   };
 
   const botones = ["Personal", "Profesional", "Experiencia", "Especialidades", "Certificaciones"];
 
   
     return (
-      <div>
-  
+      <div style={{ height:"0vh",}}>
         {/* Sección derecha (30%) con barra roja arriba */}
         <div>
           {/* Barra roja ajustada */}
@@ -34,16 +48,49 @@ const HomePerEntrenador = ({}) => {
                   
           
           </div>
-          <div className="logo-container">
-                  <img src={logo} alt="Logo"
-                        style={{ width: 300,
-                          height: 300,
-                          borderRadius: 20,
-                           // Centra horizontalmente dentro del contenedor
-                          marginTop: 200, 
-                          marginLeft: -595
-                           }}/>
-                  </div>
+          <div  
+              style={{ 
+                
+                height:"260px" ,  
+                width: "400px",
+                padding: "20px",
+                backgroundColor: "white",
+                borderRadius: "10px",
+                marginTop: 200, 
+                marginLeft: -445,
+                zIndex:-1
+                }}  
+              className="logo-container">
+              <img src={subirImagen} alt="Logo"
+                    style={{  width: 350,
+                              height: 300,
+                              borderRadius: 200,
+                                // Centra horizontalmente dentro del contenedor
+                              marginTop:-20, 
+                              marginLeft: -15,
+                              zIndex : 0,
+                        }}/>
+              </div>
+          <button
+          onClick = {manejarClick}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 110, marginLeft: 410,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px" }}>
+         Agregar
+       </button>
+       <button
+          onClick = {elimineImagen}
+          className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          type="submit" style={{position: "absolute",zIndex: 2,marginTop: 370, marginLeft: 410,marginBottom: "10px", background: "none", color: "black", borderColor: 'black',border: "none", width: "125px"}}>
+         Eliminar 
+       </button>
+       <input
+        type="file"
+        accept="image/*"
+        ref={inputRef}
+        style={{ display: 'none' }}
+        onChange={manejarArchivo}
+      />
+
             <div style={{ position: "absolute",
                           marginTop: -130, 
                           marginLeft: 100,
@@ -88,7 +135,7 @@ const HomePerEntrenador = ({}) => {
             </button>
             <button onClick={() => setSeccionActiva("Certificaciones")} 
                     type="submit" 
-                    style={{marginRight: "100px",color: seccionActiva === "Ceertificados" ? "gray" : "black", padding: "5px", border: "none",outline: "none",background: "transparent", textAlign: "center" }}>
+                    style={{marginRight: "100px",color: seccionActiva === "Certificaciones" ? "gray" : "black", padding: "5px", border: "none",outline: "none",background: "transparent", textAlign: "center" }}>
             Certificaciones
             </button>
             

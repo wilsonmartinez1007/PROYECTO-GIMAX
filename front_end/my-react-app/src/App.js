@@ -10,10 +10,7 @@ import MisRutinas from "./components/pages/MisRutinas";
 import ClientesDeEntrenador from "./components/pages/ClientesDeEntrenador";
 import HomeDiagnostico from "./components/pages/HomeDiagnostico";
 import HomeOlvidecontra from "./components/pages/HomeOlvideContra";
-import HomeMenuCliente from "./components/pages/HomeMenuCliente";
-import CreateExercise from "./components/pages/CreateExercise";
-import EstadisticasCliente from "./components/pages/EstadisticasCliente";
-import EstadisticasEntrenador from "./components/pages/EstadisticasEntrenador";
+import HomeMenuCliente from "./components/pages/HomeMenuCliente"
 
 
 
@@ -37,15 +34,6 @@ function App() {
         <Route path="/Diagnostico" element={<HomeDiagnostico/>}/>
         <Route path="/RecuperarContraseña" element={<HomeOlvidecontra/>}/>
         <Route path="/MenuCliente" element={<HomeMenuCliente/>}/>
-        <Route path="/ejercicios/crear" element={<CreateExercise token={token} />} />
-        <Route path="/PerEntrenador" element={<HomePerEntrenador token={token} />} />
-        <Route path="/EstadisticasC" element={<EstadisticasCliente token={token} />} />
-        <Route path="/EstadisticasE" element={<EstadisticasEntrenador token={token} />} />
-
-import HomeDiagnostico from "./components/pages/HomeDiagnostico";
-import HomeOlvidecontra from "./components/pages/HomeOlvideContra";
-import HomeMenuCliente from "./components/pages/HomeMenuCliente"
-
       </Routes>
     </Router>
   );

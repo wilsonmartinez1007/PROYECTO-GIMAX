@@ -11,6 +11,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 
 
+from .models import Workout, WorkoutExercise, Exercise, User, Gym, Diagnostico
+
 @api_view(['POST'])
 def register(request):
     serializer = UserSerializer(data=request.data)
@@ -27,8 +29,17 @@ def login(request):
     user = authenticate(username=username, password=password)
     
     if user:
-        token, _ = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key}, status=status.HTTP_200_OK)
+        try:
+            diagnostico = Diagnostico.objects.get(user=user)
+            token, _ = Token.objects.get_or_create(user=user)
+            return Response({"token": token.key}, status=status.HTTP_200_OK)
+        except Diagnostico.DoesNotExist:
+            return Response({
+                "mensaje": "nop"
+            }, status=404)
+        #mal -->return Response({"diagnostico": diagnostico.edad}, status=status.HTTP_200_OK)
+        #token, _ = Token.objects.get_or_create(user=user)
+        #return Response({"token": token.key}, status=status.HTTP_200_OK)
     
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -86,7 +97,7 @@ class ClientWorkoutsView(APIView):
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Workout, WorkoutExercise, Exercise, User, Gym
+
 from .serializers import WorkoutSerializer
 from rest_framework.permissions import AllowAny  
 
@@ -270,23 +281,22 @@ import random
 import string
 
 def generar_codigo(longitud):
-    caracteres = string.ascii_letters + string.digits + "!@#$%^&*()_+"
+    caracteres = string.ascii_letters + string.digits
     codigo = ''.join(random.choice(caracteres) for _ in range(longitud))
     return codigo
 
 # Ejemplo de uso:
-longitud_condigo = 5
-nueva_codigo = generar_codigo(longitud_condigo)
+longitud_codigo = 5
+nueva_codigo = generar_codigo(longitud_codigo)
 @api_view(['POST'])
 def codigo_generado(request):
     return Response({"codigo": nueva_codigo}, status=status.HTTP_200_OK)
-
 
 def enviar_correo_codigo(usuario_email):
         send_mail(
             subject='¡Recuperacion de contraseña!',
             message = f'''
-        Hola Wilson,
+        Hola,
 
         ¡Tu codigo para tu nueva contrseña ha sido generado!
 
@@ -298,240 +308,34 @@ def enviar_correo_codigo(usuario_email):
                     fail_silently=False,
                 )
 
+#cambiar contra
+
+@api_view(['POST'])
+def cambiar_contraseña(request):
+    cedula = request.data.get('cedula')
+    nueva_contraseña = request.data.get('nueva_contraseña')
+
+    if not cedula or not nueva_contraseña:
+        return Response({"error": "Faltan datos"}, status=400)
+
+    try:
+        usuario = User.objects.get(cedula=cedula)  # o User si estás usando el modelo estándar
+        usuario.set_password(nueva_contraseña)
+        usuario.save()
+        return Response({"mensaje": "Contraseña actualizada correctamente"})
+    except User.DoesNotExist:
+        return Response({"error": "Usuario no encontrado"}, status=404)
 
 
-#editar y guardar 
-# views.py
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.generics import RetrieveUpdateAPIView
 
-class WorkoutDetailView(RetrieveUpdateAPIView):
-    # ... tu configuración actual
-    queryset = Workout.objects.all()
-    serializer_class = WorkoutDetailSerializer
-    permission_classes = [IsAuthenticated]
+from .serializers import DiagnosticoSerializer
 
-    def get_object(self):
-        obj = super().get_object()
-        user = self.request.user
-        if not (obj.trainer == user or obj.user == user):
-            self.permission_denied(self.request, message="No tienes permisos")
-        return obj
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def registrar_diagnostico(request):
+    serializer = DiagnosticoSerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save(user=request.user)  # <--- Aquí estás asignando el usuario
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def update(self, request, *args, **kwargs):
-        # uso del serializer para validar y guardar
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        # en vez de return Response(serializer.data):
-        return Response({"detail": "Rutina actualizada correctamente"}, status=status.HTTP_200_OK)
-
-
-from rest_framework.generics import RetrieveUpdateAPIView
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
-from .models import Workout
-from .serializers import (
-    WorkoutDetailReadSerializer,
-    WorkoutDetailWriteSerializer,
-    # … otros serializers que ya tengas
-)
-
-# Vista de MisRutinas (GET)
-class MisRutinasView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        user = request.user
-        if user.role == 'cliente':
-            rutinas = Workout.objects.filter(user=user)
-        elif user.role == 'entrenador':
-            rutinas = Workout.objects.filter(trainer=user)
-        else:
-            rutinas = Workout.objects.none()
-
-        serializer = WorkoutDetailReadSerializer(rutinas, many=True)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-
-# Vista de detalle/actualización (GET+PUT)
-class WorkoutDetailView(RetrieveUpdateAPIView):
-    permission_classes = [IsAuthenticated]
-    queryset = Workout.objects.all()
-
-    def get_serializer_class(self):
-        # GET usa lectura, PUT usa escritura
-        if self.request.method in ('PUT', 'PATCH'):
-            return WorkoutDetailWriteSerializer
-        return WorkoutDetailReadSerializer
-
-    def get_object(self):
-        obj = super().get_object()
-        user = self.request.user
-        if not (obj.trainer == user or obj.user == user):
-            self.permission_denied(self.request, message="No tienes permisos")
-        return obj
-
-    def update(self, request, *args, **kwargs):
-        # Llamamos a la lógica normal de validación/guardado
-        partial = kwargs.pop('partial', False)
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=partial)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response({"detail": "Rutina actualizada correctamente"}, status=status.HTTP_200_OK)
-
-
-#crear video 
-# views.py
-from rest_framework.generics import CreateAPIView
-from rest_framework.permissions import IsAuthenticated
-from .models import Exercise
-from .serializers import ExerciseSerializer
-
-class CreateExerciseView(CreateAPIView):
-    queryset = Exercise.objects.all()
-    serializer_class = ExerciseSerializer
-    permission_classes = [IsAuthenticated]
-
-
-#para progreso usuario
-
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from django.utils import timezone
-from .models import Workout, WorkoutExercise, WorkoutProgress
-from .serializers import WorkoutProgressSerializer, WorkoutProgressInputSerializer
-
-class WorkoutProgressView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, pk):
-        workout = Workout.objects.get(pk=pk)
-        if not (request.user == workout.user or request.user == workout.trainer):
-            return Response({"detail": "No tienes permisos"}, status=403)
-
-        today = timezone.now().date()
-        exercises = WorkoutExercise.objects.filter(workout=workout)
-        progress_qs = WorkoutProgress.objects.filter(
-            user=request.user,
-            workout=workout,
-            date=today
-        )
-        data = []
-        for we in exercises:
-            entry = progress_qs.filter(workout_exercise=we).first()
-            data.append({
-                'workout_exercise': we.id,
-                'completed': entry.completed if entry else False,
-                'satisfaction': entry.satisfaction if entry else None
-            })
-        return Response(data)
-
-    def post(self, request, pk):
-        data = request.data
-        serializer = WorkoutProgressInputSerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-
-        we_id = serializer.validated_data['workout_exercise']
-        completed = serializer.validated_data['completed']
-        satisfaction = serializer.validated_data.get('satisfaction')
-        fatigue = serializer.validated_data.get('fatigue')
-
-        we = WorkoutExercise.objects.filter(id=we_id, workout__pk=pk).first()
-        if not we:
-            return Response({"detail": "Ejercicio no encontrado"}, status=404)
-        if request.user != we.workout.user:
-            return Response({"detail": "No tienes permisos"}, status=403)
-
-        today = timezone.now().date()
-        progress, _ = WorkoutProgress.objects.update_or_create(
-            user=request.user,
-            workout=we.workout,
-            workout_exercise=we,
-            date=today,
-            defaults={
-                'completed': completed,
-                'satisfaction': satisfaction,
-                'fatigue': fatigue
-            }
-        )
-        out = WorkoutProgressSerializer(progress)
-        return Response(out.data, status=200)
-
-# para ver las stats de los clientes
-
-from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from django.db.models import Avg, Count, Q
-from .models import WorkoutProgress, Workout
-
-class ClienteStatsView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request, client_id):
-        
-        if request.user.role == 'entrenador':
-            workouts = Workout.objects.filter(user__id=client_id, trainer=request.user)
-        elif request.user.role == 'cliente' and request.user.id == client_id:
-            workouts = Workout.objects.filter(user=request.user)
-        else:
-            return Response({"detail": "No tienes permisos"}, status=403)
-
-        # Progreso total
-        total_exercises = WorkoutProgress.objects.filter(
-            workout__in=workouts
-        ).values('date').distinct().count()
-
-        completed_exercises = WorkoutProgress.objects.filter(
-            workout__in=workouts,
-            completed=True
-        ).count()
-
-        asistencia = (completed_exercises / total_exercises * 100) if total_exercises else 0
-
-        # Promedios
-        agg = WorkoutProgress.objects.filter(workout__in=workouts).aggregate(
-            avg_satisfaction=Avg('satisfaction'),
-            avg_fatigue=Avg('fatigue')
-        )
-
-        return Response({
-            "asistencia_percent": round(asistencia, 2),
-            "avg_satisfaction": agg['avg_satisfaction'] or 0,
-            "avg_fatigue": agg['avg_fatigue'] or 0,
-        })
-
-# stats globales entrenadorrr
-
-class EntrenadorStatsView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        if request.user.role != 'entrenador':
-            return Response({"detail": "No tienes permisos"}, status=403)
-
-        workouts = Workout.objects.filter(trainer=request.user)
-        # Mismos cálculos que antes pero para todos sus clientes
-        total_exercises = WorkoutProgress.objects.filter(workout__in=workouts).values('date','workout').distinct().count()
-        completed_exercises = WorkoutProgress.objects.filter(workout__in=workouts, completed=True).count()
-        asistencia = (completed_exercises / total_exercises * 100) if total_exercises else 0
-
-        agg = WorkoutProgress.objects.filter(workout__in=workouts).aggregate(
-            avg_satisfaction=Avg('satisfaction'),
-            avg_fatigue=Avg('fatigue')
-        )
-
-        return Response({
-            "clientes_activos": workouts.values('user').distinct().count(),
-            "asistencia_percent": round(asistencia, 2),
-            "avg_satisfaction": agg['avg_satisfaction'] or 0,
-            "avg_fatigue": agg['avg_fatigue'] or 0,
-        })

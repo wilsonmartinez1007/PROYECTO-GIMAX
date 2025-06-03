@@ -21,7 +21,11 @@ function Login({ setToken }) {
       console.log("Token guardado:", data.token);
       navigate("/dashboard"); 
     } else {
-      alert("Error en las credenciales");
+        if (data.mensaje === "nop") {
+          navigate("/Diagnostico"); 
+        } else {
+          alert("Error en las credenciales");
+      }
     }
   };
 
