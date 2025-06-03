@@ -65,7 +65,6 @@ class WorkoutExercise(models.Model):
 )
 
 
-
 #para el progreso usuario
 
 from django.utils import timezone
@@ -111,36 +110,4 @@ class WorkoutProgress(models.Model):
         status = '✔️' if self.completed else '❌'
         sat = f', sat={self.satisfaction}' if self.satisfaction is not None else ''
         return f'{self.user.username} – {self.workout_exercise.id} – {status}{sat} on {self.date}'
-
-
-class Diagnostico(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='diagnostico')
-    
-    # Datos personales
-    edad = models.PositiveIntegerField()
-    peso = models.FloatField()
-    altura = models.FloatField()
-    sexo = models.CharField(max_length=10)
-    imc = models.FloatField()
-    porcentaje_grasa = models.FloatField()
-    actividad_fisica = models.CharField(max_length=100)
-
-    # Objetivo
-    objetivo_principal = models.CharField(max_length=100)
-    tiempo_estimado = models.CharField(max_length=100)
-    sesiones_por_semana = models.PositiveIntegerField()
-    tiempo_por_sesion = models.CharField(max_length=50)
-    descansos = models.CharField(max_length=50)
-
-    # Historial / Condición
-    experiencia = models.CharField(max_length=100)
-    nivel_fuerza = models.CharField(max_length=100)
-    nivel_resistencia = models.CharField(max_length=100)
-    flexibilidad = models.CharField(max_length=100)
-    lesion_trauma = models.CharField(max_length=100)
-    tipo_cuerpo = models.CharField(max_length=100)
-
-    created_at = models.DateTimeField(auto_now_add=True)
-    def __str__(self):
-        return f'Diagnóstico de {self.user.username}'
 

@@ -73,7 +73,6 @@ class WorkoutDetailSerializer(serializers.ModelSerializer):
         we = WorkoutExercise.objects.filter(workout=obj)
         return WorkoutExerciseDetailSerializer(we, many=True).data
 
-
 # aqui termina
 
 
@@ -177,16 +176,4 @@ class WorkoutProgressInputSerializer(serializers.Serializer):
         required=False, allow_null=True
     )
 
-
-
-
-#diagnostico:
-from .models import Diagnostico
-
-class DiagnosticoSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Diagnostico
-        fields = '__all__'
-        read_only_fields = ['user', 'created_at']
-# aqui termina
 

@@ -1,40 +1,31 @@
 import React, { useState } from "react";
 
 import { Form, useNavigate } from "react-router-dom"; 
-function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
+function OlvideContraBox({onBuscar, email, onCodigo, codigo2}) {
     const [cedula, setCedula] = useState("");
     const [panel, setPanel] = useState('codigo'); 
-    const [comCodigo, setComCodigo] = useState("");
-    const [nuevaContra, setNuevaContra] = useState("");
-
     const navigate = useNavigate();
     const sleep = (ms)=> {
       return new Promise(resolve => setTimeout(resolve, ms));
       }
-    const handleBuscar = async (e) => {
+    const handleBuscar = (e) => {
       e.preventDefault();
-      const verificar = await onBuscar(cedula);
-      if (verificar){
-        sleep(1000).then(() => {
+      onBuscar(cedula);
+      sleep(1000).then(() => {
         setPanel('buscar');
-        });
-      }
+      });
+  };
+    const handleValidar = (e) => {
+      e.preventDefault();
+      // Aquí puedes validar el código si lo necesitas (en el backend, por ejemplo)
+      onCodigo();
+      sleep(1000).then(() => {
+        setPanel('valido');
+      });
       
   };
-    const handleValidar = async (e) => {
-      e.preventDefault();
-      const codigoDesdeBackend = await onCodigo(); // esperamos el valor
-      if (comCodigo.trim() === String(codigoDesdeBackend).trim()) {
-        sleep(1000).then(() => {
-          setPanel('valido');
-        });
-      } else {
-        alert("El código no es correcto");
-      }
-    };
     const handleCambiar = (e) => {
       e.preventDefault();
-      OnCambiarContra(cedula, nuevaContra);
       // Aquí iría la lógica para cambiar la contraseña
       alert("Contraseña cambiada con éxito");
       navigate("/login"); // redirige al login
@@ -44,7 +35,6 @@ function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
     const goToSalir = () => {
         navigate("/login");
     };
-      
     
     
     
@@ -83,6 +73,7 @@ function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
             marginLeft: -35
             }}>
                 Ingresa tu cedula para buscar tu cuenta.
+            
           </div>
           <form  onSubmit={handleBuscar}>
           <div>
@@ -144,7 +135,7 @@ function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
           <div>
           <input 
              type="text"
-             onChange={(e) => setComCodigo(e.target.value)} 
+             //onChange={(e) => setCodigo(e.target.value)} tengo que crear una funcion que compare con un if si el codigo2 que es el que traigo de backend es el mismo la que dijita
              style ={{marginTop:40, marginLeft: -36,width: "270px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid gray"}}
              placeholder="Codigo" />
              
@@ -152,13 +143,14 @@ function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
           
         <div style={{marginTop:20, marginLeft: 260,}}>
         <button 
+
         type="submit" style={{ height: "30px",marginBottom: "10px", background: "red", color: "black", borderRadius: 5, borderColor: 'black',border: "none",outline: "none", width: "100px"  }}>
           Validar
         </button>
           </div>
           </form>
           <div style={{marginTop:-40, marginLeft: 36}}>
-          <button onClick={goToSalir} 
+          <button // esto aun esta mal onClick={goToSalir} 
            type="submit" style={{ height: "30px",marginBottom: "1px", background: "#D3D3D3", color: "black", borderRadius: 5, borderColor: 'black',border: "none",outline: "none", width: "100px"  }}>
           Cancelar
         </button></div>
@@ -190,7 +182,7 @@ function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
           <div style={{ 
             // Centra horizontalmente dentro del contenedor
             marginTop:20, 
-            marginLeft: -110
+            marginLeft: -35
             }}>
                 Ingresa su nueva contraseña
             
@@ -199,7 +191,6 @@ function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
           <div>
           <input 
              type="text"
-             onChange={(e) => setNuevaContra(e.target.value)}
              style ={{marginTop:40, marginLeft: -36,width: "270px",marginBottom: "10px", padding: "8px",borderRadius: 20,border: "2px solid gray"}}
              placeholder="Contraseña" />
           </div>

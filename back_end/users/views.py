@@ -11,8 +11,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import permission_classes
 
 
-from .models import Workout, WorkoutExercise, Exercise, User, Gym, Diagnostico
-
 @api_view(['POST'])
 def register(request):
     serializer = UserSerializer(data=request.data)
@@ -29,17 +27,8 @@ def login(request):
     user = authenticate(username=username, password=password)
     
     if user:
-        try:
-            diagnostico = Diagnostico.objects.get(user=user)
-            token, _ = Token.objects.get_or_create(user=user)
-            return Response({"token": token.key}, status=status.HTTP_200_OK)
-        except Diagnostico.DoesNotExist:
-            return Response({
-                "mensaje": "nop"
-            }, status=404)
-        #mal -->return Response({"diagnostico": diagnostico.edad}, status=status.HTTP_200_OK)
-        #token, _ = Token.objects.get_or_create(user=user)
-        #return Response({"token": token.key}, status=status.HTTP_200_OK)
+        token, _ = Token.objects.get_or_create(user=user)
+        return Response({"token": token.key}, status=status.HTTP_200_OK)
     
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -97,7 +86,7 @@ class ClientWorkoutsView(APIView):
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from .models import Workout, WorkoutExercise, Exercise, User, Gym
 from .serializers import WorkoutSerializer
 from rest_framework.permissions import AllowAny  
 
@@ -281,13 +270,13 @@ import random
 import string
 
 def generar_codigo(longitud):
-    caracteres = string.ascii_letters + string.digits
+    caracteres = string.ascii_letters + string.digits + "!@#$%^&*()_+"
     codigo = ''.join(random.choice(caracteres) for _ in range(longitud))
     return codigo
 
 # Ejemplo de uso:
-longitud_codigo = 5
-nueva_codigo = generar_codigo(longitud_codigo)
+longitud_condigo = 5
+nueva_codigo = generar_codigo(longitud_condigo)
 @api_view(['POST'])
 def codigo_generado(request):
     return Response({"codigo": nueva_codigo}, status=status.HTTP_200_OK)
@@ -297,7 +286,7 @@ def enviar_correo_codigo(usuario_email):
         send_mail(
             subject='¡Recuperacion de contraseña!',
             message = f'''
-        Hola,
+        Hola Wilson,
 
         ¡Tu codigo para tu nueva contrseña ha sido generado!
 
@@ -308,7 +297,6 @@ def enviar_correo_codigo(usuario_email):
                     recipient_list=[usuario_email],
                     fail_silently=False,
                 )
-
 
 
 
@@ -547,36 +535,3 @@ class EntrenadorStatsView(APIView):
             "avg_satisfaction": agg['avg_satisfaction'] or 0,
             "avg_fatigue": agg['avg_fatigue'] or 0,
         })
-
-#cambiar contra
-
-@api_view(['POST'])
-def cambiar_contraseña(request):
-    cedula = request.data.get('cedula')
-    nueva_contraseña = request.data.get('nueva_contraseña')
-
-    if not cedula or not nueva_contraseña:
-        return Response({"error": "Faltan datos"}, status=400)
-
-    try:
-        usuario = User.objects.get(cedula=cedula)  # o User si estás usando el modelo estándar
-        usuario.set_password(nueva_contraseña)
-        usuario.save()
-        return Response({"mensaje": "Contraseña actualizada correctamente"})
-    except User.DoesNotExist:
-        return Response({"error": "Usuario no encontrado"}, status=404)
-
-
-
-from .serializers import DiagnosticoSerializer
-
-@api_view(['POST'])
-@permission_classes([IsAuthenticated])
-def registrar_diagnostico(request):
-    serializer = DiagnosticoSerializer(data=request.data)
-    if serializer.is_valid():
-        serializer.save(user=request.user)  # <--- Aquí estás asignando el usuario
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-

@@ -3,7 +3,8 @@ from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutVie
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
 from .views import buscar_usuario_por_cedula
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
-from .views import buscar_usuario_por_cedula, codigo_generado, cambiar_contraseña, registrar_diagnostico
+from .views import buscar_usuario_por_cedula, codigo_generado
+
 
 urlpatterns = [
     path('register/', register, name='register'),
@@ -17,8 +18,6 @@ urlpatterns = [
     path('entrenador/clientes/', VerClientesDeEntrenadorView.as_view(), name='ver-clientes-entrenador'),
     path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),#esto
     path('codigo/', codigo_generado, name = 'codigo'),
-    path('cambiar-contraseña/', cambiar_contraseña, name='cambiar-contraseña'),
-    path('registrar-diagnostico/', registrar_diagnostico, name='registrar_diagnostico'),
     path('rutinas/<int:pk>/', WorkoutDetailView.as_view(), name='detalle-rutina'),
     path('exercises/create/', CreateExerciseView.as_view(), name='create-exercise'),
     #path('buscar-usuario/', buscar_usuario_por_cedula, name='buscar-usuario'),
@@ -82,6 +81,7 @@ const ClientesDeEntrenador = ({ token }) => {
 };
 
 export default ClientesDeEntrenador;"""
+
 
 """
 .clientes-container {
