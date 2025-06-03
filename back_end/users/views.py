@@ -276,7 +276,7 @@ def buscar_usuario_por_cedula(request):
         return Response({"email": usuario.email}, status=status.HTTP_200_OK)
     except User.DoesNotExist:
         return Response({"error": "Usuario no encontrado."}, status=status.HTTP_404_NOT_FOUND)
-
+#
 import random
 import string
 
