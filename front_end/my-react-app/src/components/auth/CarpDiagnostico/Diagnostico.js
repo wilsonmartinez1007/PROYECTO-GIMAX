@@ -1,6 +1,6 @@
 import React from "react";
 import DiagnosticoBox from "./DiagnosticoBox";
-
+//cambio
 function Diagnostico({}) {
   const token = localStorage.getItem("token");
   const handleDiagnostico = async (edad,peso,altura,sexo,imc, porcentaje_grasa, actividad_fisica, objetivo_principal, tiempo_estimado, sesiones_por_semana,

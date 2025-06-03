@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+//cambio
 import { Form, useNavigate } from "react-router-dom"; 
 function OlvideContraBox({onBuscar, email, onCodigo, OnCambiarContra}) {
     const [cedula, setCedula] = useState("");

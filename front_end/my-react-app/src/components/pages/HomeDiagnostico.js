@@ -14,7 +14,7 @@ const HomeDiagnostico = ({}) => {
         alert("Para calcular tu IMC por favor divide tu peso en kg/ entre tu estatura en metros cuadrados, ejemplo: Pesa 70 kg y mide 1.75 m. Su IMC sería 70 / (1.75 * 1.75) = 22.9 ");
     };
       
-  
+  //cambio
     return (
       <div>
   

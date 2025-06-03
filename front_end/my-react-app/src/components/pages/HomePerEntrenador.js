@@ -5,7 +5,7 @@ import "./Home.css"; // Estilos específicos para esta página
 import logo from "../../assets/fotoSinRostro.jpg";
 import PerfilEntrenador from "../auth/CarpPerfilEntrenador/PerfilEntrenador"
 import React, { useRef, useState } from "react";
-
+//cambio
 const HomePerEntrenador = ({}) => {
   const navigate = useNavigate();
   const [seccionActiva, setSeccionActiva] = useState("Personal");

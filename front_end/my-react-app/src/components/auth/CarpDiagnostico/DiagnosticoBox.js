@@ -1,6 +1,7 @@
 
 import React, { useState } from "react";
 import "./Diagnostico.css"
+//cambio
 function DiagnosticoBox({onDiagnostico}) {
     const [edad, setEdad] = useState("");
     const [peso, setPeso] = useState("");

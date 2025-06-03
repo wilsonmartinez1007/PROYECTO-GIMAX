@@ -1,7 +1,7 @@
 import "../pages/Home.css"; // Estilos específicos para esta página
 import OlvideContra from "../auth/CarpOlvideContra/OlvideContra"
 import React from "react";
-
+//cambio
 const HomeOlvidecontra = ({}) => {
     return (
       <div>

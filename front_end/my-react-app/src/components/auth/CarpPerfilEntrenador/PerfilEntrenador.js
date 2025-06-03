@@ -2,8 +2,8 @@ import React from "react";
 import PerfilEntrenadorBox from "./PerfilEntrenadorBox";
 
 function PerfilEntrenador({seccion}) {
-  
-    //apiii
+  //cambio
+    //apiiiii
   return <PerfilEntrenadorBox seccion={seccion}/>;
 }
 
