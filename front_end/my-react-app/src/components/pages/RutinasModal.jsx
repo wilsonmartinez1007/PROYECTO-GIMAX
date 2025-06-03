@@ -6,6 +6,7 @@ import "./RutinasModal.css";
 const RutinasModal = ({ token, cliente, onClose }) => {
   const [rutinas, setRutinas] = useState([]);
   const [edited, setEdited] = useState({});
+  const [successMessage, setSuccessMessage] = useState(""); // ← Estado para el mensaje de éxito
 
   useEffect(() => {
     axios
@@ -30,7 +31,7 @@ const RutinasModal = ({ token, cliente, onClose }) => {
   const handleExerciseChange = (rutinaId, exIndex, field, value) => {
     setEdited((prev) => {
       const current = prev[rutinaId] || {};
-      const originalEx = rutinas.find(r => r.id === rutinaId).exercises;
+      const originalEx = rutinas.find((r) => r.id === rutinaId)?.exercises || [];
       const exs = current.exercises || originalEx;
       const updatedExs = exs.map((ex, idx) =>
         idx === exIndex ? { ...ex, [field]: value } : ex
@@ -50,7 +51,7 @@ const RutinasModal = ({ token, cliente, onClose }) => {
     const merged = {
       name: updates.name ?? rutina.name,
       description: updates.description ?? rutina.description,
-      exercises: (updates.exercises || rutina.exercises).map(ex => ({
+      exercises: (updates.exercises || rutina.exercises).map((ex) => ({
         id: ex.exercise.id,
         sets: ex.sets,
         reps: ex.reps,
@@ -66,17 +67,53 @@ const RutinasModal = ({ token, cliente, onClose }) => {
         { headers: { Authorization: `Token ${token}` } }
       )
       .then(() => {
-        setRutinas(prev => prev.map(r =>
-          r.id === rutina.id
-            ? { ...r, name: merged.name, description: merged.description, exercises: (merged.exercises.map(e => ({ exercise: { id: e.id }, sets: e.sets, reps: e.reps, rest_time: e.rest_time, day: e.day }))) }
-            : r
-        ));
-        setEdited(prev => {
+        setRutinas((prevRutinas) =>
+          prevRutinas.map((r) => {
+            if (r.id !== rutina.id) return r;
+
+            // Sacamos la rutina original para recuperar nombres de ejercicios
+            const originalRutina = rutinas.find((orig) => orig.id === rutina.id);
+            const originalExList = originalRutina?.exercises || [];
+
+            // Reconstruimos la lista de ejercicios con exercise.name
+            const updatedExercises = merged.exercises.map((e) => {
+              const matching = originalExList.find(
+                (o) => o.exercise.id === e.id
+              );
+              const nombreEj = matching ? matching.exercise.name : "";
+
+              return {
+                exercise: {
+                  id: e.id,
+                  name: nombreEj,
+                },
+                sets: e.sets,
+                reps: e.reps,
+                rest_time: e.rest_time,
+                day: e.day,
+              };
+            });
+
+            return {
+              ...r,
+              name: merged.name,
+              description: merged.description,
+              exercises: updatedExercises,
+            };
+          })
+        );
+
+        // Limpiamos los edits
+        setEdited((prev) => {
           const { [rutina.id]: _, ...rest } = prev;
           return rest;
         });
+
+        // Mostramos mensaje de éxito
+        setSuccessMessage("Guardado con éxito");
+        setTimeout(() => setSuccessMessage(""), 3000); // desaparece en 3 segundos
       })
-      .catch(err => {
+      .catch((err) => {
         console.error("Error al guardar rutina", err.response?.data || err);
       });
   };
@@ -86,8 +123,16 @@ const RutinasModal = ({ token, cliente, onClose }) => {
       <div className="modal-content animate-fade-in">
         <div className="modal-header">
           <h2>Rutinas de {cliente.cliente_nombre}</h2>
-          <button className="close-button" onClick={onClose}>&times;</button>
+          <button className="close-button" onClick={onClose}>
+            &times;
+          </button>
         </div>
+
+        {/* Aquí se muestra el mensaje de éxito cuando exista */}
+        {successMessage && (
+          <div className="success-message">{successMessage}</div>
+        )}
+
         <div className="rutinas-list">
           {rutinas.length > 0 ? (
             rutinas.map((rutina) => {
@@ -101,13 +146,21 @@ const RutinasModal = ({ token, cliente, onClose }) => {
                       className="field-input"
                       placeholder="Nombre de la rutina"
                       value={current.name ?? rutina.name}
-                      onChange={e => handleRoutineChange(rutina.id, 'name', e.target.value)}
+                      onChange={(e) =>
+                        handleRoutineChange(rutina.id, "name", e.target.value)
+                      }
                     />
                     <textarea
                       className="field-textarea"
                       placeholder="Descripción"
                       value={current.description ?? rutina.description}
-                      onChange={e => handleRoutineChange(rutina.id, 'description', e.target.value)}
+                      onChange={(e) =>
+                        handleRoutineChange(
+                          rutina.id,
+                          "description",
+                          e.target.value
+                        )
+                      }
                     />
                   </div>
                   <div className="ejercicios">
@@ -121,7 +174,14 @@ const RutinasModal = ({ token, cliente, onClose }) => {
                               type="number"
                               className="small-input"
                               value={ex.sets}
-                              onChange={e => handleExerciseChange(rutina.id, i, 'sets', parseInt(e.target.value) || 0)}
+                              onChange={(e) =>
+                                handleExerciseChange(
+                                  rutina.id,
+                                  i,
+                                  "sets",
+                                  parseInt(e.target.value) || 0
+                                )
+                              }
                             />
                           </div>
                           <div className="grid-item">
@@ -130,7 +190,14 @@ const RutinasModal = ({ token, cliente, onClose }) => {
                               type="number"
                               className="small-input"
                               value={ex.reps}
-                              onChange={e => handleExerciseChange(rutina.id, i, 'reps', parseInt(e.target.value) || 0)}
+                              onChange={(e) =>
+                                handleExerciseChange(
+                                  rutina.id,
+                                  i,
+                                  "reps",
+                                  parseInt(e.target.value) || 0
+                                )
+                              }
                             />
                           </div>
                           <div className="grid-item">
@@ -139,7 +206,14 @@ const RutinasModal = ({ token, cliente, onClose }) => {
                               type="number"
                               className="small-input"
                               value={ex.rest_time}
-                              onChange={e => handleExerciseChange(rutina.id, i, 'rest_time', parseInt(e.target.value) || 0)}
+                              onChange={(e) =>
+                                handleExerciseChange(
+                                  rutina.id,
+                                  i,
+                                  "rest_time",
+                                  parseInt(e.target.value) || 0
+                                )
+                              }
                             />
                           </div>
                           <div className="grid-item">
@@ -148,14 +222,26 @@ const RutinasModal = ({ token, cliente, onClose }) => {
                               type="text"
                               className="small-input"
                               value={ex.day}
-                              onChange={e => handleExerciseChange(rutina.id, i, 'day', e.target.value)}
+                              onChange={(e) =>
+                                handleExerciseChange(
+                                  rutina.id,
+                                  i,
+                                  "day",
+                                  e.target.value
+                                )
+                              }
                             />
                           </div>
                         </div>
                       </div>
                     ))}
                   </div>
-                  <button className="btn-primary save-btn" onClick={() => handleSave(rutina)}>Guardar cambios</button>
+                  <button
+                    className="btn-primary save-btn"
+                    onClick={() => handleSave(rutina)}
+                  >
+                    Guardar cambios
+                  </button>
                 </div>
               );
             })

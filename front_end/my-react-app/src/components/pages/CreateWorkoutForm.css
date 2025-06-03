@@ -1,7 +1,7 @@
 .create-workout-container {
   min-height: 100vh;
   background-color: #f9f9f9;
-  padding: 2rem;
+  padding: 0rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   display: flex;
   flex-direction: column;
@@ -11,7 +11,7 @@
 .header {
   background-color: #FF2222;
   color: white;
-  padding: 2rem 3rem;
+  padding: 1rem 3rem;
   font-weight: bold;
   width: 100%;
   text-align: center;

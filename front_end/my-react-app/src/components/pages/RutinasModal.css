@@ -129,3 +129,15 @@
   color: #777;
   font-style: italic;
 }
+
+/* Mensaje de éxito */
+.success-message {
+  background-color: #e0f9e0;   /* Verde muy claro */
+  color: #1a7f1a;             /* Verde oscuro para el texto */
+  border: 1px solid #8fd08f;  /* Borde verde suave */
+  border-radius: 6px;
+  padding: 0.75rem 1rem;
+  margin: 1rem 0;             /* Separación respecto al header y listado */
+  text-align: center;
+  font-weight: 500;
+}

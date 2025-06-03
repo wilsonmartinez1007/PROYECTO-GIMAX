@@ -477,7 +477,7 @@ class ClienteStatsView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, client_id):
-        # Verifica que el entrenador sólo vea sus propios clientes
+        
         if request.user.role == 'entrenador':
             workouts = Workout.objects.filter(user__id=client_id, trainer=request.user)
         elif request.user.role == 'cliente' and request.user.id == client_id:
