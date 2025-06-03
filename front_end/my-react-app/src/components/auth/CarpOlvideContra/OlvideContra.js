@@ -1,8 +1,10 @@
 import {React, useState} from "react";
 import OlvideContraBox from "./OlvideContraBox";
+import { data } from "react-router-dom";
 
 function OlvideContraseña() {
   const [email, setEmail] = useState("");
+  const [codigo, setCodigo] = useState("");
   
   const handleBuscar = async (cedula) => {
     const response = await fetch("http://127.0.0.1:8000/api/buscar-usuario/", {
@@ -14,42 +16,27 @@ function OlvideContraseña() {
 
     const data = await response.json();
     console.log("Respuesta del servidor:", data);
-    if (response.ok && data.email) {
-      setEmail(data.email);
-      alert(`Correo fue encontraduuuu: ${data.email}`);
-      return true;
+ 
+    if (response.ok) {
+      setEmail(data.email)
+      alert(`Correo encontrado: ${data.email}`); 
     } else {
-      alert("Cédula no encontrada");
-      return false;
+      alert(data.error || "Cédula no encontrada");
     }
   };
   const handleCodigo = async () => {
-  const response = await fetch("http://127.0.0.1:8000/api/codigo/", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({}),
-  });
-
-  const data = await response.json();
-  console.log("Código generado:", data.codigo);
-  return data.codigo;      // importante: retornar el código
-  };
-
-  const handleCambiarContraseña = async (cedula, nuevaContraseña) => {
-    const response = await fetch("http://127.0.0.1:8000/api/cambiar-contraseña/", {
+    const response = await fetch("http://127.0.0.1:8000/api/codigo/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ cedula: cedula, nueva_contraseña: nuevaContraseña }),
+      body: JSON.stringify({}), // cuerpo vacío
     });
 
     const data = await response.json();
-    if (response.ok) {
-      alert("Contraseña actualizada con éxito");
-    } else {
-      alert(data.error || "Error al cambiar la contraseña");
-    }
+    console.log("Código generado:", data.codigo);
+    alert(`Cdodigo: ${data.codigo}`)
+    setCodigo(data.codigo)
   };
-  return <OlvideContraBox onBuscar={handleBuscar} email={email} onCodigo = {handleCodigo} OnCambiarContra = {handleCambiarContraseña}/>;
+  return <OlvideContraBox onBuscar={handleBuscar} email={email} onCodigo = {handleCodigo} codigo ={codigo}/>;
 }
 
 export default OlvideContraseña;

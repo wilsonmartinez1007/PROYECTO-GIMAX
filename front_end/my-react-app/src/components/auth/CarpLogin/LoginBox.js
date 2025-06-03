@@ -18,7 +18,6 @@ function LoginBox({ onLogin }) {
   const goToRecuperar = () => {
     navigate("/RecuperarContraseña");
   };
-  
 
   return (
     <div>

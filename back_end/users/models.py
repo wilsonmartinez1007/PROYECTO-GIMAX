@@ -65,34 +65,49 @@ class WorkoutExercise(models.Model):
 )
 
 
+#para el progreso usuario
 
-class Diagnostico(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='diagnostico')
-    
-    # Datos personales
-    edad = models.PositiveIntegerField()
-    peso = models.FloatField()
-    altura = models.FloatField()
-    sexo = models.CharField(max_length=10)
-    imc = models.FloatField()
-    porcentaje_grasa = models.FloatField()
-    actividad_fisica = models.CharField(max_length=100)
+from django.utils import timezone
+from django.db import models
+from django.utils import timezone
+from django.contrib.auth import get_user_model
 
-    # Objetivo
-    objetivo_principal = models.CharField(max_length=100)
-    tiempo_estimado = models.CharField(max_length=100)
-    sesiones_por_semana = models.PositiveIntegerField()
-    tiempo_por_sesion = models.CharField(max_length=50)
-    descansos = models.CharField(max_length=50)
+User = get_user_model()
 
-    # Historial / Condición
-    experiencia = models.CharField(max_length=100)
-    nivel_fuerza = models.CharField(max_length=100)
-    nivel_resistencia = models.CharField(max_length=100)
-    flexibilidad = models.CharField(max_length=100)
-    lesion_trauma = models.CharField(max_length=100)
-    tipo_cuerpo = models.CharField(max_length=100)
+class WorkoutProgress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='progress_entries')
+    workout = models.ForeignKey('Workout', on_delete=models.CASCADE, related_name='progress_entries')
+    workout_exercise = models.ForeignKey(
+        'WorkoutExercise',
+        on_delete=models.CASCADE,
+        related_name='progress_entries'
+    )
+    date = models.DateField(
+        default=timezone.now,
+        help_text='Fecha en que se registró el progreso'
+    )
+    completed = models.BooleanField(
+        default=False,
+        help_text='Si el ejercicio fue completado o no'
+    )
+    satisfaction = models.PositiveSmallIntegerField(
+        null=True,
+        blank=True,
+        help_text='Calificación de 1 a 10 de cómo se sintió la rutina'
+    )
 
-    created_at = models.DateTimeField(auto_now_add=True)
+    fatigue = models.PositiveSmallIntegerField(
+        null=True, blank=True,
+        help_text='Nivel de fatiga/dolor percibido de 1 (muy bajo) a 5 (muy alto)'
+    )
+
+
+    class Meta:
+        unique_together = ('user', 'workout_exercise', 'date')
+        ordering = ['-date']
+
     def __str__(self):
-        return f'Diagnóstico de {self.user.username}'
+        status = '✔️' if self.completed else '❌'
+        sat = f', sat={self.satisfaction}' if self.satisfaction is not None else ''
+        return f'{self.user.username} – {self.workout_exercise.id} – {status}{sat} on {self.date}'
+

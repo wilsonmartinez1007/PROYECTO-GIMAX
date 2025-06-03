@@ -25,17 +25,14 @@ function RegisterBox({ onRegister }) {
     alert("Por favor selecciona un tipo de usuario válido.");
     return;
   }
-  onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
-    };
-  
+
+
+    onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
+  };
+
   return (
     <div
-    /*---->podria agregar otro campo usuario que sea unico paar inciar sesion y nombre que ya sea el que se muestra en perfilusuario
-
-
-
-
-
+    /*
     Lo siguiente es para que se vea como un panel blanco y dentro esten los datos
     style={{
       width: "300px",
@@ -57,7 +54,7 @@ function RegisterBox({ onRegister }) {
         />
         <input
           type="text"
-          placeholder="Apellidos"
+          placeholder="Apellido"
           value={apellido}
           onChange={(e) => setApellido(e.target.value)}
           required
