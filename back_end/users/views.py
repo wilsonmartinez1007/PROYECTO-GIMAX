@@ -522,7 +522,7 @@ class ClienteStatsView(APIView):
         })
 
 # stats globales entrenadorrr
-rr
+
 class EntrenadorStatsView(APIView):
     permission_classes = [IsAuthenticated]
 
