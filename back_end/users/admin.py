@@ -1,9 +1,8 @@
 
 # Register your models here.
 from django.contrib import admin
-from .models import User, Gym, Membership, Workout, Exercise, WorkoutExercise, Diagnostico
+from .models import User, Gym, Membership, Workout, Exercise, WorkoutExercise, Diagnostico,WorkoutProgress
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
-
 from django.contrib.auth import get_user_model
 
 User = get_user_model()
@@ -60,3 +59,4 @@ admin.site.register(Membership)
 admin.site.register(Workout)
 admin.site.register(Exercise)
 admin.site.register(WorkoutExercise)
+admin.site.register(WorkoutProgress)
