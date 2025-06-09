@@ -30,7 +30,7 @@ const Suscripciones = () => {
       });
   };
 
-  const goToDashboard = () => navigate('/dashboard');
+  const goToDashboard = () => navigate('/MenuCliente');
 
   if (error) return <p className="text-red-500 text-center mt-8">{error}</p>;
   if (!suscripcion) return <p className="text-center mt-8">Cargando información de tu suscripción…</p>;

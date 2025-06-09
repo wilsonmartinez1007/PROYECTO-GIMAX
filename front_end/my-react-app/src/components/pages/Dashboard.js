@@ -16,8 +16,8 @@ function Home({ setToken, token }) {
   };
 
 
-  const irAMisRutinas = () => {
-    navigate("/mis-rutinas");
+  const irAEntrenador = () => {
+    navigate("/PerEntrenador");
   };
 
   const irAEjercicio = () => {
@@ -47,8 +47,8 @@ function Home({ setToken, token }) {
           <div className="button-container">
             <button className="button" onClick={irACrearRutina}>Rutina</button>
             <button className="button" onClick={irAClientes}>Clientes</button>
-            <button className="button" onClick={irAMisRutinas}>MisRutinas</button>
             <button className="button" onClick={irAEjercicio}>Ejercico</button>
+            <button className="button" onClick={irAEntrenador}>Perfil</button>
             <button className="button" onClick={irAPlanes}>Planes</button>
           </div>
         </div>
