@@ -253,14 +253,6 @@ const MisRutinas = ({ token }) => {
               )}
             </div>
 
-            <div className="rutina-actions">
-              <button onClick={() => alert(`Repetir rutina: ${rutina.name}`)}>
-                Repetir rutina
-              </button>
-              <button onClick={() => alert(`Posponer rutina: ${rutina.name}`)}>
-                Posponer rutina
-              </button>
-            </div>
 
             <div className="satisfaction-container">
               <label htmlFor={`sat-${rutina.id}`}>¿Cómo te sentiste?</label>
