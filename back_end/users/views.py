@@ -577,3 +577,44 @@ class EntrenadorStatsView(APIView):
             "avg_satisfaction": agg['avg_satisfaction'] or 0,
             "avg_fatigue": agg['avg_fatigue'] or 0,
         })
+    
+    
+
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.permissions import IsAuthenticated
+from .models import PerfilEntrenador
+from .serializers import PerfilEntrenadorSerializer
+
+class PerfilEntrenadorViewSet(ModelViewSet):
+    queryset = PerfilEntrenador.objects.all()
+    serializer_class = PerfilEntrenadorSerializer
+    permission_classes = [IsAuthenticated]  # requiere token
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user) 
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Gym
+from .serializers import GymSerializer
+
+@api_view(['POST'])  # También puede ser GET, pero tú pediste POST
+def obtener_gimnasios(request):
+    gimnasios = Gym.objects.all()
+    serializer = GymSerializer(gimnasios, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def obtener_rol_usuario(request):
+    user = request.user
+    print("Usuario autenticado:", user)
+    return Response({
+        "username": user.username,
+        "role": user.role
+    })

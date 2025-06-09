@@ -187,3 +187,26 @@ class WorkoutProgressInputSerializer(serializers.Serializer):
         required=False, allow_null=True
     )
 
+
+#Perfil entrenador
+from .models import PerfilEntrenador
+
+class PerfilEntrenadorSerializer(serializers.ModelSerializer):
+    imagen_perfil = serializers.ImageField(required=False, allow_null=True)
+
+    class Meta:
+        model = PerfilEntrenador
+        fields = '__all__'
+        read_only_fields = ['user']
+
+
+
+#gimnasios
+
+from rest_framework import serializers
+from .models import Gym
+
+class GymSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gym
+        fields = '__all__'  # o ['id', 'name', 'location', 'phone']

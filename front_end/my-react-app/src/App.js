@@ -41,11 +41,6 @@ function App() {
         <Route path="/PerEntrenador" element={<HomePerEntrenador token={token} />} />
         <Route path="/EstadisticasC" element={<EstadisticasCliente token={token} />} />
         <Route path="/EstadisticasE" element={<EstadisticasEntrenador token={token} />} />
-
-import HomeDiagnostico from "./components/pages/HomeDiagnostico";
-import HomeOlvidecontra from "./components/pages/HomeOlvideContra";
-import HomeMenuCliente from "./components/pages/HomeMenuCliente"
-
       </Routes>
     </Router>
   );

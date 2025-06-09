@@ -1,28 +1,67 @@
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 //cambio
-function PerfilEntrenadorBox({ seccion }) {
+function PerfilEntrenadorBox({ seccion: seccionActiva, onDatosChange }) {
 
 
-    const [redSocial, setRedSocial] = useState("");
+    const [red_social, setRedSocial] = useState("");
 
-    const [titulosProfesional, setTitulosProfesionales] = useState("");
+    const [titulos_profesionales, setTitulosProfesionales] = useState("");
     const [universidad, setUniversidad] = useState("");
-    const [gymTrabajado, setGymTrabajado] = useState("");
+    const [gimnasio_trabajado, setGymTrabajado] = useState("");
 
-    const [añoInicio, setAñoInicio]= useState("");
-    const [cargosAnteriores, setCargosAnteriores]= useState("");
-    const [ambitosExpe, setAmbitosExpe]= useState("");
-    const [clientesDesta, setClientesDesta]= useState("");
+    const [anio_inicio, setAñoInicio]= useState("");
+    const [cargos_anteriores, setCargosAnteriores]= useState("");
+    const [ambitos_experiencia, setAmbitosExpe]= useState("");
+    const [clientes_destacados, setClientesDesta]= useState("");
     const [especialidades, setEspecialidades] = useState([]);
-    
-    
     
     const [certificaciones, setCertificaciones] = useState([]);
 
+
+     // PERSONAL
+  useEffect(() => {
+    if (seccionActiva === "Personal") {
+      onDatosChange({ red_social });
+    }
+  }, [red_social, seccionActiva]);
+
+  // PROFESIONAL
+  useEffect(() => {
+    if (seccionActiva === "Profesional") {
+      onDatosChange({ titulos_profesionales, universidad, gimnasio_trabajado });
+    }
+  }, [titulos_profesionales, universidad, gimnasio_trabajado, seccionActiva]);
+
+  // EXPERIENCIA
+  useEffect(() => {
+    if (seccionActiva === "Experiencia") {
+      onDatosChange({
+        anio_inicio,
+        cargos_anteriores,
+        ambitos_experiencia,
+        clientes_destacados,
+      });
+    }
+  }, [anio_inicio, cargos_anteriores, ambitos_experiencia, clientes_destacados, seccionActiva]);
+
+  // ESPECIALIDADES
+  useEffect(() => {
+    if (seccionActiva === "Especialidades") {
+      onDatosChange({ especialidades });
+    }
+  }, [especialidades, seccionActiva]);
+
+  // CERTIFICACIONES
+  useEffect(() => {
+    if (seccionActiva === "Certificaciones") {
+      onDatosChange({ certificaciones });
+    }
+  }, [certificaciones, seccionActiva]);
+
     let contenido;
   
-    switch (seccion) {
+    switch (seccionActiva) {
       case "Personal":
         contenido = (
           <div style={{ 
@@ -50,7 +89,7 @@ function PerfilEntrenadorBox({ seccion }) {
              placeholder="Correo Electronico" />
              <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value = {redSocial}
+             value = {red_social}
              onChange={(e) => setRedSocial(e.target.value)}
              placeholder="Red Social"/>
              
@@ -72,7 +111,7 @@ function PerfilEntrenadorBox({ seccion }) {
                 }}>
             <select
               style={{ marginBottom: "10px", padding: "8px", border: "2px solid white",background: "transparent", outline: "none", width: "290px"}}
-              value={titulosProfesional}
+              value={titulos_profesionales}
               onChange={(e) => setTitulosProfesionales(e.target.value)}>
               <option value="">Titulos Porfesionales</option>
                     {[...Array(21)].map((_, i) => (
@@ -85,7 +124,7 @@ function PerfilEntrenadorBox({ seccion }) {
              placeholder="Universidad o Institucion" />
              <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value ={gymTrabajado}
+             value ={gimnasio_trabajado}
              onChange ={(e)=>setGymTrabajado(e.target.value)}
              placeholder="Gimnasios en los que ha trabajado" />
              
@@ -107,7 +146,7 @@ function PerfilEntrenadorBox({ seccion }) {
                 }}>
             <select
               style={{ marginBottom: "10px", padding: "8px", border: "2px solid white",background: "transparent", outline: "none", width: "290px"}}
-              value={añoInicio}
+              value={anio_inicio}
               onChange={(e) => setAñoInicio(e.target.value)}>
               <option value="">Año de inicio como entrenador</option>
                     {[...Array(96)].map((_, i) => (
@@ -115,17 +154,17 @@ function PerfilEntrenadorBox({ seccion }) {
                     ))}</select> 
             <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value = {cargosAnteriores}
+             value = {cargos_anteriores}
              onChange = {(e)=>setCargosAnteriores(e.target.value)}
              placeholder="Roles o cargos anteriores" />
             <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value = {ambitosExpe}
+             value = {ambitos_experiencia}
              onChange = {(e)=> setAmbitosExpe(e.target.value)}
              placeholder="Ámbitos de experiencia" />
             <input 
              style ={{marginBottom: "10px", padding: "8px",border: "2px solid white",outline: "none" }}
-             value ={clientesDesta}
+             value ={clientes_destacados}
              onChange={(e)=>setClientesDesta(e.target.value)}
              placeholder="Clientes destacados o logros" />
           </div>
@@ -288,7 +327,11 @@ function PerfilEntrenadorBox({ seccion }) {
       <div>
         <form>
           {contenido}
+          
         </form>
+        
+          
+        
       </div>
     );
   }

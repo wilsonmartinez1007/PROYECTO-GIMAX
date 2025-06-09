@@ -2,14 +2,11 @@ import React from "react";
 import Login from "../auth/CarpLogin/Login";
 import "./Home.css"; // Estilos específicos para esta página
 import fondo from "../../assets/LoginImage.jpg";
-import salir from "../../assets/salir.svg";
 import logo from "../../assets/LogoFinal.png";
 import { useNavigate } from "react-router-dom"; // IMPORTANTE
 const Home = ({setToken}) => {
   const navigate = useNavigate();
-  const goToInicio = () => {
-    navigate("/dashboard");
-  };
+  
 
 
   return (
@@ -24,12 +21,6 @@ const Home = ({setToken}) => {
         {/* Barra roja ajustada */}
         <div className="top-bar"></div>
         <div className="logo-salir">
-        <button 
-            onClick={goToInicio} 
-            style={{outline: "none",border: "none",background: "transparent"}}
-          >
-           <img src={salir}/>
-          </button>
         
         </div>
         <div className="logo-container">

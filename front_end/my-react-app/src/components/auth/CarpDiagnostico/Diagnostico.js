@@ -16,9 +16,13 @@ function Diagnostico({}) {
             tiempo_por_sesion, descansos, experiencia, nivel_fuerza, 
             nivel_resistencia, flexibilidad, lesion_trauma, tipo_cuerpo
           }),
+          
     });
     
+    
+    
   };
+  
     //apiii
   return <DiagnosticoBox onDiagnostico={handleDiagnostico} />;
 }

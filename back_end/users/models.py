@@ -144,3 +144,31 @@ class WorkoutProgress(models.Model):
         return f'{self.user.username} – {self.workout_exercise.id} – {status}{sat} on {self.date}'
 
 
+
+class PerfilEntrenador(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='perfil_entrenador')
+
+    red_social = models.CharField(max_length=255, blank=True)
+
+    # Profesional
+    titulos_profesionales = models.PositiveIntegerField(null=True, blank=True)  # cantidad
+    universidad = models.CharField(max_length=255, blank=True)
+    gimnasio_trabajado = models.CharField(max_length=255, blank=True)
+
+    # Experiencia
+    anio_inicio = models.PositiveIntegerField(null=True, blank=True)
+    cargos_anteriores = models.TextField(blank=True)
+    ambitos_experiencia = models.TextField(blank=True)
+    clientes_destacados = models.TextField(blank=True)
+
+    # Especialidades
+    especialidades = models.JSONField(default=list, blank=True)
+
+    # Certificaciones: uno solo por ahora
+    certificaciones = models.FileField(upload_to='certificaciones_entrenadores/', blank=True, null=True)
+
+    # Imagen de perfil
+    imagen_perfil = models.ImageField(upload_to='imagenes_entrenadores/', blank=True, null=True)
+
+    def __str__(self):
+        return f"Perfil de {self.user.username}"

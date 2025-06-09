@@ -10,7 +10,9 @@ const HomePerEntrenador = ({}) => {
   const navigate = useNavigate();
   const [seccionActiva, setSeccionActiva] = useState("Personal");
   const inputRef = useRef(null);
-  const [subirImagen, setSubirImagen] = useState(logo);
+  const [subirImagen, setSubirImagen] = useState(logo);//aqui esta la imagen que quiero enviar
+  const [imagenArchivo, setImagenArchivo] = useState(null); // archivo real
+
   
   const goToInicio = () => {
     navigate("/dashboard");
@@ -21,13 +23,14 @@ const HomePerEntrenador = ({}) => {
   const elimineImagen = ()=>{
     setSubirImagen(logo);
   }
-  const manejarArchivo = (event)=>{
-    const archivo = event.target.files[0];
-    if(archivo){
-      const urlImagen = URL.createObjectURL(archivo);
-      setSubirImagen(urlImagen);
-    }
-  };
+  const manejarArchivo = (event) => {
+  const archivo = event.target.files[0];
+  if (archivo) {
+    const urlImagen = URL.createObjectURL(archivo);
+    setSubirImagen(urlImagen);      // para mostrarla
+    setImagenArchivo(archivo);      // para enviarla
+  }
+};
 
   const botones = ["Personal", "Profesional", "Experiencia", "Especialidades", "Certificaciones"];
 
@@ -145,12 +148,11 @@ const HomePerEntrenador = ({}) => {
                           marginTop: 50, 
                           marginLeft: 600
                            }}>
-            <PerfilEntrenador seccion={seccionActiva}/>
+            <PerfilEntrenador subirImagen={imagenArchivo} seccion={seccionActiva}/>
           </div>
           <div className="top-bar2"></div>
+          
         </div>
-        
-        
       </div>
     );
   };

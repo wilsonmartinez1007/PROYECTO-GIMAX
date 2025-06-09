@@ -154,3 +154,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gymax.notifications@gmail.com'
 EMAIL_HOST_PASSWORD = 'qzgl byle uhxz zwyb'
 #nueva
+
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'

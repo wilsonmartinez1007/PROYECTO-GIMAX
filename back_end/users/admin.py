@@ -52,6 +52,19 @@ class DiagnosticoAdmin(admin.ModelAdmin):
     search_fields = ['user__username', 'objetivo_principal']
     list_filter = ['sexo', 'actividad_fisica', 'objetivo_principal', 'tipo_cuerpo']
 
+from django.contrib import admin
+from .models import PerfilEntrenador
+
+@admin.register(PerfilEntrenador)
+class PerfilEntrenadorAdmin(admin.ModelAdmin):
+    list_display = (
+        'user', 'universidad', 'gimnasio_trabajado', 'anio_inicio',
+        'titulos_profesionales', 'red_social'
+    )
+    search_fields = ('user__username', 'user__email', 'universidad', 'gimnasio_trabajado')
+    list_filter = ('universidad', 'anio_inicio')
+
+
 #para eliminar de django un modelo admin.site.unregister(User)
 #admin.site.register(User, CustomUserAdmin)
 admin.site.register(Gym)

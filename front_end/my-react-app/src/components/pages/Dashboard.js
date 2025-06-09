@@ -32,12 +32,12 @@ function Home({ setToken, token }) {
       </nav>
 
       <div className="inner-container">
-        <img src={fondo} alt="Fondo" className="main-image" />
+        <img 
+          style = {{borderRadius:10,}}
+          src={fondo} alt="Fondo" className="main-image" />
         
         <div className="text-container">
           <h2>"EL CAMBIO EMPIEZA POR EL PRIMER PASO"</h2>
-          <p>Si quieres tener un entrenador personal, únete en el siguiente link.</p>
-          <a href="#">Entra aquí y cambia tu físico</a>
 
           <div className="button-container">
             <button className="button" onClick={irACrearRutina}>Rutina</button>

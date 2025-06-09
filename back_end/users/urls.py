@@ -3,7 +3,16 @@ from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutVie
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
 from .views import buscar_usuario_por_cedula
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
-from .views import buscar_usuario_por_cedula, codigo_generado, cambiar_contraseña, registrar_diagnostico
+from .views import buscar_usuario_por_cedula, codigo_generado, cambiar_contraseña, registrar_diagnostico,obtener_gimnasios,obtener_rol_usuario
+
+
+from django.urls import include
+from rest_framework.routers import DefaultRouter
+from .views import PerfilEntrenadorViewSet
+
+# Router para ViewSets
+router = DefaultRouter()
+router.register(r'perfil-entrenador', PerfilEntrenadorViewSet, basename='perfil-entrenador')
 
 urlpatterns = [
     path('register/', register, name='register'),
@@ -27,9 +36,19 @@ urlpatterns = [
      name='workout-progress'),
     path('estadisticas/cliente/<int:client_id>/', ClienteStatsView.as_view(), name='cliente-stats'),
     path('estadisticas/entrenador/', EntrenadorStatsView.as_view(), name='entrenador-stats'),
+    
+    path('', include(router.urls)),
+
+    path('obtener-gimnasios/', obtener_gimnasios, name='obtener-gimnasios'),
+    path('obtener-rol/', obtener_rol_usuario, name='obtener-rol'),
+
 ]
 
+from django.conf import settings
+from django.conf.urls.static import static
 
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
 """

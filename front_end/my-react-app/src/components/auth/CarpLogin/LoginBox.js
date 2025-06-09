@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,6 +11,7 @@ function LoginBox({ onLogin }) {
   const handleSubmit = (e) => {
     e.preventDefault();
     onLogin(username, password);
+    
   };
 
   const goToRegister = () => {
@@ -40,7 +42,7 @@ function LoginBox({ onLogin }) {
           required
           style={{ marginBottom: "30px", padding: "8px",borderRadius: 20,border: "2px solid white",outline: "none" }}
         />
-        <button type="submit" style={{ marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "2px solid black",outline: "none", width: "125px" }}>
+        <button type="submit" style={{padding: "8px", marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "none",outline: "none", width: "125px" }}>
           Iniciar Sesión
         </button>
         <button
