@@ -27,11 +27,15 @@ def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
     user = authenticate(username=username, password=password)
-    
+
     if user:
         token, _ = Token.objects.get_or_create(user=user)
-        return Response({"token": token.key}, status=status.HTTP_200_OK)
-    
+        # Devolvemos también el rol del usuario
+        return Response({
+            "token": token.key,
+            "role": user.role
+        }, status=status.HTTP_200_OK)
+
     return Response({"error": "Invalid credentials"}, status=status.HTTP_400_BAD_REQUEST)
 
 """@api_view(['POST'])
