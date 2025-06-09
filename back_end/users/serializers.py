@@ -187,3 +187,32 @@ class WorkoutProgressInputSerializer(serializers.Serializer):
         required=False, allow_null=True
     )
 
+# pagos
+
+# payments/serializers.py
+from rest_framework import serializers
+from .models import SubscriptionPlan, CustomerProfile, Subscription, PaymentLog
+
+class SubscriptionPlanSerializer(serializers.ModelSerializer):
+    precio_final = serializers.SerializerMethodField()
+
+    class Meta:
+        model = SubscriptionPlan
+        fields = ('key', 'nombre', 'duracion_meses', 'precio_cop', 'descuento', 'precio_final', 'stripe_price_id')
+
+    def get_precio_final(self, obj):
+        return obj.precio_final_cop()
+
+
+class SubscriptionSerializer(serializers.ModelSerializer):
+    plan = SubscriptionPlanSerializer(read_only=True)
+
+    class Meta:
+        model = Subscription
+        fields = ('id', 'plan', 'fecha_inicio', 'fecha_fin', 'estado', 'stripe_subscription_id')
+
+
+class PaymentLogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PaymentLog
+        fields = ('id', 'subscription', 'monto_cop', 'fecha_pago', 'stripe_payment_intent_id', 'fue_exitoso', 'respuesta')

@@ -14,6 +14,10 @@ import HomeMenuCliente from "./components/pages/HomeMenuCliente";
 import CreateExercise from "./components/pages/CreateExercise";
 import EstadisticasCliente from "./components/pages/EstadisticasCliente";
 import EstadisticasEntrenador from "./components/pages/EstadisticasEntrenador";
+import Pagos from "./components/pages/Pagos";
+import Planes from './components/pages/Planes';
+import Checkout from './components/pages/Checkout';
+import Suscripcion from './components/pages/Suscripcion';
 
 
 
@@ -41,6 +45,11 @@ function App() {
         <Route path="/PerEntrenador" element={<HomePerEntrenador token={token} />} />
         <Route path="/EstadisticasC" element={<EstadisticasCliente token={token} />} />
         <Route path="/EstadisticasE" element={<EstadisticasEntrenador token={token} />} />
+        <Route path="/Pagos" element={<Pagos token={token} />} />
+        <Route path="/Planes" element={<Planes token={token} />} />
+        <Route path="/Checkout" element={<Checkout token={token} />} />
+        <Route path="/Suscripcion" element={<Suscripcion token={token} />} />
+        
 
 import HomeDiagnostico from "./components/pages/HomeDiagnostico";
 import HomeOlvidecontra from "./components/pages/HomeOlvideContra";

@@ -2,14 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "./ClientesDeEntrenador.css";
 import RutinasModal from "./RutinasModal";
-import EstadisticasCliente from "./EstadisticasCliente"; // Importa el nuevo componente
+import EstadisticasCliente from "./EstadisticasCliente";
 
 const ClientesDeEntrenador = ({ token }) => {
   const [clientes, setClientes] = useState([]);
+  const [filteredClientes, setFilteredClientes] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
   const [openMenuId, setOpenMenuId] = useState(null);
   const [selectedClient, setSelectedClient] = useState(null);
   const [viewMode, setViewMode] = useState(null);
-  // viewMode puede ser "rutinas" o "estadisticas"
   const menuRef = useRef();
 
   // Carga inicial de clientes
@@ -19,7 +20,10 @@ const ClientesDeEntrenador = ({ token }) => {
       .get("http://localhost:8000/api/entrenador/clientes/", {
         headers: { Authorization: `Token ${token}` },
       })
-      .then((response) => setClientes(response.data))
+      .then((response) => {
+        setClientes(response.data);
+        setFilteredClientes(response.data);
+      })
       .catch((error) => console.error("Error al obtener los clientes", error));
   }, [token]);
 
@@ -34,25 +38,37 @@ const ClientesDeEntrenador = ({ token }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  // Filtrado de búsqueda
+  const handleSearchChange = (e) => {
+    const term = e.target.value;
+    setSearchTerm(term);
+    if (term.trim() === "") {
+      setFilteredClientes(clientes);
+      return;
+    }
+    setFilteredClientes(
+      clientes.filter((c) =>
+        c.cliente_nombre.toLowerCase().includes(term.toLowerCase())
+      )
+    );
+  };
+
   const handleMenuToggle = (id) => {
     setOpenMenuId(openMenuId === id ? null : id);
   };
 
-  // Al pulsar “Rutinas” en el menú desplegable
   const handleRutinas = (cliente) => {
     setSelectedClient(cliente);
     setViewMode("rutinas");
     setOpenMenuId(null);
   };
 
-  // Al pulsar “Estadísticas” en el menú desplegable
   const handleEstadisticas = (cliente) => {
     setSelectedClient(cliente);
     setViewMode("estadisticas");
     setOpenMenuId(null);
   };
 
-  // Cerrar cualquier vista (modal o stats)
   const handleCloseView = () => {
     setSelectedClient(null);
     setViewMode(null);
@@ -60,13 +76,26 @@ const ClientesDeEntrenador = ({ token }) => {
 
   return (
     <div className="clientes-wrapper">
+      {/* Header */}
       <div className="clientes-header">
         <h1>Mis Clientes</h1>
       </div>
 
+      {/* Buscador */}
+      <div className="clientes-search-container">
+        <input
+          type="text"
+          placeholder="Buscar cliente por nombre..."
+          value={searchTerm}
+          onChange={handleSearchChange}
+          className="clientes-search"
+        />
+      </div>
+
+      {/* Listado de tarjetas */}
       <div className="clientes-content">
-        {clientes.length > 0 ? (
-          clientes.map((cliente) => (
+        {filteredClientes.length > 0 ? (
+          filteredClientes.map((cliente) => (
             <div className="cliente-card" key={cliente.cliente_id}>
               <div className="cliente-header">
                 <h2>{cliente.cliente_nombre}</h2>
@@ -81,7 +110,9 @@ const ClientesDeEntrenador = ({ token }) => {
                     <li className="disabled">Diagnóstico</li>
                     <li className="disabled">Información personal</li>
                     <li onClick={() => handleRutinas(cliente)}>Rutinas</li>
-                    <li onClick={() => handleEstadisticas(cliente)}>Estadísticas</li>
+                    <li onClick={() => handleEstadisticas(cliente)}>
+                      Estadísticas
+                    </li>
                   </ul>
                 )}
               </div>
@@ -94,11 +125,11 @@ const ClientesDeEntrenador = ({ token }) => {
             </div>
           ))
         ) : (
-          <p className="no-clientes">No tienes clientes asignados.</p>
+          <p className="no-clientes">No hay clientes que coincidan.</p>
         )}
       </div>
 
-      {/* Renderiza RutinasModal o EstadisticasCliente según viewMode */}
+      {/* Modal de Rutinas */}
       {selectedClient && viewMode === "rutinas" && (
         <RutinasModal
           token={token}
@@ -107,6 +138,7 @@ const ClientesDeEntrenador = ({ token }) => {
         />
       )}
 
+      {/* Panel de Estadísticas */}
       {selectedClient && viewMode === "estadisticas" && (
         <div className="stats-container">
           <button className="close-stats" onClick={handleCloseView}>

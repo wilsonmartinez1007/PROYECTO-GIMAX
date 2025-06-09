@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-)4iv%r&v-=5-&tde6%6pcdn-w8gryjk*fh@!@w$-xr)pg&^_f2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '6143-45-225-227-131.ngrok-free.app',  # tu URL de ngrok
+]
 
 
 # Application definition
@@ -35,12 +39,12 @@ INSTALLED_APPS = [
     'rest_framework',#agrege
     "corsheaders",
     'rest_framework.authtoken',  # Agrega esta línea
-    'users', #agrege Tu aplicación de usuarios
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'users.apps.UsersConfig', #para pagos 
     
     
 ]
@@ -154,3 +158,12 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'gymax.notifications@gmail.com'
 EMAIL_HOST_PASSWORD = 'qzgl byle uhxz zwyb'
 #nueva
+
+from dotenv import load_dotenv
+load_dotenv()  # Esto carga el archivo .env
+
+import os
+
+STRIPE_SECRET_KEY    = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+STRIPE_WEBHOOK_SECRET = os.getenv('STRIPE_WEBHOOK_SECRET')

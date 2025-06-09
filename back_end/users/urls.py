@@ -4,7 +4,18 @@ from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutVie
 from .views import buscar_usuario_por_cedula
 from .views import register, login, logout, ClientWorkoutsView, CreateWorkoutView, ListaClientesView, ListaEjerciciosView, MisRutinasView, VerClientesDeEntrenadorView
 from .views import buscar_usuario_por_cedula, codigo_generado, cambiar_contraseña, registrar_diagnostico
-
+from .views import ClienteHistoricView
+from .views import RutinaStatsView, ClienteStatsView, EntrenadorStatsView,ClienteRutinasView, stripe_webhook
+from .views import (
+    listar_planes,
+    crear_cliente_stripe,
+    crear_suscripcion,
+    confirmar_suscripcion,
+    obtener_mi_suscripcion,
+    cancelar_suscripcion,
+    stripe_webhook,
+    create_payment_intent
+)
 urlpatterns = [
     path('register/', register, name='register'),
     path('login/', login, name='login'),
@@ -27,6 +38,32 @@ urlpatterns = [
      name='workout-progress'),
     path('estadisticas/cliente/<int:client_id>/', ClienteStatsView.as_view(), name='cliente-stats'),
     path('estadisticas/entrenador/', EntrenadorStatsView.as_view(), name='entrenador-stats'),
+        path(
+      'estadisticas/cliente/<int:client_id>/historial/',
+      ClienteHistoricView.as_view(),
+      name='cliente-historic'
+    ),
+        path(
+        'estadisticas/cliente/<int:client_id>/rutina/<int:workout_id>/',
+        RutinaStatsView.as_view(),
+        name='rutina-stats'
+    ),
+        path(
+        'rutinas/cliente/<int:client_id>/',
+        ClienteRutinasView.as_view(),
+        name='cliente-rutinas'
+    ),
+    path('webhook/stripe/', stripe_webhook, name='stripe-webhook'),
+    path('planes/', listar_planes, name='listar_planes'),
+    path('crear-customer-stripe/', crear_cliente_stripe, name='crear_cliente_stripe'),
+    path('create-subscription/', crear_suscripcion, name='crear_suscripcion'),
+    path('confirmar-suscripcion/', confirmar_suscripcion, name='confirmar_suscripcion'),
+    path('mis-suscripciones/', obtener_mi_suscripcion, name='obtener_mi_suscripcion'),
+    path('cancelar-suscripcion/', cancelar_suscripcion, name='cancelar_suscripcion'),
+    path('create-payment-intent/',create_payment_intent, name='create_payment_intent'),
+    
+
+    
 ]
 
 

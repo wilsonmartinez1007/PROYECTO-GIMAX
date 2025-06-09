@@ -144,3 +144,91 @@ class WorkoutProgress(models.Model):
         return f'{self.user.username} – {self.workout_exercise.id} – {status}{sat} on {self.date}'
 
 
+# modelo para pagos 
+
+
+from django.db import models
+from django.conf import settings
+
+class Payment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stripe_payment_intent_id = models.CharField(max_length=255, unique=True)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)  # monto en moneda local (ej. USD)
+    currency = models.CharField(max_length=10, default='usd')
+    status = models.CharField(max_length=50)  # ejemplo: succeeded, failed, pending
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class SubscriptionPlan(models.Model):
+    """
+    Define los tres planes (mensual, semestral, anual) con su price_id de Stripe
+    """
+    PLAN_CHOICES = [
+        ('MEN', 'Mensual'),
+        ('SEM', 'Semestral'),
+        ('ANU', 'Anual'),
+    ]
+    key = models.CharField(max_length=3, choices=PLAN_CHOICES, unique=True)
+    nombre = models.CharField(max_length=20)           # “Mensual”, “Semestral”, “Anual”
+    precio_cop = models.PositiveIntegerField()         # Precio base por mes en COP (ej. 50000)
+    duracion_meses = models.PositiveIntegerField()     # 1, 6, 12
+    descuento = models.DecimalField(max_digits=4, decimal_places=2, default=0)
+    stripe_price_id = models.CharField(max_length=255) # Price ID en Stripe (ej. price_1MensualXYZ)
+    activo = models.BooleanField(default=True)
+
+    def __str__(self):
+        return f"{self.nombre} ({self.duracion_meses} mes/es)"
+
+    def precio_final_cop(self):
+        """
+        Calcula el precio total (sinónimos de meses * precio_cop) menos el descuento.
+        """
+        total = self.precio_cop * self.duracion_meses
+        return int(total * (1 - float(self.descuento)))
+
+
+class CustomerProfile(models.Model):
+    """
+    Vincula un User de Django con un Customer en Stripe.
+    """
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    stripe_customer_id = models.CharField(max_length=255, blank=True, null=True)
+
+    def __str__(self):
+        return f"CustomerProfile: {self.user.username}"
+
+
+class Subscription(models.Model):
+    """
+    Guarda el estado de la suscripción de un usuario a un plan.
+    """
+    ESTADO_CHOICES = [
+        ('pendiente', 'Pendiente de Pago'),
+        ('activo', 'Activo'),
+        ('vencido', 'Vencido'),
+        ('cancelado', 'Cancelado'),
+    ]
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    plan = models.ForeignKey(SubscriptionPlan, on_delete=models.CASCADE)
+    stripe_subscription_id = models.CharField(max_length=255, blank=True, null=True)
+    fecha_inicio = models.DateField(blank=True, null=True)
+    fecha_fin = models.DateField(blank=True, null=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='pendiente')
+
+    def __str__(self):
+        return f"{self.user.username} - {self.plan.nombre} ({self.estado})"
+
+
+class PaymentLog(models.Model):
+    """
+    Registra cada cobro recurrente (y el inicial) de una suscripción.
+    """
+    subscription = models.ForeignKey(Subscription, on_delete=models.CASCADE)
+    monto_cop = models.PositiveIntegerField()
+    fecha_pago = models.DateTimeField(auto_now_add=True)
+    stripe_payment_intent_id = models.CharField(max_length=255)
+    fue_exitoso = models.BooleanField(default=False)
+    respuesta = models.JSONField()
+
+    def __str__(self):
+        estado = "Éxito" if self.fue_exitoso else "Fallido"
+        return f"{self.subscription.user.username} - {self.monto_cop} COP - {estado} on {self.fecha_pago}"

@@ -61,7 +61,7 @@ const CreateWorkoutForm = ({ token }) => {
           <label>Cliente:</label>
           <select value={form.cliente_id} onChange={e => setForm({ ...form, cliente_id: e.target.value })}>
             <option value="">Selecciona cliente</option>
-            {clientes.map(c => <option key={c.id} value={c.id}>{c.username}</option>)}
+            {clientes.map(c => <option key={c.id} value={c.id}>{c.cliente_nombre}</option>)}
           </select>
         </div>
 

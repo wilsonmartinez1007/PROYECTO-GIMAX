@@ -1,0 +1,86 @@
+/* Encabezado rojo tipo ClientesDeEntrenador */
+.planes-container {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  min-height: 100vh;
+}
+
+.planes-header {
+  background-color: #FF2222;
+  color: white;
+  padding: 1.5rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.planes-header h1 {
+  margin: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+/* Contenido de planes estilizado */
+.planes-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.plan-card {
+  background: #ffffff;
+  border-radius: 1rem;
+  padding: 2rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e5e7eb;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+.plan-name {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.plan-duration {
+  font-size: 1rem;
+  color: #6b7280;
+  margin-bottom: 0.5rem;
+  text-align: center;
+}
+
+.plan-price {
+  font-size: 1.25rem;
+  color: #434447;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.subscribe-button {
+  background-color: #FF2222;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  
+}
+
+.subscribe-button:hover {
+  background-color: #FF2222;
+  transform: scale(1.05);
+}
+
+.plan-card .button-container {
+  display: flex;
+  justify-content: center;
+}

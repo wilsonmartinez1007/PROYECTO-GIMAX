@@ -23,4 +23,6 @@ urlpatterns = [
     path('api/', include('users.urls')),  # Incluye las rutas de autenticación
     #path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     #path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh')
+    path('api/pagos/', include('users.urls')),
+    path('api/subscriptions/', include('users.urls')),
 ]

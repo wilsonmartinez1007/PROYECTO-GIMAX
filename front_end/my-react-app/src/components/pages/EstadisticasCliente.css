@@ -31,3 +31,9 @@
 .stats-card strong {
   color: #1e88e5;
 }
+
+/* Puedes añadir esto si quieres espacio visual alrededor del gráfico */
+.stats-card canvas {
+  margin-top: 20px;
+  max-width: 100%;
+}

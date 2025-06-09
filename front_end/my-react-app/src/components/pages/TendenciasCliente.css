@@ -1,0 +1,27 @@
+/* TendenciasCliente.css */
+
+.tendencias-wrapper {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  margin-top: 2rem;
+}
+
+.tendencias-wrapper h2 {
+  margin-top: 0;
+  color: #d32f2f;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.chart-container {
+  margin-bottom: 2rem;
+}
+
+.chart-container h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.1rem;
+  color: #333;
+  text-align: center;
+}

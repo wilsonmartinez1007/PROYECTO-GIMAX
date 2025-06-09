@@ -1,4 +1,4 @@
- /* ClientesDeEntrenador.css */
+/* === ESTILOS GENERALES DE LA PÁGINA === */
 
 .clientes-container {
   font-family: 'Segoe UI', sans-serif;
@@ -6,12 +6,15 @@
   min-height: 100vh;
 }
 
+/* === ENCABEZADO ROJO SUPERIOR === */
+
 .clientes-header {
   background-color: #FF2222;
   color: white;
   padding: 1.5rem 2rem;
   text-align: center;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  position: relative;
 }
 
 .clientes-header h1 {
@@ -19,6 +22,33 @@
   font-size: 2.5rem;
   font-weight: bold;
 }
+
+/* === ÍCONO DE FLECHA PARA VOLVER === */
+
+.back-icon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.back-icon:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.icon-flecha {
+  width: 28px;
+  height: 28px;
+  stroke: white;
+}
+
+/* === CONTENIDO DE CLIENTES === */
 
 .clientes-content {
   display: grid;
@@ -55,7 +85,7 @@
   color: #666;
 }
 
-/* ===== Modificaciones para el menú de tres puntos ===== */
+/* === MENÚ DE TRES PUNTOS === */
 
 .menu-button {
   background: transparent;
@@ -98,7 +128,7 @@
   cursor: default;
 }
 
-/* === ESTILOS AÑADIDOS PARA ESTADÍSTICAS === */
+/* === ESTADÍSTICAS === */
 
 .stats-container {
   margin-top: 40px;
@@ -153,4 +183,55 @@
 
 .close-stats:hover {
   color: #d32f2f;
+}
+
+/* === TARJETA DE SUSCRIPCIÓN === */
+
+.suscripcion-card {
+  max-width: 500px;
+  margin: 3rem auto;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+  
+}
+
+.suscripcion-card h2 {
+  font-size: 1.6rem;
+  margin-bottom: 1.2rem;
+  color: #222;
+  text-align: center; /* Centra todo el texto */
+}
+
+.suscripcion-card p {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+}
+
+.suscripcion-button {
+  background-color: #FF2222;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background-color 0.2s;
+}
+
+.suscripcion-button:hover {
+  background-color: #e61b1b;
+}
+
+.estado-aviso {
+  margin-top: 1.2rem;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.estado-aviso a {
+  color: #d32f2f;
+  text-decoration: underline;
 }
