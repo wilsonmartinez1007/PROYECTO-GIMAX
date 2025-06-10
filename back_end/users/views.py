@@ -1301,3 +1301,19 @@ def stripe_webhook(request):
             pass
 
     return HttpResponse(status=200)
+
+
+
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from .models import Gym
+from .serializers import GymSerializer
+
+@api_view(['POST'])  # También puede ser GET, pero tú pediste POST
+def obtener_gimnasios(request):
+    gimnasios = Gym.objects.all()
+    serializer = GymSerializer(gimnasios, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+

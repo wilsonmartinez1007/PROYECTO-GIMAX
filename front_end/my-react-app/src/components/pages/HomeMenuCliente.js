@@ -39,8 +39,6 @@ function Home({ setToken, token }) {
         
         <div className="text-container">
           <h2>"EL CAMBIO EMPIEZA POR EL PRIMER PASO"</h2>
-          <p>Si quieres tener un entrenador personal, únete en el siguiente link.</p>
-          <a href="#">Entra aquí y cambia tu físico</a>
 
           <div className="button-container">
 

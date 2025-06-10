@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom"; // IMPORTANTE
 const Home = ({setToken}) => {
   const navigate = useNavigate();
   const goToInicio = () => {
-    navigate("/dashboard");
+    navigate("/login");
   };
 
 

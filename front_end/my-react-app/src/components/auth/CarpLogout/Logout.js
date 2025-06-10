@@ -16,13 +16,14 @@ const Navbar = () => {
     };
 
     return (
-        <button onClick={handleLogout} style={{ 
-            backgroundColor: "#c0392b", 
-            color: "white", 
-            border: "none", 
-            borderRadius: "10px", 
-            padding: "6px 12px", 
-            cursor: "pointer" 
+        <button onClick={handleLogout} 
+            className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600"
+            style={{ 
+                padding: "10px",
+                color: "red", 
+                border: "none", 
+                borderRadius: "10px", 
+                cursor: "pointer",
         }}>
             Cerrar sesión
         </button>

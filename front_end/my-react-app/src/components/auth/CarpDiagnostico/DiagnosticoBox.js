@@ -213,8 +213,10 @@ function DiagnosticoBox({onDiagnostico}) {
                     </select>
             </div>
             <button
-          type="submit" style={{position: "absolute",zIndex: 1,marginTop: 640, marginLeft: -50,marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "none",outline: "none", width: "125px" }}>
-         guardar
+                className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600"
+                type="submit" 
+                style={{position: "absolute",zIndex: 1,marginTop: 640, marginLeft: -50,marginBottom: "10px",padding: "6px", borderRadius: 10, border: "none", width: "105px" }}>
+                Guardar
        </button>
             </form>
           </div>

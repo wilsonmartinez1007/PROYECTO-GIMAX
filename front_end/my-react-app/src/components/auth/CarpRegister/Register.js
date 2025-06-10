@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import RegisterBox from "./RegisterBox";
 import { useNavigate } from "react-router-dom";
 
@@ -32,8 +32,29 @@ function Register() {
       alert("Error al registrarse: " + JSON.stringify(data));
     }
   };
+  const [gimnasios, setGimnasios] = useState([]); // Lista completa de gimnasios
+  
+  const handleGimnasios = async () => {
+    try {
+      const response = await fetch("http://127.0.0.1:8000/api/obtener-gimnasios/", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-  return <RegisterBox onRegister={handleRegister} />;
+      if (response.ok) {
+        const data = await response.json();
+        setGimnasios(data);
+      } else {
+        console.error("Error al obtener gimnasios");
+      }
+    } catch (error) {
+      console.error("Error de red:", error);
+    }
+  };
+
+
+  return <RegisterBox onRegister={handleRegister} onGym = {handleGimnasios} gimnasios = {gimnasios} />;
 }
-
 export default Register;

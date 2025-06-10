@@ -216,3 +216,14 @@ class PaymentLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaymentLog
         fields = ('id', 'subscription', 'monto_cop', 'fecha_pago', 'stripe_payment_intent_id', 'fue_exitoso', 'respuesta')
+
+
+    
+
+from rest_framework import serializers
+from .models import Gym
+
+class GymSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gym
+        fields = '__all__'  # o ['id', 'name', 'location', 'phone']

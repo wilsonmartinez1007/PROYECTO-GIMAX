@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-function RegisterBox({ onRegister }) {
+function RegisterBox({ onRegister, onGym, gimnasios }) {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -9,9 +9,13 @@ function RegisterBox({ onRegister }) {
   const [cedula, setCedula] = useState("");
   const [apellido, setApellido] = useState("");
   const [role, setRole] = useState("");
-  
+
+  const [selectedGym, setSelectedGym] = useState(""); // Nuevo estado para gimnasio
   
   const navigate = useNavigate();
+  useEffect(() => {
+   onGym(); // Llama a la función para obtener gimnasios cuando se monte
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -21,11 +25,8 @@ function RegisterBox({ onRegister }) {
       alert("Las contraseñas no coinciden.");
       return;
     }
-    if (role === "") {
-    alert("Por favor selecciona un tipo de usuario válido.");
-    return;
-  }
-  onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
+    setRole("Cliente")
+    onRegister(username, email, password, passwordConfirm, cedula, apellido, role );
     };
   
   return (
@@ -96,16 +97,20 @@ function RegisterBox({ onRegister }) {
           style={{ marginBottom: "10px", padding: "8px", borderRadius: 20,border: "2px solid white",outline: "none"   }}
         />
         
-        <select style={{marginBottom: "30px", padding: "8px",border: "none", borderRadius: 20,outline: "none"   }} //esto devo quitarlo 
-        name="role"
-        value={role}
-        onChange={(e) => setRole(e.target.value)}>
-          <option>Tipo de Usuario</option>
-          <option value="cliente">Cliente</option>
-          <option value="entrenador">Entrenador</option>
-          <option value="admin">Administrador</option>
+        <select
+          style = {{marginBottom: "10px", padding: "8px", borderRadius: 20,border: "none", width:"106px"  }}
+          value={selectedGym} onChange={(e) => setSelectedGym(e.target.value)}>
+            <option 
+            value="">Gimnasios</option>
+            {gimnasios.map((gim) => (
+              <option key={gim.id} value={gim.id}>
+                {gim.name}
+              </option>
+            ))}
         </select>
-        <button type="submit" style={{ marginBottom: "10px",padding: "2px", background: "#D3D3D3", color: "black", borderRadius: 20, borderColor: 'black',border: "2px solid black",outline: "none", width: "125px"  }}>
+        <button
+          className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600" 
+          type="submit" style={{ padding: "5px",marginBottom: "10px", borderRadius: 20,outline: "none", border: "none",width: "105px"  }}>
           Registrarme
         </button>
         <button

@@ -1,6 +1,5 @@
 
-import { useNavigate } from "react-router-dom"; // IMPORTANTE
-import salir from "../../assets/salir.svg";
+import { useNavigate } from "react-router-dom";
 import "./Home.css"; // Estilos específicos para esta página
 import Diagnostico from "../auth/CarpDiagnostico/Diagnostico"
 import React from "react";
@@ -24,10 +23,10 @@ const HomeDiagnostico = ({}) => {
           <div className="top-bar"></div>
           <div className="logo-salir">
           <button 
-                      onClick={goToInicio} 
-                      style={{outline: "none",border: "none",background: "transparent"}}
-                    >
-                     <img src={salir}/>
+              onClick={goToInicio} 
+              className="bg-green-500 text-white px-4 py-2 rounded mt-4 hover:bg-green-600"
+              style={{outline: "none",padding: "10px",borderRadius: 10,border: "none",}}>
+              OMITIR
                     </button>
                   
           
