@@ -18,6 +18,7 @@ import Pagos from "./components/pages/Pagos";
 import Planes from './components/pages/Planes';
 import Checkout from './components/pages/Checkout';
 import Suscripcion from './components/pages/Suscripcion';
+import VerDiagnostico from './components/pages/VerDiagnostico';
 
 
 
@@ -49,6 +50,7 @@ function App() {
         <Route path="/Planes" element={<Planes token={token} />} />
         <Route path="/Checkout" element={<Checkout token={token} />} />
         <Route path="/Suscripcion" element={<Suscripcion token={token} />} />
+        <Route path="/VerDiagnostico" element={<VerDiagnostico token={token} />} />
         
 
 import HomeDiagnostico from "./components/pages/HomeDiagnostico";

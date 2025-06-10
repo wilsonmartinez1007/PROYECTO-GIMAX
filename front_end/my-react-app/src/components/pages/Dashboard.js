@@ -26,6 +26,9 @@ function Home({ setToken, token }) {
   const irAClientes = () => {
     navigate("/clientes");
   };
+  const VerUsuarios = () => {
+    navigate("/VerDiagnostico");
+  };
 
   return (
     <div className="outer-container">
@@ -56,6 +59,7 @@ function Home({ setToken, token }) {
             <button className="button" onClick={irAEjercicio}>Ejercico</button>
             <button className="button" onClick={irAEntrenador}>Perfil</button>
             <button className="button" onClick={irAPlanes}>Planes</button>
+            <button className="button" onClick={VerUsuarios}>Diagnosticos</button>
           </div>
         </div>
       </div>

@@ -227,3 +227,31 @@ class GymSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gym
         fields = '__all__'  # o ['id', 'name', 'location', 'phone']
+
+from rest_framework import serializers
+from .models import Gym
+
+class GymSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gym
+        fields = '__all__'  # o ['id', 'name', 'location', 'phone']
+
+
+    
+from rest_framework import serializers
+from .models import User
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'first_name', 'last_name', 'cedula', 'apellido', 'email', 'role']
+
+
+    
+from rest_framework import serializers
+from .models import Diagnostico
+
+class DiagnosticoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Diagnostico
+        fields = '__all__'

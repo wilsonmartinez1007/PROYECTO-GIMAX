@@ -1316,4 +1316,34 @@ def obtener_gimnasios(request):
     serializer = GymSerializer(gimnasios, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+from django.http import JsonResponse
+from .models import User
 
+def obtener_usuarios(request):
+    if request.method == 'GET':
+        usuarios = User.objects.all()
+        data = [
+            {
+                'id': usuario.id,
+                'username': usuario.username,
+                'first_name': usuario.first_name,
+                'apellido': usuario.apellido,
+                'cedula': usuario.cedula,
+                'email': usuario.email,
+                'role': usuario.role,
+            }
+            for usuario in usuarios
+        ]
+        return JsonResponse(data, safe=False)
+    
+from django.http import JsonResponse
+from .models import Diagnostico, User
+from .serializers import DiagnosticoSerializer
+
+def obtener_diagnostico_por_usuario(request, user_id):
+    try:
+        diagnostico = Diagnostico.objects.get(user_id=user_id)
+        serializer = DiagnosticoSerializer(diagnostico)
+        return JsonResponse(serializer.data, safe=False)
+    except Diagnostico.DoesNotExist:
+        return JsonResponse({'error': 'Diagnóstico no encontrado'}, status=404)
