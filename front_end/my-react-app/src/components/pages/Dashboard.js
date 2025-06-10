@@ -30,14 +30,21 @@ function Home({ setToken, token }) {
   return (
     <div className="outer-container">
       <nav className="navbar">
-        <h1 className="logo">GYMAX</h1>
+        <h1 
+          style={{   fontSize: "40px", 
+                     fontWeight: "bold" 
+                            }}
+          className="logo">GYMAX</h1>
         <ul className="nav-links">
           <li><Logout /></li> 
         </ul>
       </nav>
 
       <div className="inner-container">
-        <img src={fondo} alt="Fondo" className="main-image" />
+        <img 
+          style ={{
+                borderRadius: 20,}}
+          src={fondo} alt="Fondo" className="main-image" />
         
         <div className="text-container">
           <h2>"EL CAMBIO EMPIEZA POR EL PRIMER PASO"</h2>

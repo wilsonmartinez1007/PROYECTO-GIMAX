@@ -22,7 +22,8 @@ const Home = ({setToken}) => {
         </div>
         <div className="logo-container">
         <img src={logo} alt="Logo"
-              style={{ width: 200,
+              style={{ 
+                width: 200,
                 height: 200,
                 borderRadius: 100,
                  // Centra horizontalmente dentro del contenedor
